@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8493BC0B25443D0F00DE946E /* Car.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8493BC0A25443D0F00DE946E /* Car.swift */; };
+		8493BC0E25443D3900DE946E /* Body.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8493BC0D25443D3900DE946E /* Body.swift */; };
+		8493BC1125443DF400DE946E /* CarListApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8493BC1025443DF400DE946E /* CarListApp.swift */; };
+		8493BC1525443FB700DE946E /* CommandController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8493BC1425443FB700DE946E /* CommandController.swift */; };
 		84DD34922539D35900BD1C9A /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DD34912539D35900BD1C9A /* main.swift */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +27,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8493BC0A25443D0F00DE946E /* Car.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Car.swift; sourceTree = "<group>"; };
+		8493BC0D25443D3900DE946E /* Body.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Body.swift; sourceTree = "<group>"; };
+		8493BC1025443DF400DE946E /* CarListApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarListApp.swift; sourceTree = "<group>"; };
+		8493BC1425443FB700DE946E /* CommandController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandController.swift; sourceTree = "<group>"; };
 		84DD348E2539D35900BD1C9A /* Lessons1_CarAccounting */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Lessons1_CarAccounting; sourceTree = BUILT_PRODUCTS_DIR; };
 		84DD34912539D35900BD1C9A /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -57,7 +65,11 @@
 		84DD34902539D35900BD1C9A /* Lessons1_CarAccounting */ = {
 			isa = PBXGroup;
 			children = (
+				8493BC0D25443D3900DE946E /* Body.swift */,
 				84DD34912539D35900BD1C9A /* main.swift */,
+				8493BC1025443DF400DE946E /* CarListApp.swift */,
+				8493BC1425443FB700DE946E /* CommandController.swift */,
+				8493BC0A25443D0F00DE946E /* Car.swift */,
 			);
 			path = Lessons1_CarAccounting;
 			sourceTree = "<group>";
@@ -120,6 +132,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8493BC1525443FB700DE946E /* CommandController.swift in Sources */,
+				8493BC0E25443D3900DE946E /* Body.swift in Sources */,
+				8493BC0B25443D0F00DE946E /* Car.swift in Sources */,
+				8493BC1125443DF400DE946E /* CarListApp.swift in Sources */,
 				84DD34922539D35900BD1C9A /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
