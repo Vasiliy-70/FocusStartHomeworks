@@ -6,8 +6,5 @@
 //  Copyright © 2020 Admin. All rights reserved.
 //
 
-// MARK: Вид заголовков
-
-
 let app = CarListApp()
 app.startApp()

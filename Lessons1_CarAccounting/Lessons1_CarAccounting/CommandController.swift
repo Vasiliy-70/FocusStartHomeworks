@@ -10,10 +10,12 @@ final class CommandController {
     
     private enum Constants {
         static let incorrectValueMessage = "Введённое значение неверно"
+        static let passInput = "Для пропуска ввода нажмите Enter"
     }
     
     func readString() -> String {
         var string = ""
+        
         if let inputString = readLine(),
            inputString != "" {
             string = inputString
@@ -27,6 +29,7 @@ final class CommandController {
     
     func readOptionalString() -> String? {
         let inputString = readLine()
+        
         if inputString?.isEmpty ?? true {
             return nil
         }
@@ -49,7 +52,8 @@ final class CommandController {
                 return int
             }
             else {
-                print("\(Constants.incorrectValueMessage)\n")
+                print("\(Constants.incorrectValueMessage)")
+                print("\(Constants.passInput)\n")
                 return self.readOptionalInt()
             }
         }
