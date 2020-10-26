@@ -6,15 +6,29 @@
 //
 import Foundation
 
-var app = ArrayInteracting<String>()
+var array = ArrayInteracting<String>()
 
 let queue = DispatchQueue.global(qos: .userInitiated)
+
+// Проверка параллельной записи в потокобезопасный массив
 queue.async {
-    app.addItems("s")
+    array.addItem("\u{1F608}", amount: 1000)
+}
+queue.async {
+    array.addItem("\u{1F600}", amount: 1000)
 }
 sleep(1)
+
+// Вывод результата
 queue.async {
-    app.printArray()
+    array.printArray()
+}
+sleep(1)
+
+// Проверка наличия элемента в массиве
+queue.sync {
+    array.contains("\u{1F600}")
 }
 
 _ = readLine()
+
