@@ -19,11 +19,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let window = window else { return assertionFailure() }
         window.windowScene = windowScene
         
-        let viewController = ViewController()
-        let firstViewNavigationController = UINavigationController(rootViewController: viewController)
+        let firstViewController = FirstViewController()
+        let secondViewController = SecondViewController()
+        
+        let firstViewNavigationController = UINavigationController(rootViewController: firstViewController)
+        let secondViewNavigationController = UINavigationController(rootViewController: secondViewController)
+        
         let tabBar = UITabBarController()
         
-        tabBar.setViewControllers([firstViewNavigationController], animated: true)
+        tabBar.setViewControllers([secondViewNavigationController, firstViewNavigationController], animated: true)
         
         window.rootViewController = tabBar
         window.makeKeyAndVisible()

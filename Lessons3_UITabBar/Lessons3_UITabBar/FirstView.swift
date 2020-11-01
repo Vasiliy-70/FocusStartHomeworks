@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FirstView: UIView {
+final class FirstView: UIView {
 
 // MARK: Views
     
@@ -71,7 +71,6 @@ private extension FirstView {
         
         self.label2.text = Constants.textLabel2
         self.label2.font = .boldSystemFont(ofSize: 18)
-        self.label2.numberOfLines = 2
         
         self.label3.text = Constants.textLabel3
         self.label3.font = .italicSystemFont(ofSize: 24)

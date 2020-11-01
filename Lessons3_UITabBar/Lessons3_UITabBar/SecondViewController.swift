@@ -7,17 +7,17 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class SecondViewController: UIViewController {
 
     // MARK: LifeCycle
     
     override func loadView() {
-        super.view = FirstView()
+        super.view = SecondView()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "FirstTask"
+        self.title = "SecondTask"
     }
     
     override func viewDidLayoutSubviews() {
