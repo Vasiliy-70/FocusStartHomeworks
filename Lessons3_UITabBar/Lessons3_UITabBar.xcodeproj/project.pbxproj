@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B3BC4C56254EB05C00149417 /* UIExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BC4C55254EB05C00149417 /* UIExtension.swift */; };
 		B3E94588254D73B600D714D0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E94587254D73B600D714D0 /* AppDelegate.swift */; };
 		B3E9458A254D73B600D714D0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E94589254D73B600D714D0 /* SceneDelegate.swift */; };
 		B3E9458C254D73B600D714D0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E9458B254D73B600D714D0 /* ViewController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B3BC4C55254EB05C00149417 /* UIExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIExtension.swift; sourceTree = "<group>"; };
 		B3E94584254D73B600D714D0 /* Lessons3_UITabBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lessons3_UITabBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3E94587254D73B600D714D0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B3E94589254D73B600D714D0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -57,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				B3E94587254D73B600D714D0 /* AppDelegate.swift */,
+				B3BC4C55254EB05C00149417 /* UIExtension.swift */,
 				B3E94589254D73B600D714D0 /* SceneDelegate.swift */,
 				B3E9458B254D73B600D714D0 /* ViewController.swift */,
 				B3E945A1254D769100D714D0 /* FirstView.swift */,
@@ -136,6 +139,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3BC4C56254EB05C00149417 /* UIExtension.swift in Sources */,
 				B3E9458C254D73B600D714D0 /* ViewController.swift in Sources */,
 				B3E945A2254D769100D714D0 /* FirstView.swift in Sources */,
 				B3E94588254D73B600D714D0 /* AppDelegate.swift in Sources */,
