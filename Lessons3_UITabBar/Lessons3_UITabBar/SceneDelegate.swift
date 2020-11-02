@@ -21,13 +21,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let firstViewController = FirstViewController()
         let secondViewController = SecondViewController()
+        let thirdViewController = ThirdViewController()
         
         let firstViewNavigationController = UINavigationController(rootViewController: firstViewController)
         let secondViewNavigationController = UINavigationController(rootViewController: secondViewController)
+        let thirdViewNavigationController = UINavigationController(rootViewController: thirdViewController)
         
         let tabBar = UITabBarController()
         
-        tabBar.setViewControllers([secondViewNavigationController, firstViewNavigationController], animated: true)
+        tabBar.setViewControllers([thirdViewNavigationController,secondViewNavigationController, firstViewNavigationController], animated: false)
         
         window.rootViewController = tabBar
         window.makeKeyAndVisible()

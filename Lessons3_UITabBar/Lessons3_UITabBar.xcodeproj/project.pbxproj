@@ -15,6 +15,8 @@
 		B3E94591254D73B700D714D0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3E94590254D73B700D714D0 /* Assets.xcassets */; };
 		B3E94594254D73B700D714D0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3E94592254D73B700D714D0 /* LaunchScreen.storyboard */; };
 		B3E945A2254D769100D714D0 /* FirstView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3E945A1254D769100D714D0 /* FirstView.swift */; };
+		B3FFAD1F254FDD700087CC4A /* ThirdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FFAD1E254FDD700087CC4A /* ThirdView.swift */; };
+		B3FFAD23254FDD940087CC4A /* ThirdViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FFAD22254FDD940087CC4A /* ThirdViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		B3E94593254D73B700D714D0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B3E94595254D73B700D714D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B3E945A1254D769100D714D0 /* FirstView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstView.swift; sourceTree = "<group>"; };
+		B3FFAD1E254FDD700087CC4A /* ThirdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdView.swift; sourceTree = "<group>"; };
+		B3FFAD22254FDD940087CC4A /* ThirdViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThirdViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +70,8 @@
 				B3E945A1254D769100D714D0 /* FirstView.swift */,
 				B3221553254F0B8200F0B91F /* SecondView.swift */,
 				B3221556254F0B9100F0B91F /* SecondViewController.swift */,
+				B3FFAD1E254FDD700087CC4A /* ThirdView.swift */,
+				B3FFAD22254FDD940087CC4A /* ThirdViewController.swift */,
 				B3E94590254D73B700D714D0 /* Assets.xcassets */,
 				B3E94592254D73B700D714D0 /* LaunchScreen.storyboard */,
 				B3E94595254D73B700D714D0 /* Info.plist */,
@@ -143,7 +149,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B3221557254F0B9100F0B91F /* SecondViewController.swift in Sources */,
+				B3FFAD1F254FDD700087CC4A /* ThirdView.swift in Sources */,
 				B3E9458C254D73B600D714D0 /* FirstViewController.swift in Sources */,
+				B3FFAD23254FDD940087CC4A /* ThirdViewController.swift in Sources */,
 				B3221554254F0B8200F0B91F /* SecondView.swift in Sources */,
 				B3E945A2254D769100D714D0 /* FirstView.swift in Sources */,
 				B3E94588254D73B600D714D0 /* AppDelegate.swift in Sources */,
