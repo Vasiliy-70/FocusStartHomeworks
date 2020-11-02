@@ -23,13 +23,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let secondViewController = SecondViewController()
         let thirdViewController = ThirdViewController()
         
+        firstViewController.title = "FirstScreen"
+        secondViewController.title = "SecondScreen"
+        thirdViewController.title = "ThirdScreen"
+        
         let firstViewNavigationController = UINavigationController(rootViewController: firstViewController)
         let secondViewNavigationController = UINavigationController(rootViewController: secondViewController)
         let thirdViewNavigationController = UINavigationController(rootViewController: thirdViewController)
-        
+
         let tabBar = UITabBarController()
-        
-        tabBar.setViewControllers([thirdViewNavigationController,secondViewNavigationController, firstViewNavigationController], animated: false)
+        tabBar.setViewControllers([firstViewNavigationController, secondViewNavigationController, thirdViewNavigationController], animated: true)
         
         window.rootViewController = tabBar
         window.makeKeyAndVisible()

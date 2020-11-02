@@ -15,17 +15,19 @@ final class ThirdView: UIView, UITextFieldDelegate {
     private let passwordFiled = UITextField()
     private let enterButton = UIButton()
     
+    private var enterButtonConstraints: [NSLayoutConstraint] = []
+    
     enum Constants {
         static let loginFieldDistance: CGFloat = 10.0
         static let passwordFieldDistance: CGFloat = 15.0
-        static let keyboardButtonDistance: CGFloat = 10.0
+        static let enterButtonDistance: CGFloat = 10.0
         static let borderSpace: CGFloat = 15.0
         
         static let loginFieldHeight: CGFloat = 50
         static let passwordFieldHeight: CGFloat = 50
         
-        static let keyboardButtonHeight: CGFloat = 50
-        static let keyboardButtonWidth: CGFloat = 200
+        static let enterButtonHeight: CGFloat = 50
+        static let enterButtonWidth: CGFloat = 200
     }
     
     public init() {
@@ -85,12 +87,16 @@ private extension ThirdView {
         
         self.enterButton.translatesAutoresizingMaskIntoConstraints = false
         
-        NSLayoutConstraint.activate([
-            self.enterButton.heightAnchor.constraint(equalToConstant: Constants.keyboardButtonHeight),
-            self.enterButton.widthAnchor.constraint(equalToConstant: Constants.keyboardButtonWidth),
+        enterButtonConstraints.append(contentsOf: [
+            self.enterButton.heightAnchor.constraint(equalToConstant: Constants.enterButtonHeight),
+            self.enterButton.widthAnchor.constraint(equalToConstant: Constants.enterButtonWidth),
             self.enterButton.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
-            self.enterButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -Constants.keyboardButtonDistance)
+            self.enterButton.topAnchor.constraint(greaterThanOrEqualTo: self.passwordFiled.bottomAnchor, constant: Constants.enterButtonDistance),
+            
+            self.enterButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -Constants.enterButtonDistance)
         ])
+
+        NSLayoutConstraint.activate(enterButtonConstraints)
     }
 }
 
@@ -108,7 +114,7 @@ private extension ThirdView {
         
         self.passwordFiled.placeholder = " Password"
         self.passwordFiled.layer.borderWidth = 1
-        self.passwordFiled.isHighlighted = true
+        self.passwordFiled.isSecureTextEntry = true
     }
     
     func setButtonsAppearance() {
@@ -120,6 +126,7 @@ private extension ThirdView {
 }
 
 // MARK: Notification
+
 private extension ThirdView {
     func setupNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -148,25 +155,30 @@ private extension ThirdView {
         guard let userInfo = notification.userInfo else { return }
         guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         
-        NSLayoutConstraint.deactivate([
-            self.enterButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -Constants.keyboardButtonDistance)
-        ])
-        self.layoutIfNeeded()
-        
+        NSLayoutConstraint.deactivate(enterButtonConstraints)
+
         UIView.animate(withDuration: 2) {
-            NSLayoutConstraint.activate([
+            self.enterButtonConstraints.removeLast()
+            self.enterButtonConstraints.append(contentsOf: [
                 self.enterButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant:  -keyboardSize.height)
             ])
+            self.enterButtonConstraints[self.enterButtonConstraints.count - 1].priority = UILayoutPriority(rawValue: 750)
+            
+            NSLayoutConstraint.activate(self.enterButtonConstraints)
             self.layoutIfNeeded()
         }
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        print("AS")
+        NSLayoutConstraint.deactivate(enterButtonConstraints)
+
         UIView.animate(withDuration: 2) {
-            NSLayoutConstraint.activate([
-                self.enterButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -Constants.keyboardButtonDistance)
+            self.enterButtonConstraints.removeLast()
+            self.enterButtonConstraints.append(contentsOf: [
+                self.enterButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant:  -Constants.enterButtonDistance)
             ])
+            
+            NSLayoutConstraint.activate(self.enterButtonConstraints)
             self.layoutIfNeeded()
         }
         

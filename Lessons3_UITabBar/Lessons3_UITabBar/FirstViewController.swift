@@ -17,7 +17,6 @@ final class FirstViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "FirstTask"
     }
     
     override func viewDidLayoutSubviews() {

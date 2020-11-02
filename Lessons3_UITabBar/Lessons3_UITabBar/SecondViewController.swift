@@ -8,7 +8,6 @@
 import UIKit
 
 class SecondViewController: UIViewController {
-
     // MARK: LifeCycle
     
     override func loadView() {
@@ -17,7 +16,6 @@ class SecondViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "SecondTask"
     }
     
     override func viewDidLayoutSubviews() {
