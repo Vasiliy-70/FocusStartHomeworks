@@ -113,8 +113,10 @@ private extension SecondView {
         self.imageView.translatesAutoresizingMaskIntoConstraints = false
         
         self.commonConstraints.append(contentsOf: [
-            self.imageView.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: Constants.contentIndent),
-            self.imageView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: Constants.contentIndent),
+            self.imageView.topAnchor.constraint(equalTo: self.scrollView.topAnchor,
+                                                constant: Constants.contentIndent),
+            self.imageView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,
+                                                    constant: Constants.contentIndent),
             self.imageView.heightAnchor.constraint(equalToConstant: Constants.imageHeight)
         ])
     }
@@ -127,12 +129,15 @@ private extension SecondView {
         self.textLabel.translatesAutoresizingMaskIntoConstraints = false
         
         self.commonConstraints.append(contentsOf: [
-            self.titleLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -Constants.contentIndent),
+            self.titleLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
+                                                      constant: -Constants.contentIndent),
         ])
         
         self.commonConstraints.append(contentsOf: [
-            self.textLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: Constants.contentIndent),
-            self.textLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -Constants.contentIndent),
+            self.textLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,
+                                                    constant: Constants.contentIndent),
+            self.textLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
+                                                     constant: -Constants.contentIndent),
             self.textLabel.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor)
         ])
     }
@@ -148,18 +153,22 @@ private extension SecondView {
     
     func setupImageViewCompactConstraints() {
         self.compactConstraints.append(contentsOf: [
-            self.imageView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -Constants.contentIndent)
+            self.imageView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
+                                                     constant: -Constants.contentIndent)
         ])
     }
     
     func setupLabelsCompactConstraints() {
         self.compactConstraints.append(contentsOf: [
-            self.titleLabel.topAnchor.constraint(equalTo: self.imageView.bottomAnchor, constant: Constants.titleDistance),
-            self.titleLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: Constants.contentIndent)
+            self.titleLabel.topAnchor.constraint(equalTo: self.imageView.bottomAnchor,
+                                                 constant: Constants.titleDistance),
+            self.titleLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,
+                                                     constant: Constants.contentIndent)
         ])
         
         self.compactConstraints.append(contentsOf: [
-            self.textLabel.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: Constants.textDistance)
+            self.textLabel.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor,
+                                                constant: Constants.textDistance)
         ])
     }
 }
@@ -182,12 +191,15 @@ private extension SecondView {
         self.regularConstraints.append(contentsOf: [
             self.titleLabel.topAnchor.constraint(equalTo: self.imageView.topAnchor),
             self.titleLabel.bottomAnchor.constraint(greaterThanOrEqualTo: self.imageView.bottomAnchor),
-            self.titleLabel.leadingAnchor.constraint(equalTo: self.imageView.trailingAnchor, constant: Constants.titleDistance),
-            self.titleLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -Constants.contentIndent)
+            self.titleLabel.leadingAnchor.constraint(equalTo: self.imageView.trailingAnchor,
+                                                     constant: Constants.titleDistance),
+            self.titleLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
+                                                      constant: -Constants.contentIndent)
         ])
         
         self.regularConstraints.append(contentsOf: [
-            self.textLabel.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: Constants.textDistance)
+            self.textLabel.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor,
+                                                constant: Constants.textDistance)
         ])
     }
 }
@@ -203,7 +215,7 @@ private extension SecondView {
     }
     
     func setupImageView() {
-        self.imageView.image = UIImage(named: "dog")
+        self.imageView.image = Images.dog.image
         self.contentMode = .scaleAspectFill
     }
     

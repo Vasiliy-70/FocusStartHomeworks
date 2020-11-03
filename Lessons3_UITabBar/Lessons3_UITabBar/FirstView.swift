@@ -9,7 +9,7 @@ import UIKit
 
 final class FirstView: UIView {
 
-// MARK: Views
+// MARK: Properties
     
     private let label1 = UILabel()
     private let label2 = UILabel()
@@ -34,10 +34,19 @@ final class FirstView: UIView {
         static let textLabel1Distance: CGFloat = 8.0
         static let textLabel2Distance: CGFloat = 10.0
         static let textLabel3Distance: CGFloat = 12.0
+        
         static let roundButtonDistance: CGFloat = 14.0
         static let rectangleButtonDistance: CGFloat = 16.0
         static let imageViewDistance: CGFloat = 8.0
+        
+        static let roundButtonWidth: CGFloat = 50
+        static let roundButtonHeight: CGFloat = 50
+        
+        static let rectangleButtonWidth: CGFloat = 150
+        static let rectangleButtonHeight: CGFloat = 50
     }
+    
+// MARK: Views
     
     public init() {
         super.init(frame: .zero)
@@ -52,7 +61,7 @@ final class FirstView: UIView {
     }
     
     override func layoutSubviews() {
-       self.roundButton.layer.cornerRadius = self.roundButton.frame.width / 2
+       self.roundButton.layer.cornerRadius = self.roundButton.frame.height / 2
     }
 }
 
@@ -89,7 +98,7 @@ private extension FirstView {
     }
     
     func setupImageView() {
-        self.imageView.image = UIImage(named: "dog")
+        self.imageView.image = Images.dog.image
         self.imageView.contentMode = .scaleAspectFill
     }
     
@@ -118,13 +127,16 @@ private extension FirstView {
         self.label3.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            self.label1.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: Constants.textLabel1Distance),
+            self.label1.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor,
+                                             constant: Constants.textLabel1Distance),
             self.label1.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
             
-            self.label2.topAnchor.constraint(greaterThanOrEqualTo: self.label1.bottomAnchor, constant: Constants.textLabel2Distance),
+            self.label2.topAnchor.constraint(greaterThanOrEqualTo: self.label1.bottomAnchor,
+                                             constant: Constants.textLabel2Distance),
             self.label2.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
             
-            self.label3.topAnchor.constraint(greaterThanOrEqualTo: self.label2.bottomAnchor, constant: Constants.textLabel3Distance),
+            self.label3.topAnchor.constraint(greaterThanOrEqualTo: self.label2.bottomAnchor,
+                                             constant: Constants.textLabel3Distance),
             self.label3.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor)
         ])
     }
@@ -137,13 +149,17 @@ private extension FirstView {
         self.rectangleButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            self.roundButton.topAnchor.constraint(greaterThanOrEqualTo: self.label3.bottomAnchor, constant: Constants.roundButtonDistance),
+            self.roundButton.topAnchor.constraint(greaterThanOrEqualTo: self.label3.bottomAnchor,
+                                                  constant: Constants.roundButtonDistance),
             self.roundButton.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
+            self.roundButton.widthAnchor.constraint(equalToConstant: Constants.roundButtonWidth),
+            self.roundButton.heightAnchor.constraint(equalToConstant: Constants.roundButtonHeight),
             
-            self.rectangleButton.topAnchor.constraint(greaterThanOrEqualTo: self.roundButton.bottomAnchor, constant: Constants.rectangleButtonDistance),
+            self.rectangleButton.topAnchor.constraint(greaterThanOrEqualTo: self.roundButton.bottomAnchor,
+                                                      constant: Constants.rectangleButtonDistance),
             self.rectangleButton.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
-            //self.rectangleButton.bottomAnchor.constraint(greaterThanOrEqualTo: self.imageView.topAnchor, constant: Constants.rectangleButtonDistance),
-            self.rectangleButton.widthAnchor.constraint(equalToConstant: 100)
+            self.rectangleButton.widthAnchor.constraint(equalToConstant: Constants.rectangleButtonWidth),
+            self.rectangleButton.heightAnchor.constraint(equalToConstant: Constants.rectangleButtonHeight)
         ])
     }
     

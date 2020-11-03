@@ -44,12 +44,6 @@ final class ThirdView: UIView, UITextFieldDelegate {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    override func layoutSubviews() {
-        //NSLayoutConstraint.activate([
-           // self.enterButton.bottomAnchor.constraint(equalTo: self..bottomAnchor, constant: -Constants.keyboardButtonDistance)
-       // ])
-    }
 }
 
 // MARK: Layout
@@ -68,16 +62,22 @@ private extension ThirdView {
         self.passwordFiled.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            self.loginField.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: Constants.loginFieldDistance),
-            self.loginField.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: Constants.borderSpace),
-            self.loginField.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -Constants.borderSpace),
+            self.loginField.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor,
+                                                 constant: Constants.loginFieldDistance),
+            self.loginField.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,
+                                                     constant: Constants.borderSpace),
+            self.loginField.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
+                                                      constant: -Constants.borderSpace),
             self.loginField.heightAnchor.constraint(equalToConstant: Constants.loginFieldHeight)
         ])
         
         NSLayoutConstraint.activate([
-            self.passwordFiled.topAnchor.constraint(equalTo: self.loginField.bottomAnchor, constant: Constants.passwordFieldDistance),
-            self.passwordFiled.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: Constants.borderSpace),
-            self.passwordFiled.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -Constants.borderSpace),
+            self.passwordFiled.topAnchor.constraint(equalTo: self.loginField.bottomAnchor,
+                                                    constant: Constants.passwordFieldDistance),
+            self.passwordFiled.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,
+                                                        constant: Constants.borderSpace),
+            self.passwordFiled.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
+                                                         constant: -Constants.borderSpace),
             self.passwordFiled.heightAnchor.constraint(equalToConstant: Constants.passwordFieldHeight)
         ])
     }
@@ -91,9 +91,11 @@ private extension ThirdView {
             self.enterButton.heightAnchor.constraint(equalToConstant: Constants.enterButtonHeight),
             self.enterButton.widthAnchor.constraint(equalToConstant: Constants.enterButtonWidth),
             self.enterButton.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
-            self.enterButton.topAnchor.constraint(greaterThanOrEqualTo: self.passwordFiled.bottomAnchor, constant: Constants.enterButtonDistance),
+            self.enterButton.topAnchor.constraint(greaterThanOrEqualTo: self.passwordFiled.bottomAnchor,
+                                                  constant: Constants.enterButtonDistance),
             
-            self.enterButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -Constants.enterButtonDistance)
+            self.enterButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor,
+                                                     constant: -Constants.enterButtonDistance)
         ])
 
         NSLayoutConstraint.activate(enterButtonConstraints)
@@ -142,7 +144,8 @@ private extension ThirdView {
     }
     
     func hideKeyboardWhenTappedArround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.hideKeyboard))
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                 action: #selector(self.hideKeyboard))
         tap.cancelsTouchesInView = false
         self.addGestureRecognizer(tap)
     }
@@ -160,7 +163,8 @@ private extension ThirdView {
         UIView.animate(withDuration: 2) {
             self.enterButtonConstraints.removeLast()
             self.enterButtonConstraints.append(contentsOf: [
-                self.enterButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant:  -keyboardSize.height)
+                self.enterButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor,
+                                                         constant:  -keyboardSize.height)
             ])
             self.enterButtonConstraints[self.enterButtonConstraints.count - 1].priority = UILayoutPriority(rawValue: 750)
             
@@ -175,7 +179,8 @@ private extension ThirdView {
         UIView.animate(withDuration: 2) {
             self.enterButtonConstraints.removeLast()
             self.enterButtonConstraints.append(contentsOf: [
-                self.enterButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant:  -Constants.enterButtonDistance)
+                self.enterButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor,
+                                                         constant:  -Constants.enterButtonDistance)
             ])
             
             NSLayoutConstraint.activate(self.enterButtonConstraints)
