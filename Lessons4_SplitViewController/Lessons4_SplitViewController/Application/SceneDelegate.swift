@@ -2,7 +2,7 @@
 //  SceneDelegate.swift
 //  Lessons4_SplitViewController
 //
-//  Created by user183355 on 05.11.2020.
+//  Created by user183355 on 07.11.2020.
 //
 
 import UIKit
@@ -13,12 +13,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-
         guard let _ = (scene as? UIWindowScene) else { return }
-        /*guard let splitViewController = window?.rootViewController as? UISplitViewController,
-              let leftNavigationController = splitViewController.viewControllers.first as? UINavigationController,
-              let masterViewController = leftNavigationController.viewControllers.first as? MasterTableViewController,
-              let detailViewController = splitViewController.viewControllers.last as? DetailViewController else { assertionFailure(); return}*/
+        guard let splitViewController = window?.rootViewController as? UISplitViewController,
+              let navigationController = splitViewController.viewControllers.first as? UINavigationController,
+              let masterViewController = navigationController.viewControllers.first,
+              let detailViewController = (splitViewController.viewControllers.last as? UINavigationController)?.topViewController as? DetailViewController
+        else { assertionFailure(); return}
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

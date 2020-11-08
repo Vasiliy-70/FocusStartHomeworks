@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  Lessons4_SplitViewController
 //
-//  Created by user183355 on 05.11.2020.
+//  Created by user183355 on 07.11.2020.
 //
 
 import UIKit

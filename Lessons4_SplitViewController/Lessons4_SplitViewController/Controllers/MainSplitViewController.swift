@@ -2,7 +2,7 @@
 //  MainSplitViewController.swift
 //  Lessons4_SplitViewController
 //
-//  Created by user183355 on 06.11.2020.
+//  Created by user183355 on 07.11.2020.
 //
 
 import UIKit
@@ -11,7 +11,6 @@ class MainSplitViewController: UISplitViewController, UISplitViewControllerDeleg
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.delegate = self
         self.preferredDisplayMode = .oneBesideSecondary
     }

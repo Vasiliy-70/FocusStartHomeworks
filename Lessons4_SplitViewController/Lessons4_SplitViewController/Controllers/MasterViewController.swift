@@ -2,37 +2,33 @@
 //  MasterViewController.swift
 //  Lessons4_SplitViewController
 //
-//  Created by user183355 on 05.11.2020.
+//  Created by user183355 on 07.11.2020.
 //
 
 import UIKit
 
 class MasterViewController: UIViewController {
+
+    let menuData: [MenuData] = MenuData.getData()
     
-    let data: [CellContent] = CellContent.contentData()
+    @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 }
 
-extension MasterViewController: UITableViewDataSource {
+extension MasterViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return menuData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-       guard let masterCell = tableView.dequeueReusableCell(
-                withIdentifier: MasterTableViewCell.identifier, for: indexPath)
-                as? MasterTableViewCell else { assertionFailure(); return UITableViewCell()}
+        guard let currentCell = tableView.dequeueReusableCell(withIdentifier: MasterTableViewCell.identifier, for: indexPath) as? MasterTableViewCell
+        else { assertionFailure(); return UITableViewCell() }
         
-        masterCell.addData(title: data[indexPath.row].title,
-                           textContent: data[indexPath.row].textContent,
-                           time: data[indexPath.row].time)
-        
-        return masterCell
+        currentCell.addItem(title: menuData[indexPath.row].title)
+        return currentCell
     }
-    
-    
-    
 }
+
