@@ -30,10 +30,12 @@ extension MasterViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let currentCell = tableView.dequeueReusableCell(withIdentifier: MasterTableViewCell.identifier, for: indexPath) as? MasterTableViewCell
+        guard let currentCell = tableView.dequeueReusableCell(withIdentifier: MasterTableViewCell.identifier,
+                                                              for: indexPath) as? MasterTableViewCell
         else { assertionFailure(); return UITableViewCell() }
         
-        currentCell.addItem(title: menuData[indexPath.row].title)
+        currentCell.addItem(title: menuData[indexPath.row].title, description: menuData[indexPath.row].description,
+                            time: menuData[indexPath.row].time)
         return currentCell
     }
     

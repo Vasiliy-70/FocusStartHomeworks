@@ -11,6 +11,10 @@ class DetailViewController: UIViewController {
 
     @IBOutlet weak var descriptionLabel: UILabel!
     
+    @IBOutlet weak var firstImageView: UIImageView!
+    
+    @IBOutlet weak var secondImageView: UIImageView!
+    
     var dataModel: DataModel? {
         didSet {
             set()
@@ -23,7 +27,7 @@ class DetailViewController: UIViewController {
     
     func set() {
         self.loadViewIfNeeded()
-        descriptionLabel.text = dataModel?.title
+        descriptionLabel.text = dataModel?.description
         self.title = dataModel?.title
     }
 }
