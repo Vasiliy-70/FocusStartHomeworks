@@ -15,6 +15,16 @@ class DetailViewController: UIViewController {
     
     @IBOutlet weak var secondImageView: UIImageView!
     
+    @IBOutlet weak var firstImageShadowView: UIView!
+    
+    @IBOutlet weak var secondImageShadowView: UIView!
+    
+    @IBOutlet weak var scrollView: UIScrollView!
+    
+    let customNavigationTitle = UILabel(frame: CGRect(x: 150, y: 0,
+                                                      width: 200,
+                                                      height: 44))
+    
     var dataModel: DataModel? {
         didSet {
             set()
@@ -23,19 +33,63 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.imageViewsAppearance()
+        self.navigationTitleAppearance()
     }
     
     func set() {
         self.loadViewIfNeeded()
+        
+        self.customNavigationTitle.text = dataModel?.title
+        
         descriptionLabel.text = dataModel?.description
-        self.title = dataModel?.title
+        
         self.firstImageView.image = dataModel?.image.first
         self.secondImageView.image = dataModel?.image.last
+        
+        self.scrollView.setContentOffset(.zero, animated: false)
     }
 }
 
 extension DetailViewController: CellSelectedDelegate {
+    
     func cellSelected(data: DataModel) {
         self.dataModel = data
+    }
+}
+
+extension DetailViewController {
+    
+    func imageViewsAppearance() {
+        self.firstImageView.clipsToBounds = true
+        self.firstImageView.layer.cornerRadius = 20
+        
+        self.secondImageView.clipsToBounds = true
+        self.secondImageView.layer.cornerRadius = 20
+        
+        self.firstImageShadowView.backgroundColor = .clear
+        self.firstImageShadowView.clipsToBounds = false
+        self.firstImageShadowView.layer.shadowColor = UIColor.black.cgColor
+        self.firstImageShadowView.layer.shadowOpacity = 1
+        self.firstImageShadowView.layer.shadowRadius = 10
+        self.firstImageShadowView.layer.shadowOffset = CGSize.zero
+         
+        self.secondImageShadowView.backgroundColor = .clear
+        self.secondImageShadowView.clipsToBounds = false
+        self.secondImageShadowView.layer.shadowColor = UIColor.black.cgColor
+        self.secondImageShadowView.layer.shadowOpacity = 1
+        self.secondImageShadowView.layer.shadowRadius = 10
+        self.secondImageShadowView.layer.shadowOffset = CGSize.zero
+        
+        self.firstImageShadowView.addSubview(self.firstImageView)
+        self.secondImageShadowView.addSubview(self.secondImageView)
+    }
+    
+    func navigationTitleAppearance() {
+        customNavigationTitle.numberOfLines = 2
+        customNavigationTitle.textAlignment = .center
+        customNavigationTitle.font = .boldSystemFont(ofSize: 17)
+        customNavigationTitle.text = self.title
+        self.navigationItem.titleView = customNavigationTitle
     }
 }
