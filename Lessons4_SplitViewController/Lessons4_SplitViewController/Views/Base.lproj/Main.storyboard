@@ -119,10 +119,10 @@
             </objects>
             <point key="canvasLocation" x="26.086956521739133" y="-656.25"/>
         </scene>
-        <!--Split View Controller-->
+        <!--Main Split View Controller-->
         <scene sceneID="PNG-8P-1LH">
             <objects>
-                <splitViewController allowDoubleColumnStyle="YES" id="Mh4-7Y-1bs" sceneMemberID="viewController">
+                <splitViewController allowDoubleColumnStyle="YES" preferredDisplayMode="beside" behavior="displace" id="Mh4-7Y-1bs" customClass="MainSplitViewController" customModule="Lessons4_SplitViewController" customModuleProvider="target" sceneMemberID="viewController">
                     <connections>
                         <segue destination="tTB-Gz-OdZ" kind="relationship" relationship="masterViewController" id="gFc-T5-v0N"/>
                         <segue destination="U2w-VU-b7p" kind="relationship" relationship="detailViewController" id="SpP-VH-YMq"/>
