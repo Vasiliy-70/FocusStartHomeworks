@@ -29,6 +29,8 @@ class DetailViewController: UIViewController {
         self.loadViewIfNeeded()
         descriptionLabel.text = dataModel?.description
         self.title = dataModel?.title
+        self.firstImageView.image = dataModel?.image.first
+        self.secondImageView.image = dataModel?.image.last
     }
 }
 

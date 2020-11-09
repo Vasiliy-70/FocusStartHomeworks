@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		84C028D8255964BD00B04BF1 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C028D7255964BD00B04BF1 /* Images.swift */; };
+		84C028E02559831A00B04BF1 /* RoundShadowImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C028DF2559831A00B04BF1 /* RoundShadowImageView.swift */; };
 		B32F6A5E2556BA3200C11135 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32F6A5D2556BA3200C11135 /* AppDelegate.swift */; };
 		B32F6A602556BA3200C11135 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32F6A5F2556BA3200C11135 /* SceneDelegate.swift */; };
 		B32F6A652556BA3200C11135 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B32F6A632556BA3200C11135 /* Main.storyboard */; };
@@ -20,6 +22,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		84C028D7255964BD00B04BF1 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		84C028DF2559831A00B04BF1 /* RoundShadowImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundShadowImageView.swift; sourceTree = "<group>"; };
 		B32F6A5A2556BA3200C11135 /* Lessons4_SplitViewController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lessons4_SplitViewController.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B32F6A5D2556BA3200C11135 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B32F6A5F2556BA3200C11135 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -77,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				B384A11F2557D732000F11D2 /* DataModel.swift */,
+				84C028D7255964BD00B04BF1 /* Images.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -88,6 +93,7 @@
 				B3A39D1D2557C80C0014603E /* MasterTableViewCell.swift */,
 				B32F6A762556BAFC00C11135 /* MasterViewController.swift */,
 				B384A1222557DB53000F11D2 /* MainSplitViewController.swift */,
+				84C028DF2559831A00B04BF1 /* RoundShadowImageView.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -192,8 +198,10 @@
 				B3A39D1E2557C80C0014603E /* MasterTableViewCell.swift in Sources */,
 				B32F6A772556BAFC00C11135 /* MasterViewController.swift in Sources */,
 				B32F6A7A2556BB8300C11135 /* DetailViewController.swift in Sources */,
+				84C028E02559831A00B04BF1 /* RoundShadowImageView.swift in Sources */,
 				B384A1232557DB53000F11D2 /* MainSplitViewController.swift in Sources */,
 				B32F6A5E2556BA3200C11135 /* AppDelegate.swift in Sources */,
+				84C028D8255964BD00B04BF1 /* Images.swift in Sources */,
 				B384A1202557D732000F11D2 /* DataModel.swift in Sources */,
 				B32F6A602556BA3200C11135 /* SceneDelegate.swift in Sources */,
 			);

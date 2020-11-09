@@ -17,7 +17,6 @@ class MasterTableViewCell: UITableViewCell {
     @IBOutlet weak var timeLabel: UILabel!
     
     func addItem(title: String, description: String, time: String) {
-        print(description)
         self.titleLabel.text = title
         self.descriptionLabel.text = description
         self.timeLabel.text = time
