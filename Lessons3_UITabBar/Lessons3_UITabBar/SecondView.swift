@@ -13,14 +13,18 @@ final class SecondView: UIView {
     
     enum Constants {
         static let titleText = "Title"
-        static let labelText = """
+        static let descriptionText = """
                                 This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!This text is so big!
                                 """
         
+        static let titleLabelFont: UIFont = .boldSystemFont(ofSize: 30)
+        static let descriptionLabelFont: UIFont = .systemFont(ofSize: 17)
+        static let titleLabelLines = 0
+        static let descriptionLabelLines = 0
         
-        static let titleDistance: CGFloat = 10.0
-        static let textDistance: CGFloat = 10.0
-        static let contentIndent: CGFloat = 10.0
+        static let titleLabelDistance: CGFloat = 10.0
+        static let descriptionLabelDistance: CGFloat = 10.0
+        static let borderSpace: CGFloat = 10.0
         
         static let imageHeight: CGFloat = 200.0
         static let imageWidth: CGFloat = 200.0
@@ -45,7 +49,7 @@ final class SecondView: UIView {
     private let scrollView = UIScrollView()
     private let imageView = UIImageView()
     private let titleLabel = UILabel()
-    private let textLabel = UILabel()
+    private let descriptionLabel = UILabel()
     
     public init() {
         super.init(frame: .zero)
@@ -114,31 +118,31 @@ private extension SecondView {
         
         self.commonConstraints.append(contentsOf: [
             self.imageView.topAnchor.constraint(equalTo: self.scrollView.topAnchor,
-                                                constant: Constants.contentIndent),
+                                                constant: Constants.borderSpace),
             self.imageView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,
-                                                    constant: Constants.contentIndent),
+                                                    constant: Constants.borderSpace),
             self.imageView.heightAnchor.constraint(equalToConstant: Constants.imageHeight)
         ])
     }
     
     func setupLabelsCommonConstraints() {
         self.scrollView.addSubview(titleLabel)
-        self.scrollView.addSubview(textLabel)
+        self.scrollView.addSubview(descriptionLabel)
         
         self.titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        self.textLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         
         self.commonConstraints.append(contentsOf: [
             self.titleLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
-                                                      constant: -Constants.contentIndent),
+                                                      constant: -Constants.borderSpace),
         ])
         
         self.commonConstraints.append(contentsOf: [
-            self.textLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,
-                                                    constant: Constants.contentIndent),
-            self.textLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
-                                                     constant: -Constants.contentIndent),
-            self.textLabel.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor)
+            self.descriptionLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,
+                                                    constant: Constants.borderSpace),
+            self.descriptionLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
+                                                     constant: -Constants.borderSpace),
+            self.descriptionLabel.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor)
         ])
     }
 }
@@ -154,21 +158,21 @@ private extension SecondView {
     func setupImageViewCompactConstraints() {
         self.compactConstraints.append(contentsOf: [
             self.imageView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
-                                                     constant: -Constants.contentIndent)
+                                                     constant: -Constants.borderSpace)
         ])
     }
     
     func setupLabelsCompactConstraints() {
         self.compactConstraints.append(contentsOf: [
             self.titleLabel.topAnchor.constraint(equalTo: self.imageView.bottomAnchor,
-                                                 constant: Constants.titleDistance),
+                                                 constant: Constants.titleLabelDistance),
             self.titleLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,
-                                                     constant: Constants.contentIndent)
+                                                     constant: Constants.borderSpace)
         ])
         
         self.compactConstraints.append(contentsOf: [
-            self.textLabel.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor,
-                                                constant: Constants.textDistance)
+            self.descriptionLabel.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor,
+                                                constant: Constants.descriptionLabelDistance)
         ])
     }
 }
@@ -192,19 +196,17 @@ private extension SecondView {
             self.titleLabel.topAnchor.constraint(equalTo: self.imageView.topAnchor),
             self.titleLabel.bottomAnchor.constraint(greaterThanOrEqualTo: self.imageView.bottomAnchor),
             self.titleLabel.leadingAnchor.constraint(equalTo: self.imageView.trailingAnchor,
-                                                     constant: Constants.titleDistance),
+                                                     constant: Constants.titleLabelDistance),
             self.titleLabel.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
-                                                      constant: -Constants.contentIndent)
+                                                      constant: -Constants.borderSpace)
         ])
         
         self.regularConstraints.append(contentsOf: [
-            self.textLabel.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor,
-                                                constant: Constants.textDistance)
+            self.descriptionLabel.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor,
+                                                constant: Constants.descriptionLabelDistance)
         ])
     }
 }
-
-
 
 // MARK: Appearance
 
@@ -221,13 +223,13 @@ private extension SecondView {
     
     func setupLabelsView() {
         self.titleLabel.text = Constants.titleText
-        self.titleLabel.font = .boldSystemFont(ofSize: 50)
-        self.titleLabel.font = .systemFont(ofSize: 24)
+        self.titleLabel.font = Constants.titleLabelFont
         self.titleLabel.textAlignment = .center
-        self.titleLabel.numberOfLines = 0
+        self.titleLabel.numberOfLines = Constants.titleLabelLines
         
-        self.textLabel.text = Constants.labelText
-        self.textLabel.textAlignment = .justified
-        self.textLabel.numberOfLines = 0
+        self.descriptionLabel.text = Constants.descriptionText
+        self.descriptionLabel.font = Constants.descriptionLabelFont
+        self.descriptionLabel.textAlignment = .justified
+        self.descriptionLabel.numberOfLines = Constants.descriptionLabelLines
     }
 }

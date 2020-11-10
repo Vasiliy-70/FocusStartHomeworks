@@ -13,13 +13,5 @@ class SecondViewController: UIViewController {
     override func loadView() {
         super.view = SecondView()
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    }
 }
 

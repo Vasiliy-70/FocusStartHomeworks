@@ -9,11 +9,11 @@ import UIKit
 
 final class FirstView: UIView {
 
-// MARK: Properties
+    // MARK: Properties
     
-    private let label1 = UILabel()
-    private let label2 = UILabel()
-    private let label3 = UILabel()
+    private let standardTextLabel = UILabel()
+    private let boldTextLabel = UILabel()
+    private let multilineTextLabel = UILabel()
     
     private let roundButton = UIButton()
     private let rectangleButton = UIButton()
@@ -23,30 +23,41 @@ final class FirstView: UIView {
     private let activityIndicator = UIActivityIndicatorView()
     
     enum Constants {
-        static let textLabel1 = "text1"
-        static let textLabel2 = "text2"
-        static let textLabel3 = """
+        static let standardText = "text1"
+        static let boldText = "text2"
+        static let multilineText = """
                                 text3
                                 text3
                                 text3
                                 """
         
-        static let textLabel1Distance: CGFloat = 8.0
-        static let textLabel2Distance: CGFloat = 10.0
-        static let textLabel3Distance: CGFloat = 12.0
+        static let standardTextFont: UIFont = .systemFont(ofSize: 17)
+        static let boldTextFont: UIFont = .boldSystemFont(ofSize: 18)
+        static let multilineTextFont: UIFont = .italicSystemFont(ofSize: 24)
+        static let multilineTextLines = 2
+        
+        static let roundButtonWidth: CGFloat = 50
+        static let roundButtonHeight: CGFloat = 50
+        static let roundButtonBorderWidth: CGFloat = 1
+        
+        static let rectangleButtonWidth: CGFloat = 150
+        static let rectangleButtonHeight: CGFloat = 50
+        static let rectangleButtonBorderWidth: CGFloat = 1
+        static let rectangleButtonCornerRadius: CGFloat = 8
+        
+        static let imageViewHeight: CGFloat = 150
+        static let imageViewWidth: CGFloat = 150
+        
+        static let standardTextLabelDistance: CGFloat = 8.0
+        static let boldTextLabelDistance: CGFloat = 10.0
+        static let multilineTextLabelDistance: CGFloat = 12.0
         
         static let roundButtonDistance: CGFloat = 14.0
         static let rectangleButtonDistance: CGFloat = 16.0
         static let imageViewDistance: CGFloat = 8.0
-        
-        static let roundButtonWidth: CGFloat = 50
-        static let roundButtonHeight: CGFloat = 50
-        
-        static let rectangleButtonWidth: CGFloat = 150
-        static let rectangleButtonHeight: CGFloat = 50
     }
     
-// MARK: Views
+    // MARK: Views
     
     public init() {
         super.init(frame: .zero)
@@ -76,23 +87,24 @@ private extension FirstView {
     }
     
     func setupLabelView() {
-        self.label1.text = Constants.textLabel1
+        self.standardTextLabel.text = Constants.standardText
+        self.standardTextLabel.font = Constants.standardTextFont
         
-        self.label2.text = Constants.textLabel2
-        self.label2.font = .boldSystemFont(ofSize: 18)
+        self.boldTextLabel.text = Constants.boldText
+        self.boldTextLabel.font = Constants.boldTextFont
         
-        self.label3.text = Constants.textLabel3
-        self.label3.font = .italicSystemFont(ofSize: 24)
-        self.label3.numberOfLines = 2
+        self.multilineTextLabel.text = Constants.multilineText
+        self.multilineTextLabel.font = Constants.multilineTextFont
+        self.multilineTextLabel.numberOfLines = Constants.multilineTextLines
     }
     
     func setupButtonView() {
         self.roundButton.backgroundColor = .purple
-        self.roundButton.layer.borderWidth = 1
+        self.roundButton.layer.borderWidth = Constants.roundButtonBorderWidth
         
         self.rectangleButton.backgroundColor = .blue
-        self.rectangleButton.layer.borderWidth = 1
-        self.rectangleButton.layer.cornerRadius = 8
+        self.rectangleButton.layer.borderWidth = Constants.rectangleButtonBorderWidth
+        self.rectangleButton.layer.cornerRadius = Constants.rectangleButtonCornerRadius
 
         self.layoutIfNeeded()
     }
@@ -118,26 +130,26 @@ private extension FirstView {
     }
     
     func setupLabelConstraints() {
-        self.addSubview(label1)
-        self.addSubview(label2)
-        self.addSubview(label3)
+        self.addSubview(standardTextLabel)
+        self.addSubview(boldTextLabel)
+        self.addSubview(multilineTextLabel)
         
-        self.label1.translatesAutoresizingMaskIntoConstraints = false
-        self.label2.translatesAutoresizingMaskIntoConstraints = false
-        self.label3.translatesAutoresizingMaskIntoConstraints = false
+        self.standardTextLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.boldTextLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.multilineTextLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            self.label1.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor,
-                                             constant: Constants.textLabel1Distance),
-            self.label1.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
+            self.standardTextLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor,
+                                             constant: Constants.standardTextLabelDistance),
+            self.standardTextLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             
-            self.label2.topAnchor.constraint(greaterThanOrEqualTo: self.label1.bottomAnchor,
-                                             constant: Constants.textLabel2Distance),
-            self.label2.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
+            self.boldTextLabel.topAnchor.constraint(greaterThanOrEqualTo: self.standardTextLabel.bottomAnchor,
+                                             constant: Constants.boldTextLabelDistance),
+            self.boldTextLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             
-            self.label3.topAnchor.constraint(greaterThanOrEqualTo: self.label2.bottomAnchor,
-                                             constant: Constants.textLabel3Distance),
-            self.label3.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor)
+            self.multilineTextLabel.topAnchor.constraint(greaterThanOrEqualTo: self.boldTextLabel.bottomAnchor,
+                                             constant: Constants.multilineTextLabelDistance),
+            self.multilineTextLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         ])
     }
     
@@ -149,7 +161,7 @@ private extension FirstView {
         self.rectangleButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            self.roundButton.topAnchor.constraint(greaterThanOrEqualTo: self.label3.bottomAnchor,
+            self.roundButton.topAnchor.constraint(greaterThanOrEqualTo: self.multilineTextLabel.bottomAnchor,
                                                   constant: Constants.roundButtonDistance),
             self.roundButton.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
             self.roundButton.widthAnchor.constraint(equalToConstant: Constants.roundButtonWidth),
@@ -171,8 +183,8 @@ private extension FirstView {
         NSLayoutConstraint.activate([
             self.imageView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -Constants.imageViewDistance),
             self.imageView.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
-            self.imageView.heightAnchor.constraint(equalToConstant: 150),
-            self.imageView.widthAnchor.constraint(equalToConstant: 150)
+            self.imageView.heightAnchor.constraint(equalToConstant: Constants.imageViewHeight),
+            self.imageView.widthAnchor.constraint(equalToConstant: Constants.imageViewWidth)
         
         ])
     }

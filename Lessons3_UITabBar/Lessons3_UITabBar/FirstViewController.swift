@@ -14,13 +14,5 @@ final class FirstViewController: UIViewController {
     override func loadView() {
         super.view = FirstView()
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-    }
 }
 

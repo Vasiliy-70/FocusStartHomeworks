@@ -11,20 +11,24 @@ final class ThirdView: UIView, UITextFieldDelegate {
     
     // MARK: Properties
     
-    private let loginField = UITextField()
-    private let passwordFiled = UITextField()
+    private let loginTextField = UITextField()
+    private let passwordTextField = UITextField()
     private let enterButton = UIButton()
     
     private var enterButtonConstraints: [NSLayoutConstraint] = []
     
     enum Constants {
-        static let loginFieldDistance: CGFloat = 10.0
-        static let passwordFieldDistance: CGFloat = 15.0
+        static let loginTextFieldDistance: CGFloat = 10.0
+        static let passwordTextFieldDistance: CGFloat = 15.0
         static let enterButtonDistance: CGFloat = 10.0
         static let borderSpace: CGFloat = 15.0
         
-        static let loginFieldHeight: CGFloat = 50
-        static let passwordFieldHeight: CGFloat = 50
+        static let loginTextFieldBorderWidth: CGFloat = 1
+        static let passwordTextFieldBorderWidth: CGFloat = 1
+        static let enterButtonBorderWidth: CGFloat = 1
+        
+        static let loginTextFieldHeight: CGFloat = 50
+        static let passwordTextFieldHeight: CGFloat = 50
         
         static let enterButtonHeight: CGFloat = 50
         static let enterButtonWidth: CGFloat = 200
@@ -55,30 +59,30 @@ private extension ThirdView {
     }
     
     func setTextFieldsConstraints() {
-        self.addSubview(loginField)
-        self.addSubview(passwordFiled)
+        self.addSubview(loginTextField)
+        self.addSubview(passwordTextField)
         
-        self.loginField.translatesAutoresizingMaskIntoConstraints = false
-        self.passwordFiled.translatesAutoresizingMaskIntoConstraints = false
+        self.loginTextField.translatesAutoresizingMaskIntoConstraints = false
+        self.passwordTextField.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            self.loginField.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor,
-                                                 constant: Constants.loginFieldDistance),
-            self.loginField.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,
+            self.loginTextField.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor,
+                                                 constant: Constants.loginTextFieldDistance),
+            self.loginTextField.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,
                                                      constant: Constants.borderSpace),
-            self.loginField.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
+            self.loginTextField.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
                                                       constant: -Constants.borderSpace),
-            self.loginField.heightAnchor.constraint(equalToConstant: Constants.loginFieldHeight)
+            self.loginTextField.heightAnchor.constraint(equalToConstant: Constants.loginTextFieldHeight)
         ])
         
         NSLayoutConstraint.activate([
-            self.passwordFiled.topAnchor.constraint(equalTo: self.loginField.bottomAnchor,
-                                                    constant: Constants.passwordFieldDistance),
-            self.passwordFiled.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,
+            self.passwordTextField.topAnchor.constraint(equalTo: self.loginTextField.bottomAnchor,
+                                                    constant: Constants.passwordTextFieldDistance),
+            self.passwordTextField.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,
                                                         constant: Constants.borderSpace),
-            self.passwordFiled.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
+            self.passwordTextField.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,
                                                          constant: -Constants.borderSpace),
-            self.passwordFiled.heightAnchor.constraint(equalToConstant: Constants.passwordFieldHeight)
+            self.passwordTextField.heightAnchor.constraint(equalToConstant: Constants.passwordTextFieldHeight)
         ])
     }
     
@@ -91,7 +95,7 @@ private extension ThirdView {
             self.enterButton.heightAnchor.constraint(equalToConstant: Constants.enterButtonHeight),
             self.enterButton.widthAnchor.constraint(equalToConstant: Constants.enterButtonWidth),
             self.enterButton.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
-            self.enterButton.topAnchor.constraint(greaterThanOrEqualTo: self.passwordFiled.bottomAnchor,
+            self.enterButton.topAnchor.constraint(greaterThanOrEqualTo: self.passwordTextField.bottomAnchor,
                                                   constant: Constants.enterButtonDistance),
             
             self.enterButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor,
@@ -111,17 +115,17 @@ private extension ThirdView {
     }
     
     func setTextFieldsAppearance() {
-        self.loginField.placeholder = " Login"
-        self.loginField.layer.borderWidth = 1
+        self.loginTextField.placeholder = " Login"
+        self.loginTextField.layer.borderWidth = Constants.loginTextFieldBorderWidth
         
-        self.passwordFiled.placeholder = " Password"
-        self.passwordFiled.layer.borderWidth = 1
-        self.passwordFiled.isSecureTextEntry = true
+        self.passwordTextField.placeholder = " Password"
+        self.passwordTextField.layer.borderWidth = Constants.passwordTextFieldBorderWidth
+        self.passwordTextField.isSecureTextEntry = true
     }
     
     func setButtonsAppearance() {
         self.enterButton.setTitle("Enter", for: .normal)
-        self.enterButton.layer.borderWidth = 1
+        self.enterButton.layer.borderWidth = Constants.enterButtonBorderWidth
         self.enterButton.backgroundColor = .blue
     }
 
@@ -131,8 +135,10 @@ private extension ThirdView {
 
 private extension ThirdView {
     func setupNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 }
 
@@ -157,7 +163,7 @@ private extension ThirdView {
     @objc func keyboardWillShow(notification: NSNotification) {
         guard let userInfo = notification.userInfo else { return }
         guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
-        
+
         NSLayoutConstraint.deactivate(enterButtonConstraints)
 
         UIView.animate(withDuration: 2) {
@@ -166,7 +172,7 @@ private extension ThirdView {
                 self.enterButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor,
                                                          constant:  -keyboardSize.height)
             ])
-            self.enterButtonConstraints[self.enterButtonConstraints.count - 1].priority = UILayoutPriority(rawValue: 750)
+            self.enterButtonConstraints.last?.priority = UILayoutPriority(rawValue: 750)
             
             NSLayoutConstraint.activate(self.enterButtonConstraints)
             self.layoutIfNeeded()
