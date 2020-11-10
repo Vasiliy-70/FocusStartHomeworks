@@ -13,6 +13,7 @@ final class ThreadSafeArray<Element> {
     var isEmpty: Bool {
         return self.array.isEmpty
     }
+    
     var count: Int {
         return self.array.count
     }
@@ -22,26 +23,23 @@ final class ThreadSafeArray<Element> {
                                                attributes: .concurrent)
     
     func append(_ item: Element) {
-        self.isolationQueue.async(flags: .barrier) {
-            self.array.append(item)
+        self.isolationQueue.async(flags: .barrier) { [weak self] in
+            self?.array.append(item)
         }
     }
     
     func remove(at index: Int) {
-        self.isolationQueue.async(flags: .barrier) {
-            self.array.remove(at: index)
+        self.isolationQueue.async(flags: .barrier) { [weak self] in
+            self?.array.remove(at: index)
         }
     }
     
     subscript(index: Int) -> Element? {
         var item: Element? = nil
 
-        self.isolationQueue.sync {
-            guard index >= 0 && index < self.count else {
-                return
-            }
-            
-            item = self.array[index]
+        self.isolationQueue.sync { [weak self] in
+            guard index >= 0 && index < self?.count ?? 0 else { return }
+            item = self?.array[index]
         }
         return item
     }
