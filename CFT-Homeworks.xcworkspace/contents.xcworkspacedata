@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:Lessons1_CarAccounting/Lessons1_CarAccounting.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Lessons2_ThreadSafeArray/Lessons2_ThreadSafeArray.xcodeproj">
+   </FileRef>
+</Workspace>
