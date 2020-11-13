@@ -91,7 +91,7 @@ private extension ThirdView {
         
         self.enterButton.translatesAutoresizingMaskIntoConstraints = false
         
-        enterButtonConstraints.append(contentsOf: [
+        self.enterButtonConstraints.append(contentsOf: [
             self.enterButton.heightAnchor.constraint(equalToConstant: Constants.enterButtonHeight),
             self.enterButton.widthAnchor.constraint(equalToConstant: Constants.enterButtonWidth),
             self.enterButton.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
@@ -164,35 +164,31 @@ private extension ThirdView {
         guard let userInfo = notification.userInfo else { return }
         guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
 
-        NSLayoutConstraint.deactivate(enterButtonConstraints)
+        NSLayoutConstraint.deactivate(self.enterButtonConstraints)
 
-        UIView.animate(withDuration: 2) {
-            self.enterButtonConstraints.removeLast()
-            self.enterButtonConstraints.append(contentsOf: [
-                self.enterButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor,
-                                                         constant:  -keyboardSize.height)
-            ])
-            self.enterButtonConstraints.last?.priority = UILayoutPriority(rawValue: 750)
+        UIView.animate(withDuration: 2) { [weak self] in
+            guard let bottomBoard = self?.safeAreaLayoutGuide.bottomAnchor else { return }
+            self?.enterButtonConstraints.removeLast()
+            self?.enterButtonConstraints.append(self?.enterButton.bottomAnchor.constraint(equalTo: bottomBoard,
+                                                          constant:  -keyboardSize.height) ?? NSLayoutConstraint())
+            self?.enterButtonConstraints.last?.priority = UILayoutPriority(rawValue: 750)
             
-            NSLayoutConstraint.activate(self.enterButtonConstraints)
-            self.layoutIfNeeded()
+            NSLayoutConstraint.activate(self?.enterButtonConstraints ?? [])
+            self?.layoutIfNeeded()
         }
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        NSLayoutConstraint.deactivate(enterButtonConstraints)
-
-        UIView.animate(withDuration: 2) {
-            self.enterButtonConstraints.removeLast()
-            self.enterButtonConstraints.append(contentsOf: [
-                self.enterButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor,
-                                                         constant:  -Constants.enterButtonDistance)
-            ])
-            
-            NSLayoutConstraint.activate(self.enterButtonConstraints)
-            self.layoutIfNeeded()
-        }
+        NSLayoutConstraint.deactivate(self.enterButtonConstraints)
         
+        UIView.animate(withDuration: 2) { [weak self] in
+            guard let bottomBoard = self?.safeAreaLayoutGuide.bottomAnchor else { return }
+            self?.enterButtonConstraints.removeLast()
+            self?.enterButtonConstraints.append(self?.enterButton.bottomAnchor.constraint(equalTo: bottomBoard,
+                                                         constant:  -Constants.enterButtonDistance) ?? NSLayoutConstraint())
+            NSLayoutConstraint.activate(self?.enterButtonConstraints ?? [])
+            self?.layoutIfNeeded()
+        }
     }
 }
 

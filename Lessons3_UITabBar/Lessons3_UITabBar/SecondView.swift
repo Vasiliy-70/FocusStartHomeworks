@@ -40,7 +40,7 @@ final class SecondView: UIView {
         super.traitCollectionDidChange(previousTraitCollection)
         
         if (traitCollection != previousTraitCollection) {
-            changeViewsLayout(traitCollection: traitCollection)
+            self.changeViewsLayout(traitCollection: traitCollection)
         }
     }
     
@@ -55,9 +55,9 @@ final class SecondView: UIView {
         super.init(frame: .zero)
         
         self.backgroundColor = .white
-        setupViewsLayout()
-        setupViewsAppearance()
-        changeViewsLayout(traitCollection: traitCollection)
+        self.setupViewsLayout()
+        self.setupViewsAppearance()
+        self.changeViewsLayout(traitCollection: traitCollection)
     }
     
     required init?(coder: NSCoder) {
@@ -128,7 +128,6 @@ private extension SecondView {
     func setupLabelsCommonConstraints() {
         self.scrollView.addSubview(titleLabel)
         self.scrollView.addSubview(descriptionLabel)
-        
         self.titleLabel.translatesAutoresizingMaskIntoConstraints = false
         self.descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         
