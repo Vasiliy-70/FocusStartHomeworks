@@ -27,7 +27,7 @@ class DetailViewController: UIViewController {
     
     var dataModel: DataModel? {
         didSet {
-            set()
+            self.set()
         }
     }
     
@@ -42,7 +42,7 @@ class DetailViewController: UIViewController {
         
         self.customNavigationTitle.text = dataModel?.title
         
-        descriptionLabel.text = dataModel?.description
+        self.descriptionLabel.text = dataModel?.description
         
         self.firstImageView.image = dataModel?.image.first
         self.secondImageView.image = dataModel?.image.last
@@ -86,10 +86,10 @@ extension DetailViewController {
     }
     
     func navigationTitleAppearance() {
-        customNavigationTitle.numberOfLines = 2
-        customNavigationTitle.textAlignment = .center
-        customNavigationTitle.font = .boldSystemFont(ofSize: 17)
-        customNavigationTitle.text = self.title
+        self.customNavigationTitle.numberOfLines = 2
+        self.customNavigationTitle.textAlignment = .center
+        self.customNavigationTitle.font = .boldSystemFont(ofSize: 17)
+        self.customNavigationTitle.text = self.title
         self.navigationItem.titleView = customNavigationTitle
     }
 }

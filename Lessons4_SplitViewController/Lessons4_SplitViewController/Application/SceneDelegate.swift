@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
               let navigationController = splitViewController.viewControllers.first as? UINavigationController,
               let masterViewController = navigationController.topViewController as? MasterViewController,
               let detailViewController = (splitViewController.viewControllers.last as? UINavigationController)?.topViewController as? DetailViewController
-        else { assertionFailure(); return}
+        else { assertionFailure(); return }
         
         masterViewController.delegate = detailViewController
         
