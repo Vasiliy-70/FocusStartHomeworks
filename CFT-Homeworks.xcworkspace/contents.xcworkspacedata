@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:Lessons5_Architecture/Lessons5_Architecture.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Lessons4_SplitViewController/Lessons4_SplitViewController.xcodeproj">
    </FileRef>
    <FileRef
