@@ -216,7 +216,7 @@ private extension SecondView {
     }
     
     func setupImageView() {
-        self.imageView.image = Images.dog.image
+        self.imageView.image = Images.dogImage
         self.contentMode = .scaleAspectFill
     }
     

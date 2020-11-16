@@ -110,7 +110,7 @@ private extension FirstView {
     }
     
     func setupImageView() {
-        self.imageView.image = Images.dog.image
+		self.imageView.image = Images.dogImage
         self.imageView.contentMode = .scaleAspectFill
     }
     

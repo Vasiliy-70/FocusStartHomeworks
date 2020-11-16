@@ -167,14 +167,13 @@ private extension ThirdView {
         NSLayoutConstraint.deactivate(self.enterButtonConstraints)
 
         UIView.animate(withDuration: 2) { [weak self] in
-            guard let bottomBoard = self?.safeAreaLayoutGuide.bottomAnchor else { return }
-            self?.enterButtonConstraints.removeLast()
-            self?.enterButtonConstraints.append(self?.enterButton.bottomAnchor.constraint(equalTo: bottomBoard,
-                                                          constant:  -keyboardSize.height) ?? NSLayoutConstraint())
-            self?.enterButtonConstraints.last?.priority = UILayoutPriority(rawValue: 750)
+			guard let optionalSelf = self else { return }
+			optionalSelf.enterButtonConstraints.removeLast()
+			optionalSelf.enterButtonConstraints.append(optionalSelf.enterButton.bottomAnchor.constraint(equalTo: optionalSelf.safeAreaLayoutGuide.bottomAnchor, constant:  -keyboardSize.height))
+			optionalSelf.enterButtonConstraints.last?.priority = UILayoutPriority(rawValue: 750)
             
-            NSLayoutConstraint.activate(self?.enterButtonConstraints ?? [])
-            self?.layoutIfNeeded()
+            NSLayoutConstraint.activate(optionalSelf.enterButtonConstraints)
+			optionalSelf.layoutIfNeeded()
         }
     }
     
@@ -182,13 +181,13 @@ private extension ThirdView {
         NSLayoutConstraint.deactivate(self.enterButtonConstraints)
         
         UIView.animate(withDuration: 2) { [weak self] in
-            guard let bottomBoard = self?.safeAreaLayoutGuide.bottomAnchor else { return }
-            self?.enterButtonConstraints.removeLast()
-            self?.enterButtonConstraints.append(self?.enterButton.bottomAnchor.constraint(equalTo: bottomBoard,
-                                                         constant:  -Constants.enterButtonDistance) ?? NSLayoutConstraint())
-            NSLayoutConstraint.activate(self?.enterButtonConstraints ?? [])
-            self?.layoutIfNeeded()
+            guard let optionalSelf = self else { return }
+			optionalSelf.enterButtonConstraints.removeLast()
+			optionalSelf.enterButtonConstraints.append(optionalSelf.enterButton.bottomAnchor.constraint(equalTo: optionalSelf.safeAreaLayoutGuide.bottomAnchor, constant:  -Constants.enterButtonDistance))
+            NSLayoutConstraint.activate(optionalSelf.enterButtonConstraints)
+			optionalSelf.layoutIfNeeded()
         }
     }
 }
+
 
