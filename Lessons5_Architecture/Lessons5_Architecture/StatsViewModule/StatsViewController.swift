@@ -31,7 +31,7 @@ final class StatsViewController: UIViewController {
 
 extension StatsViewController: IStatsViewController {
 	func set(allValues: [Int]) {
-		let desciption = "\nТвои попытки: \n\(allValues)"
+		let desciption = "Поздравляю! Ты выиграл!\nТвои попытки: \n\(allValues)"
 		self.customView.show(data: desciption)
 	}
 }

@@ -76,7 +76,7 @@ extension StatsView {
 extension StatsView: IStatsView {
 
 	func show(data: String) {
-		self.descriptionLabel.text = "Поздравляю! Ты выиграл!" + data
+		self.descriptionLabel.text = data
 	}
 }
 
