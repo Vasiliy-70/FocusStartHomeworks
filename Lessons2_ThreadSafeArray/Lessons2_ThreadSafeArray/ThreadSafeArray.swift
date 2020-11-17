@@ -13,7 +13,7 @@ final class ThreadSafeArray<Element> {
     var isEmpty: Bool {
         return self.array.isEmpty
     }
-    
+
     var count: Int {
         return self.array.count
     }
@@ -36,7 +36,6 @@ final class ThreadSafeArray<Element> {
     
     subscript(index: Int) -> Element? {
         var item: Element? = nil
-
         self.isolationQueue.sync { [weak self] in
             guard index >= 0 && index < self?.count ?? 0 else { return }
             item = self?.array[index]
