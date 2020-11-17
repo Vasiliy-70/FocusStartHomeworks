@@ -12,14 +12,13 @@ protocol IMainView: class {
 }
 
 class MainView: UIView {
-	
 	// MARK: Settings
-	weak var delegate: IMainViewDelegate?
+	weak var delegate: IMainViewUserAction?
 	
 	enum Constraints {
-		static let startButtonBottomOffset: CGFloat = 150
+		static let startButtonBottomOffset: CGFloat = 50
 		static let startButtonHeight: CGFloat = 50
-		static let startButtonWidth: CGFloat =  50
+		static let startButtonWidth: CGFloat =  200
 		
 		static let descriptionLabelTopOffset: CGFloat = 10
 		static let descriptionLabelHeight: CGFloat = 30
@@ -30,9 +29,9 @@ class MainView: UIView {
 		static let textFieldWidth: CGFloat = 200
 	}
 	
-	private let startButton = UIButton()
+	private let startButton = UIButton(type: .system)
 	private let descriptionLabel = UILabel()
-	private let textField = UITextField()
+	private let valueInputField = UITextField()
 	
 	init() {
 		super.init(frame: .zero)
@@ -57,8 +56,8 @@ extension MainView {
 	}
 	
 	func setupButtonAppearance() {
-		self.startButton.setTitle("Start!", for: .normal)
-		self.startButton.backgroundColor = .blue
+		self.startButton.setTitle("Испытать удачу!", for: .normal)
+		self.startButton.backgroundColor = .cyan
 	}
 	
 	func setupLabelAppearance() {
@@ -68,8 +67,8 @@ extension MainView {
 	}
 	
 	func setupTextFieldAppearance() {
-		self.textField.text = "Введите число"
-		self.textField.textAlignment = .center
+		self.valueInputField.placeholder = "Введи число"
+		self.valueInputField.textAlignment = .center
 	}
 }
 
@@ -87,7 +86,7 @@ extension MainView {
 		self.startButton.translatesAutoresizingMaskIntoConstraints = false
 		
 		NSLayoutConstraint.activate([
-			self.startButton.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -Constraints.startButtonBottomOffset),
+			self.startButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -Constraints.startButtonBottomOffset),
 			self.startButton.heightAnchor.constraint(equalToConstant: Constraints.startButtonHeight),
 			self.startButton.widthAnchor.constraint(equalToConstant: Constraints.startButtonWidth),
 			self.startButton.centerXAnchor.constraint(equalTo: self.centerXAnchor)
@@ -106,14 +105,14 @@ extension MainView {
 	}
 	
 	func setupTextFieldConstraints() {
-		self.addSubview(self.textField)
-		self.textField.translatesAutoresizingMaskIntoConstraints = false
+		self.addSubview(self.valueInputField)
+		self.valueInputField.translatesAutoresizingMaskIntoConstraints = false
 		
 		NSLayoutConstraint.activate([
-			self.textField.topAnchor.constraint(equalTo: self.descriptionLabel.bottomAnchor, constant: Constraints.textFieldTopOffset),
-			self.textField.heightAnchor.constraint(equalToConstant: Constraints.textFieldHeight),
-			self.textField.widthAnchor.constraint(equalToConstant: Constraints.textFieldWidth),
-			self.textField.centerXAnchor.constraint(equalTo: self.centerXAnchor)
+			self.valueInputField.topAnchor.constraint(equalTo: self.descriptionLabel.bottomAnchor, constant: Constraints.textFieldTopOffset),
+			self.valueInputField.heightAnchor.constraint(equalToConstant: Constraints.textFieldHeight),
+			self.valueInputField.widthAnchor.constraint(equalToConstant: Constraints.textFieldWidth),
+			self.valueInputField.centerXAnchor.constraint(equalTo: self.centerXAnchor)
 		])
 	}
 }
@@ -131,7 +130,9 @@ extension MainView {
 	
 	@objc func startButtonTouchUp(_ sender: UIButton) {
 		print("buttonPush")
-		self.delegate?.buttonPushed()
+		self.delegate?.receiveUser(value: valueInputField.text ?? "")
+		valueInputField.text = ""
+		valueInputField.placeholder = "Ещё раз!"
 	}
 }
 
@@ -140,6 +141,6 @@ extension MainView {
 extension MainView: IMainView {
 
 	func show(data: String) {
-		self.descriptionLabel.text = "Угадай число, которое я загадал (диапазон:" + data
+		self.descriptionLabel.text = data
 	}
 }

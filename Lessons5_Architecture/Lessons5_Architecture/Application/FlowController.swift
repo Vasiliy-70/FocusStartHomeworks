@@ -14,6 +14,7 @@ final class FlowController
 	init(coordinationController: CoordinateController) {
 		self.coordinationController = coordinationController
 		self.firstVC = ModuleAssembly.createMainModule(coordinateController: self.coordinationController)
+		
 		self.coordinationController.addModule(number: .first, vc: firstVC )
 		self.coordinationController.addModule(number: .second,
 											  vc: ModuleAssembly.createStatsModule(coordinateController: self.coordinationController))

@@ -14,27 +14,20 @@ protocol IStatsView: class {
 class StatsView: UIView {
 	
 	// MARK: Settings
-	weak var delegate: IMainViewDelegate?
+	weak var delegate: IMainViewUserAction?
 	
 	enum Constraints {
-		static let startButtonBottomOffset: CGFloat = 150
-		static let startButtonHeight: CGFloat = 50
-		static let startButtonWidth: CGFloat =  50
-		
 		static let descriptionLabelTopOffset: CGFloat = 10
 		static let descriptionLabelHeight: CGFloat = 30
 		static let descriptionLabelWidth: CGFloat = 200
-		
 	}
 	
-	private let startButton = UIButton()
 	private let descriptionLabel = UILabel()
 	
 	init() {
 		super.init(frame: .zero)
 		self.setupAppearance()
 		self.setupConstraints()
-		self.setupUserAction()
 	}
 	
 	required init?(coder: NSCoder) {
@@ -46,18 +39,12 @@ class StatsView: UIView {
 
 extension StatsView {
 	func setupAppearance() {
-		self.backgroundColor = .red
-		self.setupButtonAppearance()
+		self.backgroundColor = .green
 		self.setupLabelAppearance()
 	}
 	
-	func setupButtonAppearance() {
-		self.startButton.setTitle("Start!", for: .normal)
-		self.startButton.backgroundColor = .blue
-	}
-	
 	func setupLabelAppearance() {
-		self.descriptionLabel.text = "Я загадываю число - ты отгадываешь!"
+		self.descriptionLabel.text = "Поздравляю! Ты выиграл!"
 		self.descriptionLabel.textAlignment = .center
 		self.descriptionLabel.numberOfLines = 0
 	}
@@ -68,20 +55,7 @@ extension StatsView {
 
 extension StatsView {
 	func setupConstraints() {
-		self.setupButtonConstraints()
 		self.setupLabelConstraints()
-	}
-	
-	func setupButtonConstraints() {
-		self.addSubview(self.startButton)
-		self.startButton.translatesAutoresizingMaskIntoConstraints = false
-		
-		NSLayoutConstraint.activate([
-			self.startButton.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -Constraints.startButtonBottomOffset),
-			self.startButton.heightAnchor.constraint(equalToConstant: Constraints.startButtonHeight),
-			self.startButton.widthAnchor.constraint(equalToConstant: Constraints.startButtonWidth),
-			self.startButton.centerXAnchor.constraint(equalTo: self.centerXAnchor)
-		])
 	}
 	
 	func setupLabelConstraints() {
@@ -89,36 +63,20 @@ extension StatsView {
 		self.descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
 		
 		NSLayoutConstraint.activate([
-			self.descriptionLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: Constraints.descriptionLabelTopOffset),
+			self.descriptionLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
 			self.descriptionLabel.widthAnchor.constraint(equalToConstant: Constraints.descriptionLabelWidth),
 			self.descriptionLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor)
 		])
 	}
 }
 
-// MARK: Action
-
-extension StatsView {
-	func setupUserAction() {
-		self.setupStartButtonAction()
-	}
-	
-	func setupStartButtonAction() {
-		self.startButton.addTarget(self, action: #selector(startButtonTouchUp), for: .touchUpInside)
-	}
-	
-	@objc func startButtonTouchUp(_ sender: UIButton) {
-		print("buttonPush")
-		//self.delegate?.buttonPushed()
-	}
-}
 
 // MARK: IMainView
 
 extension StatsView: IStatsView {
 
 	func show(data: String) {
-		self.descriptionLabel.text = "Угадай число, которое я загадал (диапазон:" + data
+		self.descriptionLabel.text = "Поздравляю! Ты выиграл!" + data
 	}
 }
 

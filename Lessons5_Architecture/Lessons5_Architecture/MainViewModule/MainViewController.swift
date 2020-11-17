@@ -7,12 +7,12 @@
 
 import UIKit
 
-protocol IMainViewDelegate: class {
-	func buttonPushed()
+protocol IMainViewUserAction: class {
+	func receiveUser(value: String)
 }
 
 protocol IMainViewController: class {
-	func set(data: String)
+	func set(minValue: Int, maxValue: Int)
 }
 
 final class MainViewController: UIViewController {
@@ -27,19 +27,21 @@ final class MainViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.customView.delegate = self
+		self.presenter?.requestData()
 	}
 }
 
 extension MainViewController: IMainViewController {
-	func set(data: String) {
-		self.customView.show(data: data)
+	func set(minValue: Int, maxValue: Int) {
+		let description = "Угадай число, которое я загадал😛\n (подсказка: диапазон от \(minValue) до \(maxValue))"
+		self.customView.show(data: description)
 	}
 }
 
-extension MainViewController: IMainViewDelegate {
-	
-	func buttonPushed() {
-		self.presenter?.userDataInput()
+extension MainViewController: IMainViewUserAction {
+	func receiveUser(value: String) {
+		guard let intValue = Int(value) else { return }
+		self.presenter?.userValue = intValue
 	}
 }
 

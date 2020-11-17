@@ -7,8 +7,13 @@
 
 import Foundation
 
-struct Model {
+final class Model {
 	var minValue: Int
 	var maxValue: Int
-	var previousValue: [Int]
+	var previousValue = [Int]()
+	
+	init(minValue: Int, maxValue: Int) {
+		self.minValue = minValue
+		self.maxValue = maxValue
+	}
 }

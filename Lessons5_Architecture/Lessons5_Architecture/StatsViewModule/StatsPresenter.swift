@@ -7,7 +7,7 @@
 
 
 protocol IStatsPresenter: class {
-	func getDataFromModel()
+	func getStatistic()
 }
 
 final class StatsPresenter {
@@ -22,8 +22,8 @@ final class StatsPresenter {
 }
 
 extension StatsPresenter: IStatsPresenter {
-	func getDataFromModel() {
-		let minValue = self.model.minValue
-		self.viewController?.set(data: String(minValue))
+	func getStatistic() {
+		let previousValues = self.model.previousValue
+		self.viewController?.set(allValues: previousValues)
 	}
 }

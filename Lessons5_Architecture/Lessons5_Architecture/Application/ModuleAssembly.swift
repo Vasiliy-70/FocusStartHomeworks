@@ -8,7 +8,8 @@
 import UIKit
 
 enum ModuleAssembly {
-	static let model = Model(minValue: 0, maxValue: 10, previousValue: [])
+	static let model = Model(minValue: 0, maxValue: 5)
+	
 	static func createMainModule(coordinateController: CoordinateController) -> UIViewController {
 		let view = MainViewController()
 		let presenter = MainPresenter(coordinateController: coordinateController, viewController: view, model: model)

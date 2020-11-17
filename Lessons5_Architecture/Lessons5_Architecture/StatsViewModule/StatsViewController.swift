@@ -8,7 +8,7 @@
 import UIKit
 
 protocol IStatsViewController: class {
-	func set(data: String)
+	func set(allValues: [Int])
 }
 
 final class StatsViewController: UIViewController {
@@ -23,10 +23,15 @@ final class StatsViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 	}
+	
+	override func viewWillAppear(_ animated: Bool) {
+		self.presenter?.getStatistic()
+	}
 }
 
 extension StatsViewController: IStatsViewController {
-	func set(data: String) {
-		self.customView.show(data: data)
+	func set(allValues: [Int]) {
+		let desciption = "\nТвои попытки: \n\(allValues)"
+		self.customView.show(data: desciption)
 	}
 }

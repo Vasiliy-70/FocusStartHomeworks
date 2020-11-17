@@ -26,7 +26,6 @@ extension CoordinateController {
 		guard let current = views[.first] else { return assertionFailure() }
 		guard let next = views[.second] else { return assertionFailure() }
 		
-		current.navigationController?.pushViewController(next, animated: false)
-		
+		current.navigationController?.pushViewController(next, animated: true)
 	}
 }
