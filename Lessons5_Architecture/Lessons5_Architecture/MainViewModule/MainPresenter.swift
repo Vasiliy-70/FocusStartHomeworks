@@ -5,19 +5,22 @@
 //  Created by Боровик Василий on 16.11.2020.
 //
 
-import Foundation
+import UIKit
 
 protocol IMainPresenter: class {
-	func getDataFromModel()
-	func writeDataToModel()
+	func userDataInput()
+	//func getDataFromModel()
+	//func writeDataToModel()
 }
 
 final class MainPresenter {
 	
 	weak var viewController: IMainViewController?
+	weak var coordinateController: CoordinateController?
 	private let model: Model
 	
-	init(viewController: IMainViewController, model: Model) {
+	init(coordinateController: CoordinateController, viewController: IMainViewController, model: Model) {
+		self.coordinateController = coordinateController
 		self.viewController = viewController
 		self.model = model
 	}
@@ -25,13 +28,13 @@ final class MainPresenter {
 
 extension MainPresenter: IMainPresenter {
 
-	func writeDataToModel() {
-	}
+	/*func writeDataToModel() {
+	}*/
 	
-	func getDataFromModel() {
+	func userDataInput() {
 		let minValue = self.model.minValue
 		self.viewController?.set(data: String(minValue))
+		self.coordinateController?.switchModule()
 	}
 	
 }
-	

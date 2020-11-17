@@ -131,7 +131,7 @@ extension MainView {
 	
 	@objc func startButtonTouchUp(_ sender: UIButton) {
 		print("buttonPush")
-		self.delegate?.requestData()
+		self.delegate?.buttonPushed()
 	}
 }
 

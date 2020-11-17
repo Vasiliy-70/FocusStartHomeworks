@@ -46,7 +46,7 @@ class StatsView: UIView {
 
 extension StatsView {
 	func setupAppearance() {
-		self.backgroundColor = .white
+		self.backgroundColor = .red
 		self.setupButtonAppearance()
 		self.setupLabelAppearance()
 	}
@@ -109,7 +109,7 @@ extension StatsView {
 	
 	@objc func startButtonTouchUp(_ sender: UIButton) {
 		print("buttonPush")
-		self.delegate?.requestData()
+		//self.delegate?.buttonPushed()
 	}
 }
 

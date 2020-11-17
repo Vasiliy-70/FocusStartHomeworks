@@ -8,8 +8,7 @@
 import UIKit
 
 protocol IMainViewDelegate: class {
-	func requestData()
-	func writeResult()
+	func buttonPushed()
 }
 
 protocol IMainViewController: class {
@@ -38,13 +37,9 @@ extension MainViewController: IMainViewController {
 }
 
 extension MainViewController: IMainViewDelegate {
-	func writeResult() {
-		//
-	}
 	
-	func requestData() {
-		self.presenter?.getDataFromModel()
-		
+	func buttonPushed() {
+		self.presenter?.userDataInput()
 	}
 }
 

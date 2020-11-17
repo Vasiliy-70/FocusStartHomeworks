@@ -9,18 +9,18 @@ import UIKit
 
 enum ModuleAssembly {
 	static let model = Model(minValue: 0, maxValue: 10, previousValue: [])
-	
-	static func createMainModule() -> UIViewController {
+	static func createMainModule(coordinateController: CoordinateController) -> UIViewController {
 		let view = MainViewController()
-		let presenter = MainPresenter(viewController: view, model: model)
+		let presenter = MainPresenter(coordinateController: coordinateController, viewController: view, model: model)
 		view.presenter = presenter
 		return view
 	}
 	
-	static func createStatsModule() -> UIViewController {
+	static func createStatsModule(coordinateController: CoordinateController) -> UIViewController {
 		let view = StatsViewController()
 		let presenter = StatsPresenter(viewController: view, model: model)
 		view.presenter = presenter
 		return view
 	}
 }
+

@@ -19,6 +19,8 @@
 		47F76BC0256307C000CF61F2 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F76BBF256307C000CF61F2 /* StatsView.swift */; };
 		47F76BC32563084200CF61F2 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F76BC22563084200CF61F2 /* StatsViewController.swift */; };
 		47F76BC92563095500CF61F2 /* StatsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F76BC82563095500CF61F2 /* StatsPresenter.swift */; };
+		47F76BD32563781400CF61F2 /* CoordinateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F76BD22563781400CF61F2 /* CoordinateController.swift */; };
+		47F76BD62563827600CF61F2 /* FlowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F76BD52563827600CF61F2 /* FlowController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,8 @@
 		47F76BBF256307C000CF61F2 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		47F76BC22563084200CF61F2 /* StatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
 		47F76BC82563095500CF61F2 /* StatsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsPresenter.swift; sourceTree = "<group>"; };
+		47F76BD22563781400CF61F2 /* CoordinateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateController.swift; sourceTree = "<group>"; };
+		47F76BD52563827600CF61F2 /* FlowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +74,8 @@
 				47E1AEBB256293B8008AAC3C /* AppDelegate.swift */,
 				47E1AEBD256293B8008AAC3C /* SceneDelegate.swift */,
 				4783A2262562CA8B0055B1C0 /* ModuleAssembly.swift */,
+				47F76BD52563827600CF61F2 /* FlowController.swift */,
+				47F76BD22563781400CF61F2 /* CoordinateController.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -210,6 +216,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47F76BD32563781400CF61F2 /* CoordinateController.swift in Sources */,
 				47E1AEC0256293B8008AAC3C /* MainViewController.swift in Sources */,
 				47B2DB3A2562B70200CCB096 /* MainView.swift in Sources */,
 				47E1AEBC256293B8008AAC3C /* AppDelegate.swift in Sources */,
@@ -220,6 +227,7 @@
 				47B2DB332562B5D000CCB096 /* Model.swift in Sources */,
 				47F76BC32563084200CF61F2 /* StatsViewController.swift in Sources */,
 				47B2DB372562B63900CCB096 /* MainPresenter.swift in Sources */,
+				47F76BD62563827600CF61F2 /* FlowController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
