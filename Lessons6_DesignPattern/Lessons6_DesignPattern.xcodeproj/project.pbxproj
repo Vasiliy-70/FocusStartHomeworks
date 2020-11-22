@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		472440B9256A778D00A2508A /* EventsUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 472440B8256A778D00A2508A /* EventsUILabel.swift */; };
+		47314B24256A66E30061A55D /* EventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47314B23256A66E30061A55D /* EventsViewController.swift */; };
+		47314B27256A67AD0061A55D /* EventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47314B26256A67AD0061A55D /* EventsView.swift */; };
 		474931E525692C6E008FBE5C /* UIConstructor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474931E425692C6E008FBE5C /* UIConstructor.swift */; };
 		474931EE2569450E008FBE5C /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474931ED2569450E008FBE5C /* Images.swift */; };
 		4787252F2569282900B51F71 /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4787252E2569282900B51F71 /* BaseView.swift */; };
@@ -16,9 +19,13 @@
 		47C63EBB25669C15003AA652 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47C63EBA25669C15003AA652 /* Assets.xcassets */; };
 		47C63EBE25669C15003AA652 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47C63EBC25669C15003AA652 /* LaunchScreen.storyboard */; };
 		47C63EC925669C63003AA652 /* Builder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C63EC825669C63003AA652 /* Builder.swift */; };
+		47FDAC01256A7C8D00F316AE /* EventsNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FDAC00256A7C8D00F316AE /* EventsNotifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		472440B8256A778D00A2508A /* EventsUILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsUILabel.swift; sourceTree = "<group>"; };
+		47314B23256A66E30061A55D /* EventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewController.swift; sourceTree = "<group>"; };
+		47314B26256A67AD0061A55D /* EventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsView.swift; sourceTree = "<group>"; };
 		474931E425692C6E008FBE5C /* UIConstructor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIConstructor.swift; sourceTree = "<group>"; };
 		474931ED2569450E008FBE5C /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
 		4787252E2569282900B51F71 /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
@@ -30,6 +37,7 @@
 		47C63EBD25669C15003AA652 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		47C63EBF25669C15003AA652 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		47C63EC825669C63003AA652 /* Builder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Builder.swift; sourceTree = "<group>"; };
+		47FDAC00256A7C8D00F316AE /* EventsNotifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsNotifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +51,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		472440BB256A78EC00A2508A /* UIComponents */ = {
+			isa = PBXGroup;
+			children = (
+				472440B8256A778D00A2508A /* EventsUILabel.swift */,
+			);
+			path = UIComponents;
+			sourceTree = "<group>";
+		};
 		474931E8256931AC008FBE5C /* Application */ = {
 			isa = PBXGroup;
 			children = (
@@ -72,7 +88,9 @@
 		4787252D2569277100B51F71 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				472440BB256A78EC00A2508A /* UIComponents */,
 				4787252E2569282900B51F71 /* BaseView.swift */,
+				47314B26256A67AD0061A55D /* EventsView.swift */,
 				47C63EBC25669C15003AA652 /* LaunchScreen.storyboard */,
 			);
 			path = Views;
@@ -82,6 +100,8 @@
 			isa = PBXGroup;
 			children = (
 				47C63EB525669C13003AA652 /* FirstViewController.swift */,
+				47314B23256A66E30061A55D /* EventsViewController.swift */,
+				47FDAC00256A7C8D00F316AE /* EventsNotifier.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -193,8 +213,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				472440B9256A778D00A2508A /* EventsUILabel.swift in Sources */,
+				47314B24256A66E30061A55D /* EventsViewController.swift in Sources */,
 				474931EE2569450E008FBE5C /* Images.swift in Sources */,
+				47FDAC01256A7C8D00F316AE /* EventsNotifier.swift in Sources */,
 				47C63EB625669C13003AA652 /* FirstViewController.swift in Sources */,
+				47314B27256A67AD0061A55D /* EventsView.swift in Sources */,
 				47C63EB225669C13003AA652 /* AppDelegate.swift in Sources */,
 				4787252F2569282900B51F71 /* BaseView.swift in Sources */,
 				47C63EB425669C13003AA652 /* SceneDelegate.swift in Sources */,

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BaseView: UIView {
+final class BaseView: UIView {
 	public init() {
 		super.init(frame: .zero)
 		self.backgroundColor = .systemGreen

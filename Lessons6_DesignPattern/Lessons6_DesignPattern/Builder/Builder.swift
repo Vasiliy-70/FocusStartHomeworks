@@ -21,8 +21,8 @@ protocol IBuilder {
 // MARK: Builder settings
 
 class Builder {
-	private var view = BaseView()
-	private var UI: UIViewController?
+	private var view: BaseView
+	private var UI: UIViewController
 	private var viewConstraints = [NSLayoutConstraint]()
 	
 	enum Constraints {
@@ -44,6 +44,11 @@ class Builder {
 		static let labelFont: UIFont = .systemFont(ofSize: 20)
 	}
 	
+	init() {
+		self.view = BaseView()
+		self.UI = UIViewController()
+	}
+	
 	func reset() {
 		self.view = BaseView()
 		self.viewConstraints.removeAll()
@@ -53,7 +58,7 @@ class Builder {
 
 extension Builder: IBuilder {
 	func retrieveViewController() -> UIViewController{
-		let result = self.UI ?? UIViewController()
+		let result = self.UI
 		self.reset()
 		return result
 	}

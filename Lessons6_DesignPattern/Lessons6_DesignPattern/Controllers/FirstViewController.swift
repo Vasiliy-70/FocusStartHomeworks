@@ -23,15 +23,7 @@ final class FirstViewController: UIViewController {
 	}
 	
 	override func loadView() {
-		super.view = customView
-	}
-	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-	}
-	
-	override func viewDidLayoutSubviews() {
-		super.viewDidLayoutSubviews()
+		super.view = self.customView
 	}
 }
 
