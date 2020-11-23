@@ -7,25 +7,24 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
-
-    @IBOutlet weak var descriptionLabel: UILabel!
+final class DetailViewController: UIViewController {
+    @IBOutlet private weak var descriptionLabel: UILabel!
     
-    @IBOutlet weak var firstImageView: UIImageView!
+    @IBOutlet private weak var firstImageView: UIImageView!
     
-    @IBOutlet weak var secondImageView: UIImageView!
+    @IBOutlet private weak var secondImageView: UIImageView!
     
-    @IBOutlet weak var firstImageShadowView: UIView!
+    @IBOutlet private weak var firstImageShadowView: UIView!
     
-    @IBOutlet weak var secondImageShadowView: UIView!
+    @IBOutlet private weak var secondImageShadowView: UIView!
     
-    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet private weak var scrollView: UIScrollView!
     
-    let customNavigationTitle = UILabel(frame: CGRect(x: 150, y: 0,
+    private let customNavigationTitle = UILabel(frame: CGRect(x: 150, y: 0,
                                                       width: 200,
                                                       height: 44))
     
-    var dataModel: DataModel? {
+    private var dataModel: DataModel? {
         didSet {
             self.set()
         }
@@ -52,14 +51,12 @@ class DetailViewController: UIViewController {
 }
 
 extension DetailViewController: CellSelectedDelegate {
-    
     func cellSelected(data: DataModel) {
         self.dataModel = data
     }
 }
 
 extension DetailViewController {
-    
     func imageViewsAppearance() {
         self.firstImageView.clipsToBounds = true
         self.firstImageView.layer.cornerRadius = 20

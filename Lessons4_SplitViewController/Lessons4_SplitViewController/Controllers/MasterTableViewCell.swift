@@ -7,14 +7,14 @@
 
 import UIKit
 
-class MasterTableViewCell: UITableViewCell {
+final class MasterTableViewCell: UITableViewCell {
     static let identifier = String(describing: MasterTableViewCell.self)
     
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet private weak var titleLabel: UILabel!
     
-    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet private weak var descriptionLabel: UILabel!
     
-    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet private weak var timeLabel: UILabel!
     
     func addItem(title: String, description: String, time: String) {
         self.titleLabel.text = title
