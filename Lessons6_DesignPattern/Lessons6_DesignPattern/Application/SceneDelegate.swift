@@ -17,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		guard let windowScene = scene as? UIWindowScene else { return assertionFailure() }
 		self.window = UIWindow(frame: windowScene.coordinateSpace.bounds)
 		
-		guard let window = window else {
+		guard let window = self.window else {
 			return assertionFailure()
 		}
 		

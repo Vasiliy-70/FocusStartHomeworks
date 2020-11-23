@@ -7,12 +7,6 @@
 
 import UIKit
 
-enum UIElements {
-	case button
-	case label
-	case image
-}
-
 protocol IBuilder {
 	func createViewController(elements: [UIElements], backgroundColor: UIColor)
 	func retrieveViewController() -> UIViewController
@@ -69,7 +63,7 @@ extension Builder: IBuilder {
 	}
 }
 
-// MARK: UIElements building
+// MARK: View building
 
 extension Builder {
 	func configureView(elements: [UIElements], backgroundColor: UIColor) {
@@ -109,6 +103,7 @@ extension Builder {
 		for _ in 0..<Constants.stackViewsCount {
 			stackViews.append(configStackView(axis: .horizontal, spacing: Constants.embeddedStackViewsSpacing))
 		}
+		
 		var elementsCount = 0
 		var elementPosition = 0
 		for element in elements {
@@ -129,11 +124,14 @@ extension Builder {
 				elementPosition += 1
 				elementsCount = 0
 			}
-			
 		}
 		return stackViews
 	}
-	
+}
+
+// MARK: Base Elements
+
+extension Builder {
 	func configStackView(axis: NSLayoutConstraint.Axis, spacing: CGFloat) -> UIStackView {
 		let stackView = UIStackView()
 		

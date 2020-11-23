@@ -18,7 +18,6 @@ final class EventsView: UIView {
 	private let subscriptionSettings = UIStackView()
 	private var subscriptionStacks = [UIStackView]()
 	
-	
 	weak var eventsGenerator: IEventsGeneration?
 	weak var observable: IEventsObservable?
 	private let idString: String?
@@ -124,6 +123,7 @@ private extension EventsView {
 		stackView.alignment = .leading
 		stackView.distribution = .fillProportionally
 		stackView.spacing = Constants.subscriptionSettingsSpacing
+		
 		return stackView
 	}
 }
@@ -198,7 +198,7 @@ private extension EventsView {
 		self.generationButton.addTarget(self, action: #selector(generationButtonTouchUp), for: .touchUpInside)
 	}
 	
-	@objc func generationButtonTouchUp (_ sender: UIButton) {
+	@objc func generationButtonTouchUp(_ sender: UIButton) {
 		self.eventsGenerator?.generateEvents()
 	}
 	
@@ -208,7 +208,7 @@ private extension EventsView {
 		self.warningRegisteredSwitch.addTarget(self, action: #selector(warningSubscriptionChange), for: .valueChanged)
 	}
 	
-	@objc func alarmSubscriptionChange (_ sender: UISwitch) {
+	@objc func alarmSubscriptionChange(_ sender: UISwitch) {
 		if (!sender.isOn) {
 			self.observable?.unregister(observer: self.alarmLabel)
 		} else {
@@ -216,7 +216,7 @@ private extension EventsView {
 		}
 	}
 	
-	@objc func warningSubscriptionChange (_ sender: UISwitch) {
+	@objc func warningSubscriptionChange(_ sender: UISwitch) {
 		if (!sender.isOn) {
 			self.observable?.unregister(observer: self.warningLabel)
 		} else {
