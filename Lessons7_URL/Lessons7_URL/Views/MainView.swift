@@ -9,10 +9,16 @@ import UIKit
 
 class MainView: UIView {
 	private let searchString = UISearchBar()
+	private let uploadedImage = UIImageView()
+	private let queryService = QueryService()
 	
-	enum Constraints {
+	private enum Constraints {
 		static let searchStringOffset: CGFloat = 10
 		static let searchStringHeight: CGFloat = 50
+		
+		static let uploadedImageHeight: CGFloat = 300
+		static let uploadedImageWidth: CGFloat = 250
+		static let uploadedImageOffset: CGFloat = 10
 	}
 	
 	public init() {
@@ -31,19 +37,26 @@ class MainView: UIView {
 extension MainView {
 	func setupViewAppearance() {
 		self.setupSearchBarsView()
+		self.setupImageViews();
 		
 		self.backgroundColor = .white
 	}
 	
 	func setupSearchBarsView() {
 		self.searchString.tintColor = .blue
-		self.searchString
+		self.searchString.text = "https://i.ytimg.com/vi/sH4tzJV76YE/hqdefault.jpg"
+	}
+	
+	func setupImageViews() {
+		self.uploadedImage.contentMode = .scaleAspectFit
+		self.uploadedImage.image = UIImage(named: "dog")
 	}
 }
 
 extension MainView {
 	func setupViewLayout() {
 		self.setupSearchBarsConstraints()
+		self.setupImageViewsConstraints()
 	}
 	
 	func setupSearchBarsConstraints() {
@@ -55,6 +68,18 @@ extension MainView {
 			self.searchString.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: Constraints.searchStringOffset),
 			self.searchString.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: -Constraints.searchStringOffset),
 			self.searchString.heightAnchor.constraint(equalToConstant: Constraints.searchStringHeight)
+		])
+	}
+	
+	func setupImageViewsConstraints() {
+		self.addSubview(self.uploadedImage)
+		self.uploadedImage.translatesAutoresizingMaskIntoConstraints = false
+		
+		NSLayoutConstraint.activate([
+			self.uploadedImage.topAnchor.constraint(equalTo: self.searchString.bottomAnchor, constant: Constraints.uploadedImageOffset),
+			self.uploadedImage.heightAnchor.constraint(equalToConstant: Constraints.uploadedImageHeight),
+			self.uploadedImage.widthAnchor.constraint(equalToConstant: Constraints.uploadedImageWidth),
+			self.uploadedImage.centerXAnchor.constraint(equalTo: self.centerXAnchor)
 		])
 	}
 }
@@ -69,7 +94,10 @@ extension MainView: UISearchBarDelegate {
 	}
 	
 	func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-		//print(searchBar.text)
 		self.endEditing(true)
+		
+		self.queryService.getSearchResults(url: self.searchString.text ?? "", completion: {image, error in
+			self.uploadedImage.image = UIImage(data: image)
+		})
 	}
 }
