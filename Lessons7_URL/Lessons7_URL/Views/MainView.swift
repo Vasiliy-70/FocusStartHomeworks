@@ -7,21 +7,32 @@
 
 import UIKit
 
+protocol IMainView {
+	var loadingImage: Bool { get set }
+}
+
 class MainView: UIView {
 	private let searchString = UISearchBar()
 	private let uploadedImage = UIImageView()
-	private let queryService = QueryService()
+	private let activityIndicator = UIActivityIndicatorView(style: .medium)
+	private let imageTable: UITableView
+	private let delegate : IMainViewUserAction?
 	
 	private enum Constraints {
 		static let searchStringOffset: CGFloat = 10
 		static let searchStringHeight: CGFloat = 50
 		
-		static let uploadedImageHeight: CGFloat = 300
-		static let uploadedImageWidth: CGFloat = 250
-		static let uploadedImageOffset: CGFloat = 10
+		static let uploadedImageHeight: CGFloat = 50
+		static let uploadedImageWidth: CGFloat = 50
+		static let uploadedImageOffset: CGFloat = 5
+		
+		static let imageTableOffset: CGFloat = 10
+		static let imageTableHeight: CGFloat = 500
 	}
 	
-	public init() {
+	public init(delegate: IMainViewUserAction, tableView: UITableView) {
+		self.imageTable = tableView
+		self.delegate = delegate
 		super.init(frame: .zero)
 		
 		self.setupViewAppearance()
@@ -34,10 +45,13 @@ class MainView: UIView {
 	}
 }
 
+// MARK: SetupViewAppearance
+
 extension MainView {
 	func setupViewAppearance() {
 		self.setupSearchBarsView()
-		self.setupImageViews();
+		self.setupImagesViews()
+		self.setupTablesViews()
 		
 		self.backgroundColor = .white
 	}
@@ -47,16 +61,24 @@ extension MainView {
 		self.searchString.text = "https://i.ytimg.com/vi/sH4tzJV76YE/hqdefault.jpg"
 	}
 	
-	func setupImageViews() {
+	func setupImagesViews() {
 		self.uploadedImage.contentMode = .scaleAspectFit
 		self.uploadedImage.image = UIImage(named: "dog")
 	}
+	
+	func setupTablesViews() {
+		self.imageTable.backgroundColor = .red
+	}
 }
+
+// MARK: SetupViewLayout
 
 extension MainView {
 	func setupViewLayout() {
 		self.setupSearchBarsConstraints()
 		self.setupImageViewsConstraints()
+		self.setupImageTableConstraints()
+		self.setupIndicatorsConstraints()
 	}
 	
 	func setupSearchBarsConstraints() {
@@ -82,7 +104,31 @@ extension MainView {
 			self.uploadedImage.centerXAnchor.constraint(equalTo: self.centerXAnchor)
 		])
 	}
+	
+	func setupImageTableConstraints() {
+		self.addSubview(self.imageTable)
+		self.imageTable.translatesAutoresizingMaskIntoConstraints = false
+		
+		NSLayoutConstraint.activate([
+			self.imageTable.topAnchor.constraint(equalTo: self.uploadedImage.bottomAnchor, constant: Constraints.imageTableOffset),
+			self.imageTable.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 	Constraints.imageTableOffset),
+			self.imageTable.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -Constraints.imageTableOffset),
+			self.imageTable.heightAnchor.constraint(equalToConstant: Constraints.imageTableHeight)
+		])
+	}
+	
+	func setupIndicatorsConstraints() {
+		self.addSubview(self.activityIndicator)
+		self.activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+		
+		NSLayoutConstraint.activate([
+			self.activityIndicator.centerXAnchor.constraint(equalTo: self.uploadedImage.centerXAnchor),
+			self.activityIndicator.centerYAnchor.constraint(equalTo: self.uploadedImage.centerYAnchor)
+		])
+	}
 }
+
+// MARK: UISearchBarDelegate
 
 extension MainView: UISearchBarDelegate {
 	func setupAction() {
@@ -95,9 +141,28 @@ extension MainView: UISearchBarDelegate {
 	
 	func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 		self.endEditing(true)
-		
-		self.queryService.getSearchResults(url: self.searchString.text ?? "", completion: {image, error in
-			self.uploadedImage.image = UIImage(data: image)
-		})
+		self.delegate?.getImageAt(url: self.searchString.text ?? "")
 	}
 }
+
+// MARK: IMainView
+
+extension MainView: IMainView {
+	var loadingImage: Bool {
+		get {
+			return self.activityIndicator.isAnimating
+		}
+		set {
+			if newValue {
+				self.activityIndicator.startAnimating()
+			} else {
+				self.activityIndicator.stopAnimating()
+			}
+		}
+	}
+	
+
+}
+
+
+

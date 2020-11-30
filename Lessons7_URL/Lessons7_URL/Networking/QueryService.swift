@@ -8,7 +8,11 @@
 import Foundation
 import UIKit
 
-final class QueryService {
+protocol IQueryService: class {
+	func getDataAt(url: String, completion: @escaping (Data, String) -> Void)
+}
+
+final class QueryService: IQueryService {
 	private let defaultSession = URLSession(configuration: .default)
 	private var dataTask: URLSessionDataTask?
 	private var errorMessage = ""
@@ -16,7 +20,7 @@ final class QueryService {
 	
 	typealias QueryResult = (Data, String) -> Void
 	
-	func getSearchResults(url: String, completion: @escaping QueryResult) {
+	func getDataAt(url: String, completion: @escaping QueryResult) {
 		self.dataTask?.cancel()
 		
 		guard let url = URL(string: url) else { return assertionFailure("Not url") }
@@ -30,14 +34,10 @@ final class QueryService {
 			} else if let data = data,
 					  let response = response as? HTTPURLResponse,
 					  response.statusCode == 200 {
-				print(data)
 				self?.responseData = data
-				print(self?.responseData)
 			}
 			
-			
-			
-			DispatchQueue.main.async {
+			DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
 				completion(self?.responseData ?? Data(), self?.errorMessage ?? "")
 			}
 		}
