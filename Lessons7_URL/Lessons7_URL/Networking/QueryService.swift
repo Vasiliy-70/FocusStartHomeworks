@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol IQueryService: class {
-	func getDataAt(url: String, completion: @escaping (Data, String) -> Void)
+	func getDataAt(url: URL, completion: @escaping (Data, String) -> Void)
 }
 
 final class QueryService: IQueryService {
@@ -20,21 +20,26 @@ final class QueryService: IQueryService {
 	
 	typealias QueryResult = (Data, String) -> Void
 	
-	func getDataAt(url: String, completion: @escaping QueryResult) {
+	func getDataAt(url: URL, completion: @escaping QueryResult) {
 		self.dataTask?.cancel()
 		
-		guard let url = URL(string: url) else { return assertionFailure("Not url") }
 		self.dataTask = defaultSession.dataTask(with: url) { [weak self] data, response, error in
 			defer {
 				self?.dataTask = nil
 			}
 			
+			self?.responseData = Data()
+			self?.errorMessage = ""
+			
 			if let error = error {
-				self?.errorMessage += "Data task error: " + error.localizedDescription + "\n"
+				self?.errorMessage = "Data task error: \(error.localizedDescription)\n"
 			} else if let data = data,
-					  let response = response as? HTTPURLResponse,
-					  response.statusCode == 200 {
-				self?.responseData = data
+					  let response = response as? HTTPURLResponse {
+				if response.statusCode == 200 {
+					self?.responseData = data
+				} else {
+					self?.errorMessage = "Data task error: code \(response.statusCode)\n"
+				}
 			}
 			
 			DispatchQueue.main.asyncAfter(deadline: .now() + 2) {

@@ -13,6 +13,7 @@
 		470C79C72573CCFB007043DA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 470C79C62573CCFB007043DA /* Assets.xcassets */; };
 		470C79CA2573CCFB007043DA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 470C79C82573CCFB007043DA /* LaunchScreen.storyboard */; };
 		470C79D92573CE34007043DA /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470C79D82573CE34007043DA /* MainView.swift */; };
+		475729BF257696A500C894E3 /* ImageState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475729BE257696A500C894E3 /* ImageState.swift */; };
 		4789571925748AA500E09173 /* QueryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4789571825748AA500E09173 /* QueryService.swift */; };
 		478957242575262300E09173 /* TableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 478957232575262300E09173 /* TableCellView.swift */; };
 		47F4D2B9257562370083B27B /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F4D2B8257562370083B27B /* MainPresenter.swift */; };
@@ -28,6 +29,7 @@
 		470C79C92573CCFB007043DA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		470C79CB2573CCFB007043DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		470C79D82573CE34007043DA /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		475729BE257696A500C894E3 /* ImageState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageState.swift; sourceTree = "<group>"; };
 		4789571825748AA500E09173 /* QueryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryService.swift; sourceTree = "<group>"; };
 		478957232575262300E09173 /* TableCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCellView.swift; sourceTree = "<group>"; };
 		47F4D2B8257562370083B27B /* MainPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPresenter.swift; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 		470C79BC2573CCF9007043DA /* Lessons7_URL */ = {
 			isa = PBXGroup;
 			children = (
+				475729BD2576969600C894E3 /* Models */,
 				47F4D2B7257562210083B27B /* Presenters */,
 				4789571725748A7200E09173 /* Networking */,
 				470C79D72573CDAD007043DA /* Controllers */,
@@ -109,6 +112,14 @@
 				470C79C12573CCF9007043DA /* MainViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		475729BD2576969600C894E3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				475729BE257696A500C894E3 /* ImageState.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		4789571725748A7200E09173 /* Networking */ = {
@@ -200,6 +211,7 @@
 				470C79D92573CE34007043DA /* MainView.swift in Sources */,
 				4789571925748AA500E09173 /* QueryService.swift in Sources */,
 				470C79BE2573CCF9007043DA /* AppDelegate.swift in Sources */,
+				475729BF257696A500C894E3 /* ImageState.swift in Sources */,
 				47F4D2BD25756DBE0083B27B /* ModuleAssembly.swift in Sources */,
 				478957242575262300E09173 /* TableCellView.swift in Sources */,
 				47F4D2B9257562370083B27B /* MainPresenter.swift in Sources */,

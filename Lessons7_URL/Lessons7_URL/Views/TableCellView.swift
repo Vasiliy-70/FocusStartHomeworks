@@ -7,33 +7,45 @@
 
 import UIKit
 
+protocol ITableCell {
+	var newImage: UIImage { get set }
+	var imageLoading: Bool { get set }
+	func updateContent()
+}
+
 final class TableCellView: UITableViewCell {
 
-	var mainImage: UIImage?
+	private var mainImage = UIImage()
+	private var activity = false {
+		willSet {
+			if newValue {
+				self.activityIndicator.startAnimating()
+			} else {
+				self.activityIndicator.stopAnimating()
+			}
+		}
+	}
 	
 	private var mainImageView: UIImageView = {
 		let imageView = UIImageView()
-		imageView.translatesAutoresizingMaskIntoConstraints = false
 		imageView.contentMode = .scaleAspectFit
 		return imageView
 	}()
 	
+	private var activityIndicator: UIActivityIndicatorView = {
+		let activityIndicator = UIActivityIndicatorView()
+		activityIndicator.style = .medium
+		return activityIndicator
+	}()
+	
 	private enum Constraints {
-		static let mainImageViewWidth: CGFloat = 50
-		static let mainImageViewHeight: CGFloat = 100
+		static let imageViewOffset: CGFloat = 10
+		static let cellHeight: CGFloat = 300
 	}
 	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
-		
-		self.addSubview(self.mainImageView)
-		
-		NSLayoutConstraint.activate([
-			self.mainImageView.topAnchor.constraint(equalTo: self.topAnchor),
-			self.mainImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-			self.mainImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-			self.mainImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor)
-		])
+		setupConstraints()
 	}
 	
 	required init?(coder: NSCoder) {
@@ -43,8 +55,64 @@ final class TableCellView: UITableViewCell {
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		
-		if let image = mainImage {
-			self.mainImageView.image = image
+		self.mainImageView.image = newImage
+	}
+}
+
+// MARK: SetupConstraints
+
+extension TableCellView {
+	func setupConstraints() {
+		self.setupImagesConstraints()
+		self.setupIndicatorsConstraints()
+	}
+	
+	func setupImagesConstraints() {
+		self.addSubview(self.mainImageView)
+		self.mainImageView.translatesAutoresizingMaskIntoConstraints = false
+		
+		NSLayoutConstraint.activate([
+			self.heightAnchor.constraint(equalToConstant: Constraints.cellHeight),
+			self.mainImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: Constraints.imageViewOffset),
+			self.mainImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+			self.mainImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+			self.mainImageView.heightAnchor.constraint(equalToConstant: Constraints.cellHeight - Constraints.imageViewOffset)
+		])
+	}
+	
+	func setupIndicatorsConstraints() {
+		self.addSubview(self.activityIndicator)
+		self.activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+		
+		NSLayoutConstraint.activate([
+			self.activityIndicator.centerYAnchor.constraint(equalTo: self.mainImageView.centerYAnchor),
+			self.activityIndicator.centerXAnchor.constraint(equalTo: self.mainImageView.centerXAnchor)
+		])
+	}
+}
+
+// MARK: ITableCell
+
+extension TableCellView: ITableCell {
+	func updateContent() {
+		self.layoutSubviews()
+	}
+	
+	var newImage: UIImage {
+		get {
+			self.mainImage
+		}
+		set {
+			self.mainImage = newValue
+		}
+	}
+	
+	var imageLoading: Bool {
+		get {
+			self.activity
+		}
+		set {
+			self.activity = newValue
 		}
 	}
 }
