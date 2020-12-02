@@ -7,16 +7,12 @@
 
 import UIKit
 
-protocol IMainView: class {
-	func show(data: String)
-}
-
 class MainView: UIView {
 	// MARK: Settings
 	weak var delegate: IMainViewUserAction?
 	
-	enum Constraints {
-		static let startButtonBottomOffset: CGFloat = 50
+	private enum Constraints {
+		static let startButtonBottomOffset: CGFloat = 10
 		static let startButtonHeight: CGFloat = 50
 		static let startButtonWidth: CGFloat =  200
 		
@@ -29,14 +25,21 @@ class MainView: UIView {
 		static let textFieldWidth: CGFloat = 200
 	}
 	
+	private enum Constants {
+		static let animateDuration: TimeInterval = 2
+	}
+	
 	private let startButton = UIButton(type: .system)
 	private let descriptionLabel = UILabel()
 	private let valueInputField = UITextField()
+	private var startButtonConstraints: [NSLayoutConstraint] = []
 	
 	init() {
 		super.init(frame: .zero)
+		
 		self.setupAppearance()
 		self.setupConstraints()
+		self.setupNotifications()
 		self.setupUserAction()
 	}
 	
@@ -61,7 +64,6 @@ extension MainView {
 	}
 	
 	func setupLabelAppearance() {
-		self.descriptionLabel.text = "Я загадываю число - ты отгадываешь!"
 		self.descriptionLabel.textAlignment = .center
 		self.descriptionLabel.numberOfLines = 0
 	}
@@ -69,6 +71,7 @@ extension MainView {
 	func setupTextFieldAppearance() {
 		self.valueInputField.placeholder = "Введи число"
 		self.valueInputField.textAlignment = .center
+		self.valueInputField.keyboardType = .numberPad
 	}
 }
 
@@ -85,12 +88,14 @@ extension MainView {
 		self.addSubview(self.startButton)
 		self.startButton.translatesAutoresizingMaskIntoConstraints = false
 		
-		NSLayoutConstraint.activate([
-			self.startButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -Constraints.startButtonBottomOffset),
+		self.startButtonConstraints.append(contentsOf: [
 			self.startButton.heightAnchor.constraint(equalToConstant: Constraints.startButtonHeight),
 			self.startButton.widthAnchor.constraint(equalToConstant: Constraints.startButtonWidth),
-			self.startButton.centerXAnchor.constraint(equalTo: self.centerXAnchor)
+			self.startButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+			self.startButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -Constraints.startButtonBottomOffset)
 		])
+		
+		NSLayoutConstraint.activate(self.startButtonConstraints)
 	}
 	
 	func setupLabelConstraints() {
@@ -109,11 +114,20 @@ extension MainView {
 		self.valueInputField.translatesAutoresizingMaskIntoConstraints = false
 		
 		NSLayoutConstraint.activate([
-			self.valueInputField.topAnchor.constraint(equalTo: self.descriptionLabel.bottomAnchor, constant: Constraints.textFieldTopOffset),
+			self.valueInputField.topAnchor.constraint(greaterThanOrEqualTo: self.descriptionLabel.bottomAnchor, constant: Constraints.textFieldTopOffset),
 			self.valueInputField.heightAnchor.constraint(equalToConstant: Constraints.textFieldHeight),
 			self.valueInputField.widthAnchor.constraint(equalToConstant: Constraints.textFieldWidth),
 			self.valueInputField.centerXAnchor.constraint(equalTo: self.centerXAnchor)
 		])
+	}
+}
+
+// MARK: Notification
+
+extension MainView {
+	func setupNotifications() {
+		NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
 	}
 }
 
@@ -125,22 +139,54 @@ extension MainView {
 	}
 	
 	func setupStartButtonAction() {
-		self.startButton.addTarget(self, action: #selector(startButtonTouchUp), for: .touchUpInside)
+		self.startButton.addTarget(self, action: #selector(self.startButtonTouchUp), for: .touchUpInside)
 	}
 	
 	@objc func startButtonTouchUp(_ sender: UIButton) {
-		print("buttonPush")
-		self.delegate?.receiveUser(value: valueInputField.text ?? "")
-		valueInputField.text = ""
+		self.delegate?.check(value: valueInputField.text ?? "")
 		valueInputField.placeholder = "Ещё раз!"
+	}
+	
+	@objc func keyboardWillShow(notification: NSNotification) {
+		guard let userInfo = notification.userInfo else { return }
+		guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+		
+		NSLayoutConstraint.deactivate(self.startButtonConstraints)
+		
+		UIView.animate(withDuration: Constants.animateDuration) {
+			self.startButtonConstraints.removeLast()
+			self.startButtonConstraints.append(
+				self.startButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -(keyboardSize.height + Constraints.startButtonBottomOffset))
+			)
+			
+			NSLayoutConstraint.activate(self.startButtonConstraints)
+			self.layoutIfNeeded()
+		}
+	}
+	
+	@objc func keyboardWillHide(notification: NSNotification) {
+		NSLayoutConstraint.deactivate(self.startButtonConstraints)
+		
+		UIView.animate(withDuration: Constants.animateDuration) {
+			self.startButtonConstraints.removeLast()
+			self.startButtonConstraints.append(
+				self.startButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -Constraints.startButtonBottomOffset)
+			)
+			
+			NSLayoutConstraint.activate(self.startButtonConstraints)
+			self.layoutIfNeeded()
+		}
 	}
 }
 
 // MARK: IMainView
 
 extension MainView: IMainView {
-
-	func show(data: String) {
-		self.descriptionLabel.text = data
+	func show(value: String) {
+		valueInputField.text = value
+	}
+	
+	func show(tutorial: String) {
+		self.descriptionLabel.text = tutorial
 	}
 }

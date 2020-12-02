@@ -11,6 +11,8 @@
 		47B2DB332562B5D000CCB096 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B2DB322562B5D000CCB096 /* Model.swift */; };
 		47B2DB372562B63900CCB096 /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B2DB362562B63900CCB096 /* MainPresenter.swift */; };
 		47B2DB3A2562B70200CCB096 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B2DB392562B70200CCB096 /* MainView.swift */; };
+		47DFE4E22577FCCA00162BF7 /* MainModuleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DFE4E12577FCCA00162BF7 /* MainModuleAssembly.swift */; };
+		47DFE4E62577FFA600162BF7 /* StatsModuleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DFE4E52577FFA600162BF7 /* StatsModuleAssembly.swift */; };
 		47E1AEBC256293B8008AAC3C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E1AEBB256293B8008AAC3C /* AppDelegate.swift */; };
 		47E1AEBE256293B8008AAC3C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E1AEBD256293B8008AAC3C /* SceneDelegate.swift */; };
 		47E1AEC0256293B8008AAC3C /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E1AEBF256293B8008AAC3C /* MainViewController.swift */; };
@@ -20,7 +22,6 @@
 		47F76BC32563084200CF61F2 /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F76BC22563084200CF61F2 /* StatsViewController.swift */; };
 		47F76BC92563095500CF61F2 /* StatsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F76BC82563095500CF61F2 /* StatsPresenter.swift */; };
 		47F76BD32563781400CF61F2 /* CoordinateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F76BD22563781400CF61F2 /* CoordinateController.swift */; };
-		47F76BD62563827600CF61F2 /* FlowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F76BD52563827600CF61F2 /* FlowController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,8 @@
 		47B2DB322562B5D000CCB096 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		47B2DB362562B63900CCB096 /* MainPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPresenter.swift; sourceTree = "<group>"; };
 		47B2DB392562B70200CCB096 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		47DFE4E12577FCCA00162BF7 /* MainModuleAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainModuleAssembly.swift; sourceTree = "<group>"; };
+		47DFE4E52577FFA600162BF7 /* StatsModuleAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsModuleAssembly.swift; sourceTree = "<group>"; };
 		47E1AEB8256293B8008AAC3C /* Lessons5_Architecture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lessons5_Architecture.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47E1AEBB256293B8008AAC3C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		47E1AEBD256293B8008AAC3C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -39,7 +42,6 @@
 		47F76BC22563084200CF61F2 /* StatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
 		47F76BC82563095500CF61F2 /* StatsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsPresenter.swift; sourceTree = "<group>"; };
 		47F76BD22563781400CF61F2 /* CoordinateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateController.swift; sourceTree = "<group>"; };
-		47F76BD52563827600CF61F2 /* FlowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,13 +55,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		47B2DB2B2562B31100CCB096 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Controllers;
-			sourceTree = "<group>";
-		};
 		47B2DB2C2562B32700CCB096 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -74,7 +69,6 @@
 				47E1AEBB256293B8008AAC3C /* AppDelegate.swift */,
 				47E1AEBD256293B8008AAC3C /* SceneDelegate.swift */,
 				4783A2262562CA8B0055B1C0 /* ModuleAssembly.swift */,
-				47F76BD52563827600CF61F2 /* FlowController.swift */,
 				47F76BD22563781400CF61F2 /* CoordinateController.swift */,
 			);
 			path = Application;
@@ -122,7 +116,6 @@
 				47B2DB312562B59800CCB096 /* Models */,
 				47B2DB2E2562B34600CCB096 /* Resources */,
 				47B2DB2C2562B32700CCB096 /* Views */,
-				47B2DB2B2562B31100CCB096 /* Controllers */,
 			);
 			path = Lessons5_Architecture;
 			sourceTree = "<group>";
@@ -133,6 +126,7 @@
 				47B2DB392562B70200CCB096 /* MainView.swift */,
 				47E1AEBF256293B8008AAC3C /* MainViewController.swift */,
 				47B2DB362562B63900CCB096 /* MainPresenter.swift */,
+				47DFE4E12577FCCA00162BF7 /* MainModuleAssembly.swift */,
 			);
 			path = MainViewModule;
 			sourceTree = "<group>";
@@ -143,6 +137,7 @@
 				47F76BBF256307C000CF61F2 /* StatsView.swift */,
 				47F76BC22563084200CF61F2 /* StatsViewController.swift */,
 				47F76BC82563095500CF61F2 /* StatsPresenter.swift */,
+				47DFE4E52577FFA600162BF7 /* StatsModuleAssembly.swift */,
 			);
 			path = StatsViewModule;
 			sourceTree = "<group>";
@@ -222,12 +217,13 @@
 				47E1AEBC256293B8008AAC3C /* AppDelegate.swift in Sources */,
 				4783A2272562CA8B0055B1C0 /* ModuleAssembly.swift in Sources */,
 				47F76BC0256307C000CF61F2 /* StatsView.swift in Sources */,
+				47DFE4E22577FCCA00162BF7 /* MainModuleAssembly.swift in Sources */,
+				47DFE4E62577FFA600162BF7 /* StatsModuleAssembly.swift in Sources */,
 				47E1AEBE256293B8008AAC3C /* SceneDelegate.swift in Sources */,
 				47F76BC92563095500CF61F2 /* StatsPresenter.swift in Sources */,
 				47B2DB332562B5D000CCB096 /* Model.swift in Sources */,
 				47F76BC32563084200CF61F2 /* StatsViewController.swift in Sources */,
 				47B2DB372562B63900CCB096 /* MainPresenter.swift in Sources */,
-				47F76BD62563827600CF61F2 /* FlowController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

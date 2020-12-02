@@ -7,25 +7,35 @@
 
 import UIKit
 	
-enum ModuleNumber {
-	case first
-	case second
+protocol ICoordinateController: class {
+	func initialViewController()
+	func showStatistics()
+	var navigationController: UINavigationController? { get set }
+	var moduleAssembly: IModuleAssembly? { get set }
 }
 
 final class CoordinateController {
-	private var views = [ModuleNumber : UIViewController]()
+	var navigationController: UINavigationController?
+	var moduleAssembly: IModuleAssembly?
 	
-	func addModule(number: ModuleNumber, vc: UIViewController) {
-		views[number] = vc
+	init(navigationController: UINavigationController, moduleAssembly: IModuleAssembly) {
+		self.navigationController = navigationController
+		self.moduleAssembly = moduleAssembly
 	}
 }
 
-extension CoordinateController {
-	func switchModule() {
-		
-		guard let current = views[.first] else { return assertionFailure() }
-		guard let next = views[.second] else { return assertionFailure() }
-		
-		current.navigationController?.pushViewController(next, animated: true)
+extension CoordinateController: ICoordinateController {
+	func initialViewController() {
+		guard let navigationController = self.navigationController,
+			  let mainViewController = self.moduleAssembly?.createMainModule(coordinateController: self) else { assertionFailure("Error in initial mainViewController"); return }
+		navigationController.viewControllers = [mainViewController]
 	}
+	
+	func showStatistics() {
+		guard let navigationController = self.navigationController,
+			  let statsViewController = self.moduleAssembly?.createStatsModule(coordinateController: self) else { assertionFailure("Error in creating of statsViewController"); return }
+		navigationController.pushViewController(statsViewController, animated: true)
+	}
+	
+	
 }

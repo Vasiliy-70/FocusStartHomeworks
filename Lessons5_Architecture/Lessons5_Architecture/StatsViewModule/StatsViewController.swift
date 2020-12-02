@@ -7,8 +7,8 @@
 
 import UIKit
 
-protocol IStatsViewController: class {
-	func set(allValues: [Int])
+protocol IStatsView: class {
+	func show(string: String)
 }
 
 final class StatsViewController: UIViewController {
@@ -20,18 +20,17 @@ final class StatsViewController: UIViewController {
 		self.view = self.customView
 	}
 	
-	override func viewDidLoad() {
-		super.viewDidLoad()
-	}
-	
 	override func viewWillAppear(_ animated: Bool) {
 		self.presenter?.getStatistic()
 	}
+	
+	override func viewDidDisappear(_ animated: Bool) {
+		self.presenter?.cleanStatistic()
+	}
 }
 
-extension StatsViewController: IStatsViewController {
-	func set(allValues: [Int]) {
-		let desciption = "Поздравляю! Ты выиграл!\nТвои попытки: \n\(allValues)"
-		self.customView.show(data: desciption)
+extension StatsViewController: IStatsView {
+	func show(string: String) {
+		self.customView.show(string: string)
 	}
 }

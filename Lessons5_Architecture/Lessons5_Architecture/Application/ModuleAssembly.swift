@@ -7,21 +7,20 @@
 
 import UIKit
 
-enum ModuleAssembly {
-	static let model = Model(minValue: 0, maxValue: 5)
+protocol IModuleAssembly {
+	func createMainModule(coordinateController: ICoordinateController) -> UIViewController
+	func createStatsModule(coordinateController: ICoordinateController) -> UIViewController
+}
+
+final class ModuleAssembly: IModuleAssembly {
+	var model = Model(minValue: 0, maxValue: 5)
 	
-	static func createMainModule(coordinateController: CoordinateController) -> UIViewController {
-		let view = MainViewController()
-		let presenter = MainPresenter(coordinateController: coordinateController, viewController: view, model: model)
-		view.presenter = presenter
-		return view
+	func createMainModule(coordinateController: ICoordinateController) -> UIViewController {
+		MainModuleAssembly.createMainModule(coordinateController: coordinateController, model: model)
 	}
 	
-	static func createStatsModule(coordinateController: CoordinateController) -> UIViewController {
-		let view = StatsViewController()
-		let presenter = StatsPresenter(viewController: view, model: model)
-		view.presenter = presenter
-		return view
+	func createStatsModule(coordinateController: ICoordinateController) -> UIViewController {
+		StatsModuleAssembly.createStatsModule(coordinateController: coordinateController, model: model)
 	}
 }
 

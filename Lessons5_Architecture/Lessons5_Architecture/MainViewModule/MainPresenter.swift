@@ -13,16 +13,15 @@ protocol IMainPresenter: class {
 }
 
 final class MainPresenter {
-	
-	weak var viewController: IMainViewController?
-	weak var coordinateController: CoordinateController?
+	weak var viewController: IMainView?
+	var coordinateController: ICoordinateController?
 	private var model: Model
 	
 	private var receivedValue = 0
 	private var minValue: Int
 	private var maxValue: Int
 	
-	init(coordinateController: CoordinateController, viewController: IMainViewController, model: Model) {
+	init(coordinateController: ICoordinateController, viewController: IMainView, model: Model) {
 		self.coordinateController = coordinateController
 		self.viewController = viewController
 		self.model = model
@@ -35,12 +34,12 @@ extension MainPresenter {
 	func compareValues(receivedValue: Int) {
 		let randomValue = Int.random(in: self.minValue...self.maxValue)
 		if randomValue == self.receivedValue {
-			self.coordinateController?.switchModule()
+			self.coordinateController?.showStatistics()
 		}
 	}
 	
 	func safeUserData() {
-		self.model.previousValue.append(self.receivedValue)
+		self.model.previousValues.append(self.receivedValue)
 	}
 }
 
@@ -50,16 +49,15 @@ extension MainPresenter: IMainPresenter {
 			return self.receivedValue
 		}
 		set {
+			self.viewController?.show(value: "")
 			self.receivedValue = newValue
 			self.safeUserData()
 			self.compareValues(receivedValue: newValue)
-			
 		}
 	}
 	
 	func requestData() {
-		self.minValue = self.model.minValue
-		self.maxValue = self.model.maxValue
-		self.viewController?.set(minValue: self.minValue, maxValue: self.maxValue)
+		let description = "Угадай число, которое я загадал😛\n (подсказка: диапазон от \(self.minValue) до \(self.maxValue))"
+		self.viewController?.show(tutorial: description)
 	}
 }
