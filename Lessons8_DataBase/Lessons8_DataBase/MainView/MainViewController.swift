@@ -7,16 +7,16 @@
 
 import UIKit
 
-protocol IMainView: class {
+protocol IMainViewController: class {
 	func updateData()
 }
 
 class MainViewController: UIViewController {
 	
 	var presenter: IMainPresenter?
-	private var addView: UIAlertController?
+	private var addCompanyView: UIAlertController?
 	
-	private var tableView = UITableView()
+	private var companiesTable = UITableView()
 	
 	private let cellIdentifier = "cellId"
 	
@@ -31,7 +31,7 @@ class MainViewController: UIViewController {
 	}
 	
 	override func loadView() {
-		self.view = MainView(table: self.tableView)
+		self.view = MainView(table: self.companiesTable)
 	}
 	
 }
@@ -45,24 +45,24 @@ extension MainViewController {
 	}
 	
 	func configureTable() {
-		self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: self.cellIdentifier)
+		self.companiesTable.register(UITableViewCell.self, forCellReuseIdentifier: self.cellIdentifier)
 		
-		self.tableView.delegate = self
-		self.tableView.dataSource = self
+		self.companiesTable.delegate = self
+		self.companiesTable.dataSource = self
 	}
 	
 	func configureAddView() {
 		let addViewAlert = 	UIAlertController(title: "Add company", message: "Enter company name", preferredStyle: .alert)
 		let action = UIAlertAction(title: "Add", style: .default, handler: {[weak self] _ in
 			if let self = self {
-				self.presenter?.add(company: self.addView?.textFields?.first?.text ?? "undefined")
-				self.addView?.textFields?.first?.text = ""
+				self.presenter?.add(company: self.addCompanyView?.textFields?.first?.text ?? "undefined")
+				self.addCompanyView?.textFields?.first?.text = ""
 			}
 		})
 		
 		addViewAlert.addTextField(configurationHandler: nil)
 		addViewAlert.addAction(action)
-		self.addView = addViewAlert
+		self.addCompanyView = addViewAlert
 	}
 }
 
@@ -75,10 +75,14 @@ extension MainViewController: UITableViewDelegate {
 	
 	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
-			if let name = self.tableView.cellForRow(at: indexPath)?.textLabel?.text {
+			if let name = self.companiesTable.cellForRow(at: indexPath)?.textLabel?.text {
 				self.presenter?.remove(company: name, atIndex: indexPath.row)
 			}
 		}
+	}
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		self.presenter?.requestDetailView()
 	}
 }
 
@@ -96,11 +100,11 @@ extension MainViewController: UITableViewDataSource {
 	}
 }
 
-// MARK: IMainView
+// MARK: IMainViewController
 
-extension MainViewController: IMainView {
+extension MainViewController: IMainViewController {
 	func updateData() {
-		self.tableView.reloadData()
+		self.companiesTable.reloadData()
 	}
 }
 
@@ -108,7 +112,7 @@ extension MainViewController: IMainView {
 
 extension MainViewController {
 	@objc func addCompany() {
-		if let addView = self.addView {
+		if let addView = self.addCompanyView {
 			self.present(addView, animated: true, completion: nil)
 		}
 	}

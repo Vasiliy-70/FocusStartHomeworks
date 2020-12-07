@@ -9,13 +9,15 @@ import Foundation
 
 protocol IMainPresenter: class {
 	var companiesList: [String] { get }
-	func requestData()
 	func add(company: String)
 	func remove(company: String, atIndex: Int)
+	func requestData()
+	func setData()
+	func requestDetailView()
 }
 
 final class MainPresenter {
-	private weak var view: IMainView?
+	private weak var view: IMainViewController?
 	private var coordinateController: ICoordinateController
 	private var model: TestModel
 	
@@ -25,25 +27,26 @@ final class MainPresenter {
 		}
 	}
 	
-	public init(view: IMainView, model: TestModel, coordinateController: ICoordinateController) {
+	public init(view: IMainViewController, model: TestModel, coordinateController: ICoordinateController) {
 		self.view = view
 		self.model = model
 		self.coordinateController = coordinateController
 	}
 }
 
-extension MainPresenter {
+extension MainPresenter: IMainPresenter {
+	func requestDetailView() {
+		self.coordinateController.showEmployeesList()
+	}
+	
 	func requestData() {
-		self.companies = self.model.getData()
-		self.view?.updateData()
+		self.companies = self.model.getCompaniesData()
 	}
 	
 	func setData() {
-		self.model.setData(self.companies)
+		self.model.setCompaniesData(self.companies)
 	}
-}
-
-extension MainPresenter: IMainPresenter {
+	
 	func remove(company: String, atIndex: Int) {
 		if self.companies[atIndex] == company {
 			self.companies.remove(at: atIndex)

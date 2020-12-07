@@ -7,7 +7,8 @@
 
 import UIKit
 
-protocol ICoordinateController {
+protocol ICoordinateController: class {
+	func showEmployeesList()
 }
 
 final class CoordinateController: ICoordinateController {
@@ -21,9 +22,19 @@ final class CoordinateController: ICoordinateController {
 	
 	func initialStartViewController() {
 		guard let navigationController = self.navigationController,
-			  let mainViewController = self.modulesAssembly?.createMainModule(coordinateController: self) else {
-			assertionFailure("Error init start vc"); return
+			  let mainViewController = self.modulesAssembly?.createMainModule(coordinateController: self)
+		else { assertionFailure("Error init start vc"); return
 		}
 		navigationController.viewControllers = [mainViewController]
+	}
+	
+	func showEmployeesList() {
+		guard let navigationController = self.navigationController,
+			  let detailViewController = self.modulesAssembly?.createDetailModule(coordinateController: self)
+		else {
+			assertionFailure("Error init detailView")
+			return
+		}
+		navigationController.pushViewController(detailViewController, animated: true)
 	}
 }

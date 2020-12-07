@@ -8,13 +8,22 @@
 import Foundation
 
 class TestModel {
-	private var Data: [String] = []
+	private var companies: [String] = []
+	private var employees: [String] = []
 	
-	func getData() -> [String] {
-		return self.Data
+	func getCompaniesData() -> [String] {
+		return self.companies
 	}
 	
-	func setData(_ data: [String]) {
-		self.Data = data
+	func setCompaniesData(_ data: [String]) {
+		self.companies = data
+	}
+	
+	func getEmployees() -> [String] {
+		return self.employees
+	}
+	
+	func setEmployeesData(_ data: [String]) {
+		self.employees = data
 	}
 }

@@ -7,19 +7,25 @@
 
 import UIKit
 
-protocol IModulesAssembly {
+protocol IModulesAssembly: class {
 	func createMainModule(coordinateController: ICoordinateController) -> UIViewController
+	func createDetailModule(coordinateController: ICoordinateController) -> UIViewController
 }
 
 final class ModulesAssembly: IModulesAssembly {
 	private var model = TestModel()
 	
 	init() {
-		model.setData(["Microsoft", "Apple"])
+		model.setCompaniesData(["Microsoft", "Apple"])
 	}
 	
 	func createMainModule(coordinateController: ICoordinateController) -> UIViewController {
 		let view = MainModuleAssemble.createMainModule(model: self.model, coordinateController: coordinateController)
+		return view
+	}
+	
+	func createDetailModule(coordinateController: ICoordinateController) -> UIViewController {
+		let view = SecondModuleAssembly.createDetailModule(model: self.model, coordinateController: coordinateController)
 		return view
 	}
 }

@@ -13,6 +13,7 @@ class MainView: UIView {
 	private enum Constraints {
 		static let companiesTableOffset: CGFloat = 10
 	}
+	
 	init(table: UITableView) {
 		self.companiesTable = table
 		super.init(frame: .zero)
