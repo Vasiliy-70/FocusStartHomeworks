@@ -13,20 +13,17 @@ protocol IModulesAssembly: class {
 }
 
 final class ModulesAssembly: IModulesAssembly {
-	private var model = TestModel()
-	
-	init() {
-		model.setCompaniesData(["Microsoft", "Apple"])
-	}
+	private var queryModel = ModelQueryService()
 	
 	func createMainModule(coordinateController: ICoordinateController) -> UIViewController {
-		let view = MainModuleAssemble.createMainModule(model: self.model, coordinateController: coordinateController)
+		let view = MainModuleAssemble.createMainModule(queryModel: self.queryModel, coordinateController: coordinateController)
 		return view
 	}
 	
 	func createDetailModule(coordinateController: ICoordinateController) -> UIViewController {
-		let view = SecondModuleAssembly.createDetailModule(model: self.model, coordinateController: coordinateController)
-		return view
+		//let view = SecondModuleAssembly.createDetailModule(model: self.model, coordinateController: coordinateController)
+		//return view
+		return UIViewController()
 	}
 }
 

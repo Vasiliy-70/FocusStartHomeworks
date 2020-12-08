@@ -23,8 +23,8 @@ class MainViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addCompany))
-		self.navigationItem.title = "Companies List"
+		self.navigationItem.rightBarButtonItems = [ UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addCompany))]
+		self.navigationItem.title = "Company List"
 		
 		self.configureElements()
 		self.presenter?.requestData()
@@ -53,15 +53,19 @@ extension MainViewController {
 	
 	func configureAddView() {
 		let addViewAlert = 	UIAlertController(title: "Add company", message: "Enter company name", preferredStyle: .alert)
-		let action = UIAlertAction(title: "Add", style: .default, handler: {[weak self] _ in
+		let saveAction = UIAlertAction(title: "Save", style: .default, handler: {[weak self] _ in
 			if let self = self {
 				self.presenter?.add(company: self.addCompanyView?.textFields?.first?.text ?? "undefined")
 				self.addCompanyView?.textFields?.first?.text = ""
 			}
 		})
+		let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: {[weak self] _ in
+			self?.addCompanyView?.textFields?.first?.text = ""
+		})
 		
 		addViewAlert.addTextField(configurationHandler: nil)
-		addViewAlert.addAction(action)
+		addViewAlert.addAction(saveAction)
+		addViewAlert.addAction(cancelAction)
 		self.addCompanyView = addViewAlert
 	}
 }
@@ -75,8 +79,8 @@ extension MainViewController: UITableViewDelegate {
 	
 	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
-			if let name = self.companiesTable.cellForRow(at: indexPath)?.textLabel?.text {
-				self.presenter?.remove(company: name, atIndex: indexPath.row)
+			if (self.companiesTable.cellForRow(at: indexPath)?.textLabel?.text) != nil {
+				self.presenter?.removeCompanyAt(index: indexPath.row)
 			}
 		}
 	}
@@ -90,12 +94,12 @@ extension MainViewController: UITableViewDelegate {
 
 extension MainViewController: UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return self.presenter?.companiesList.count ?? 0
+		return self.presenter?.companyList.count ?? 0
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath)
-		cell.textLabel?.text = self.presenter?.companiesList[indexPath.row]
+		cell.textLabel?.text = self.presenter?.companyList[indexPath.row]
 		return cell
 	}
 }

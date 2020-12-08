@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		473D4F22257FC16B00AD2DB9 /* ModelQueryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473D4F21257FC16B00AD2DB9 /* ModelQueryService.swift */; };
 		475F408E257D0D2200696695 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475F408D257D0D2200696695 /* AppDelegate.swift */; };
 		475F4090257D0D2200696695 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475F408F257D0D2200696695 /* SceneDelegate.swift */; };
 		475F4098257D0D2200696695 /* Lessons8_DataBase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 475F4096257D0D2200696695 /* Lessons8_DataBase.xcdatamodeld */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		473D4F21257FC16B00AD2DB9 /* ModelQueryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelQueryService.swift; sourceTree = "<group>"; };
 		475F408A257D0D2200696695 /* Lessons8_DataBase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lessons8_DataBase.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		475F408D257D0D2200696695 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		475F408F257D0D2200696695 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 		475F40A7257D0D5100696695 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				473D4F21257FC16B00AD2DB9 /* ModelQueryService.swift */,
 				475F4096257D0D2200696695 /* Lessons8_DataBase.xcdatamodeld */,
 				475F40C0257D1FFD00696695 /* TestModel.swift */,
 			);
@@ -225,6 +228,7 @@
 				47C510E1257E6326003917C0 /* CoordinateController.swift in Sources */,
 				475F408E257D0D2200696695 /* AppDelegate.swift in Sources */,
 				475F4090257D0D2200696695 /* SceneDelegate.swift in Sources */,
+				473D4F22257FC16B00AD2DB9 /* ModelQueryService.swift in Sources */,
 				4787D52E257E9EBA00D94AAC /* SecondPresenter.swift in Sources */,
 				475F40B8257D164700696695 /* MainViewController.swift in Sources */,
 				475F40BE257D1F9400696695 /* MainModuleAssembly.swift in Sources */,

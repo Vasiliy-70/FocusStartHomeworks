@@ -8,58 +8,85 @@
 import Foundation
 
 protocol IMainPresenter: class {
-	var companiesList: [String] { get }
+	var companyList: [String] { get }
 	func add(company: String)
-	func remove(company: String, atIndex: Int)
+	func removeCompanyAt(index: Int)
 	func requestData()
 	func setData()
 	func requestDetailView()
 }
 
+protocol IQueueModelObserver: class {
+	func notifierDataUpdate()
+}
+
 final class MainPresenter {
 	private weak var view: IMainViewController?
 	private var coordinateController: ICoordinateController
-	private var model: TestModel
+	private var queryModel: IModelQueryService
 	
-	private var companies: [String] = [] {
+	private var companyNames = [String]() {
 		didSet {
 			self.view?.updateData()
 		}
 	}
 	
-	public init(view: IMainViewController, model: TestModel, coordinateController: ICoordinateController) {
+	private var companyData = [Company]() {
+		didSet {
+			for company in self.companyData {
+				if let name = company.name,
+				   !self.companyNames.contains(name) {
+					self.companyNames.append(name)
+				}
+			}
+		}
+	}
+	
+	public init(view: IMainViewController, queryModel: IModelQueryService, coordinateController: ICoordinateController) {
 		self.view = view
-		self.model = model
 		self.coordinateController = coordinateController
+		self.queryModel = queryModel
+		self.queryModel.register(observer: self, modelType: .company)
 	}
 }
 
 extension MainPresenter: IMainPresenter {
+	var companyList: [String] {
+		get {
+			self.companyNames
+		}
+	}
+	
 	func requestDetailView() {
 		self.coordinateController.showEmployeesList()
 	}
 	
 	func requestData() {
-		self.companies = self.model.getCompaniesData()
+		self.companyData = self.queryModel.fetchRequest() ?? []
+		//self.companies = self.model.getCompaniesData()
 	}
 	
 	func setData() {
-		self.model.setCompaniesData(self.companies)
+		
+		//self.model.setCompaniesData(self.companies)
 	}
 	
-	func remove(company: String, atIndex: Int) {
-		if self.companies[atIndex] == company {
-			self.companies.remove(at: atIndex)
+	func removeCompanyAt(index: Int) {
+		self.companyNames.remove(at: index)
+		if let uuid = self.companyData[index].id {
+			self.queryModel.removeCompany(atId: uuid)
 		}
 	}
 	
 	func add(company: String) {
-		self.companies.append(company)
+		let uuid = UUID().uuidString
+		self.companyNames.append(company)
+		self.queryModel.add(company: company, id: uuid)
 	}
-		
-	var companiesList: [String] {
-		get {
-			return self.companies
-		}
+}
+
+extension MainPresenter: IQueueModelObserver {
+	func notifierDataUpdate() {
+		self.requestData()
 	}
 }
