@@ -11,7 +11,7 @@ protocol ISecondPresenter: class {
 	var employeeList: [String] { get }
 	func removeEmployeeAt(index: Int)
 	func requestData()
-	func showAddEmployeeView()
+	func showEmployeeInfo(editMode: Bool)
 }
 
 final class SecondPresenter {
@@ -33,11 +33,6 @@ final class SecondPresenter {
 				if let name = employee.name {
 					self.employeeNames.append(name)
 				}
-			/*for employee in self.employeeData {
-				if let name = employee.name,
-				   !self.employeeNames.contains(name) {
-					self.employeeNames.append(name)
-				}*/
 			}
 		}
 	}
@@ -67,8 +62,8 @@ extension SecondPresenter: ISecondPresenter {
 		self.employeeData = self.queryModel.fetchRequestEmployees(companyID: self.companyID) ?? []
 	}
 	
-	func showAddEmployeeView() {
-		self.coordinateController.showAddEmployeeView(companyID: self.companyID)
+	func showEmployeeInfo(editMode: Bool) {
+		self.coordinateController.showEmployeeInfo(companyID: self.companyID, editMode: editMode)
 	}
 }
 

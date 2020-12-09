@@ -6,12 +6,16 @@
         <relationship name="employees" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Employee" inverseName="company" inverseEntity="Employee"/>
     </entity>
     <entity name="Employee" representedClassName="Employee" syncable="YES" codeGenerationType="class">
+        <attribute name="age" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="education" optional="YES" attributeType="String"/>
+        <attribute name="experience" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" attributeType="String"/>
+        <attribute name="position" attributeType="String"/>
         <relationship name="company" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Company" inverseName="employees" inverseEntity="Company"/>
     </entity>
     <elements>
         <element name="Company" positionX="-480.6845703125" positionY="-315.1070251464844" width="128" height="74"/>
-        <element name="Employee" positionX="-475.6878662109375" positionY="-45.83291625976562" width="128" height="74"/>
+        <element name="Employee" positionX="-475.6878662109375" positionY="-45.83291625976562" width="128" height="134"/>
     </elements>
 </model>

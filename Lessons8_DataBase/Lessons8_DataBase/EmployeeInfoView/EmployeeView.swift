@@ -9,7 +9,7 @@ import UIKit
 
 class EmployeeView: UIView {
 	
-	private var delegate: IAddEmployeeView
+	private var delegate: AddEmployeeViewController
 	
 	private var nameLabel = UILabel()
 	private var ageLabel = UILabel()
@@ -30,7 +30,7 @@ class EmployeeView: UIView {
 		static let textFieldsOffset: CGFloat = 10
 	}
 	
-	init(delegate: IAddEmployeeView) {
+	init(delegate: AddEmployeeViewController) {
 		self.delegate = delegate
 		super.init(frame: .zero)
 		self.backgroundColor = .white

@@ -8,9 +8,8 @@
 import UIKit
 
 protocol ICoordinateController: class {
-	func showEmployeesList()
 	func showEmployeesCompanyAt(companyID: UUID)
-	func showAddEmployeeView(companyID: UUID)
+	func showEmployeeInfo(companyID: UUID, editMode: Bool)
 }
 
 final class CoordinateController: ICoordinateController {
@@ -29,17 +28,7 @@ final class CoordinateController: ICoordinateController {
 		let mainViewController = MainModuleAssembly.createMainModule(coordinateController: self)
 		navigationController.viewControllers = [mainViewController]
 	}
-	
-	func showEmployeesList() {
-		/*guard let navigationController = self.navigationController
-		else {
-			assertionFailure("Error init showEmployeesList")
-			return
-		}
-		let secondViewController = SecondModuleAssembly.createSecondModule(coordinateController: self)
-		navigationController.pushViewController(secondViewController, animated: true)*/
-	}
-	
+		
 	func showEmployeesCompanyAt(companyID: UUID) {
 		guard let navigationController = self.navigationController
 		else {
@@ -49,23 +38,14 @@ final class CoordinateController: ICoordinateController {
 		let secondViewController = SecondModuleAssembly.createSecondModule(coordinateController: self, companyID: companyID)
 		navigationController.pushViewController(secondViewController, animated: true)
 	}
-	/*func showEmployeesCompanyAt(id: UUID) {
+
+	func showEmployeeInfo(companyID: UUID, editMode: Bool) {
 		guard let navigationController = self.navigationController
 		else {
 			assertionFailure("Error init showAddEmployeeList")
 			return
 		}
-		let addEmployeeViewController = AddEmployeeModuleAssembly.createAddEmployeeModule()
-		navigationController.pushViewController(addEmployeeViewController, animated: true)
-	}*/
-	
-	func showAddEmployeeView(companyID: UUID) {
-		guard let navigationController = self.navigationController
-		else {
-			assertionFailure("Error init showAddEmployeeList")
-			return
-		}
-		let addEmployeeViewController = AddEmployeeModuleAssembly.createAddEmployeeModule(companyID: companyID)
+		let addEmployeeViewController = AddEmployeeModuleAssembly.createAddEmployeeModule(companyID: companyID, editMode: editMode)
 		navigationController.pushViewController(addEmployeeViewController, animated: true)
 	}
 }

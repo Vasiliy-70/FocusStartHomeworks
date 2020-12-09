@@ -7,38 +7,47 @@
 
 import UIKit
 
-protocol IAddEmployeeView: class {
-	//var employeeInfo: [(String, String)] { get set }
-	var employeeInfo: [EmployeePropertyKey:String] { get set }
-}
 
-enum EmployeePropertyKey {
-	case name
-}
-
-class AddEmployeeViewController: UIViewController, IAddEmployeeView {
+class AddEmployeeViewController: UIViewController {
 	
-	var employeeInfo: [EmployeePropertyKey : String] = [:]
-	
+	var employeeInfo: [EmployeePropertyKey : String?] = [:]
 	var presenter: IAddEmployeePresenter?
-	//private var employeeInfo = [(String, String)]()
-		
+	private let editMode: Bool
 	
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	init(editMode: Bool) {
+		self.editMode = editMode
+		super.init(nibName: nil, bundle: nil)
+		
+		if self.editMode {
+			
+		}
+
+	}
+	
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
 		
 		self.navigationItem.rightBarButtonItems = [ UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.saveEmployee))]
-    }
+		
+	}
 	
 	override func loadView() {
-		self.view = AddEmployeeView(delegate: self)
+		if let presenter = self.presenter {
+			self.employeeInfo = presenter.getEmployeeInfo()
+		}
+		self.view = AddEmployeeView(delegate: self, editMode: self.editMode)
 	}
 }
 
 extension AddEmployeeViewController {
-	 @objc func saveEmployee() {
-		guard let name = self.employeeInfo[.name] else { return }
-			self.presenter?.saveEmployee(name: name)
-		self.navigationController?.popViewController(animated: true)
-	 }
- }
+	@objc func saveEmployee() {
+		if let view = self.view as? IEmployeeInfoView {
+			let employee = view.getEmployeeInfo()
+			self.presenter?.saveEmployee(info: employee)
+		}
+	}
+}

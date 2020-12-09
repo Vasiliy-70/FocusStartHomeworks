@@ -8,8 +8,8 @@
 import UIKit
 
 enum AddEmployeeModuleAssembly {
-	static func createAddEmployeeModule(companyID: UUID) -> UIViewController {
-		let view = AddEmployeeViewController()
+	static func createAddEmployeeModule(companyID: UUID, editMode: Bool) -> UIViewController {
+		let view = AddEmployeeViewController(editMode: editMode)
 		let presenter = AddEmployeePresenter(view: view, companyID: companyID)
 		view.presenter = presenter
 		return view
