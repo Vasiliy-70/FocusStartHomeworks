@@ -9,32 +9,42 @@ import UIKit
 
 protocol ICoordinateController: class {
 	func showEmployeesList()
+	func showAddEmployeeList()
 }
 
 final class CoordinateController: ICoordinateController {
 	private var navigationController: UINavigationController?
-	private var modulesAssembly: IModulesAssembly?
 	
-	init(navigationController: UINavigationController, modulesAssembly: IModulesAssembly) {
+	init(navigationController: UINavigationController) {
 		self.navigationController = navigationController
-		self.modulesAssembly = modulesAssembly
 	}
 	
 	func initialStartViewController() {
-		guard let navigationController = self.navigationController,
-			  let mainViewController = self.modulesAssembly?.createMainModule(coordinateController: self)
-		else { assertionFailure("Error init start vc"); return
+		guard let navigationController = self.navigationController
+		else {
+			assertionFailure("Error init start vc"); return
 		}
+		let mainViewController = MainModuleAssembly.createMainModule(coordinateController: self)
 		navigationController.viewControllers = [mainViewController]
 	}
 	
 	func showEmployeesList() {
-		guard let navigationController = self.navigationController,
-			  let detailViewController = self.modulesAssembly?.createDetailModule(coordinateController: self)
+		guard let navigationController = self.navigationController
 		else {
-			assertionFailure("Error init detailView")
+			assertionFailure("Error init showEmployeesList")
 			return
 		}
-		navigationController.pushViewController(detailViewController, animated: true)
+		let secondViewController = SecondModuleAssembly.createSecondModule(coordinateController: self)
+		navigationController.pushViewController(secondViewController, animated: true)
+	}
+	
+	func showAddEmployeeList() {
+		guard let navigationController = self.navigationController
+		else {
+			assertionFailure("Error init showAddEmployeeList")
+			return
+		}
+		let addEmployeeViewController = AddEmployeeModuleAssembly.createAddEmployeeModule()
+		navigationController.pushViewController(addEmployeeViewController, animated: true)
 	}
 }

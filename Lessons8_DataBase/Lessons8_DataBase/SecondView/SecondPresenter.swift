@@ -8,21 +8,23 @@
 import UIKit
 
 protocol ISecondPresenter {
-	
+	func showAddEmployeeView()
 }
 
 final class SecondPresenter {
 	weak var view: ISecondViewController?
 	private let coordinateController: ICoordinateController
-	private let model: TestModel
+	private let queryModel = ModelQueryService.manager
 	
-	public init(view: ISecondViewController, model: TestModel, coordinateController: ICoordinateController) {
+	public init(view: ISecondViewController, coordinateController: ICoordinateController) {
 		self.view = view
 		self.coordinateController = coordinateController
-		self.model = model
+		
 	}
 }
 
 extension SecondPresenter: ISecondPresenter {
-	
+	func showAddEmployeeView() {
+		self.coordinateController.showAddEmployeeList()
+	}
 }

@@ -8,12 +8,10 @@
 import UIKit
 
 enum SecondModuleAssembly {
-	static func createDetailModule(model: TestModel, coordinateController: ICoordinateController) -> UIViewController {
-		let model = model
+	static func createSecondModule(coordinateController: ICoordinateController) -> UIViewController {
 		let view = SecondViewController()
-		let presenter = SecondPresenter(view: view, model: model, coordinateController: coordinateController)
+		let presenter = SecondPresenter(view: view, coordinateController: coordinateController)
 		view.presenter = presenter
 		return view
-	
 	}
 }

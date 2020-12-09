@@ -18,12 +18,15 @@
 		475F40BB257D18B000696695 /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475F40BA257D18B000696695 /* MainPresenter.swift */; };
 		475F40BE257D1F9400696695 /* MainModuleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475F40BD257D1F9400696695 /* MainModuleAssembly.swift */; };
 		475F40C1257D1FFD00696695 /* TestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475F40C0257D1FFD00696695 /* TestModel.swift */; };
-		475F40C4257E5E4500696695 /* ModulesAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 475F40C3257E5E4500696695 /* ModulesAssembly.swift */; };
 		4787D527257E9C0300D94AAC /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4787D526257E9C0300D94AAC /* SecondViewController.swift */; };
 		4787D52B257E9C1800D94AAC /* SecondView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4787D52A257E9C1800D94AAC /* SecondView.swift */; };
 		4787D52E257E9EBA00D94AAC /* SecondPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4787D52D257E9EBA00D94AAC /* SecondPresenter.swift */; };
 		4787D531257EAD0E00D94AAC /* SecondModuleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4787D530257EAD0E00D94AAC /* SecondModuleAssembly.swift */; };
 		47C510E1257E6326003917C0 /* CoordinateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47C510E0257E6326003917C0 /* CoordinateController.swift */; };
+		47D91E8D2580843B008EC301 /* AddEmployeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D91E8C2580843B008EC301 /* AddEmployeeViewController.swift */; };
+		47D91E9125808475008EC301 /* AddEmployeeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D91E9025808475008EC301 /* AddEmployeeView.swift */; };
+		47D91E94258087C9008EC301 /* AddEmployeePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D91E93258087C9008EC301 /* AddEmployeePresenter.swift */; };
+		47D91E9725808907008EC301 /* AddEmployeeModuleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D91E9625808907008EC301 /* AddEmployeeModuleAssembly.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,12 +43,15 @@
 		475F40BA257D18B000696695 /* MainPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPresenter.swift; sourceTree = "<group>"; };
 		475F40BD257D1F9400696695 /* MainModuleAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainModuleAssembly.swift; sourceTree = "<group>"; };
 		475F40C0257D1FFD00696695 /* TestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestModel.swift; sourceTree = "<group>"; };
-		475F40C3257E5E4500696695 /* ModulesAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModulesAssembly.swift; sourceTree = "<group>"; };
 		4787D526257E9C0300D94AAC /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		4787D52A257E9C1800D94AAC /* SecondView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondView.swift; sourceTree = "<group>"; };
 		4787D52D257E9EBA00D94AAC /* SecondPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondPresenter.swift; sourceTree = "<group>"; };
 		4787D530257EAD0E00D94AAC /* SecondModuleAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondModuleAssembly.swift; sourceTree = "<group>"; };
 		47C510E0257E6326003917C0 /* CoordinateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateController.swift; sourceTree = "<group>"; };
+		47D91E8C2580843B008EC301 /* AddEmployeeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEmployeeViewController.swift; sourceTree = "<group>"; };
+		47D91E9025808475008EC301 /* AddEmployeeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEmployeeView.swift; sourceTree = "<group>"; };
+		47D91E93258087C9008EC301 /* AddEmployeePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEmployeePresenter.swift; sourceTree = "<group>"; };
+		47D91E9625808907008EC301 /* AddEmployeeModuleAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEmployeeModuleAssembly.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +89,7 @@
 				475F40A9257D0D5F00696695 /* Application */,
 				475F40A8257D0D5700696695 /* MainView */,
 				4787D525257E9BDF00D94AAC /* SecondView */,
+				47D91E8B25808367008EC301 /* AddEmployeeView */,
 				475F40A7257D0D5100696695 /* Models */,
 			);
 			path = Lessons8_DataBase;
@@ -115,7 +122,6 @@
 				475F408D257D0D2200696695 /* AppDelegate.swift */,
 				475F408F257D0D2200696695 /* SceneDelegate.swift */,
 				475F409B257D0D2600696695 /* LaunchScreen.storyboard */,
-				475F40C3257E5E4500696695 /* ModulesAssembly.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -146,6 +152,17 @@
 				47C510E0257E6326003917C0 /* CoordinateController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		47D91E8B25808367008EC301 /* AddEmployeeView */ = {
+			isa = PBXGroup;
+			children = (
+				47D91E8C2580843B008EC301 /* AddEmployeeViewController.swift */,
+				47D91E9025808475008EC301 /* AddEmployeeView.swift */,
+				47D91E93258087C9008EC301 /* AddEmployeePresenter.swift */,
+				47D91E9625808907008EC301 /* AddEmployeeModuleAssembly.swift */,
+			);
+			path = AddEmployeeView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -217,10 +234,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				47D91E9125808475008EC301 /* AddEmployeeView.swift in Sources */,
 				4787D527257E9C0300D94AAC /* SecondViewController.swift in Sources */,
 				4787D52B257E9C1800D94AAC /* SecondView.swift in Sources */,
+				47D91E8D2580843B008EC301 /* AddEmployeeViewController.swift in Sources */,
 				4787D531257EAD0E00D94AAC /* SecondModuleAssembly.swift in Sources */,
-				475F40C4257E5E4500696695 /* ModulesAssembly.swift in Sources */,
 				475F4098257D0D2200696695 /* Lessons8_DataBase.xcdatamodeld in Sources */,
 				475F40BB257D18B000696695 /* MainPresenter.swift in Sources */,
 				475F40B5257D139800696695 /* MainView.swift in Sources */,
@@ -229,8 +247,10 @@
 				475F408E257D0D2200696695 /* AppDelegate.swift in Sources */,
 				475F4090257D0D2200696695 /* SceneDelegate.swift in Sources */,
 				473D4F22257FC16B00AD2DB9 /* ModelQueryService.swift in Sources */,
+				47D91E9725808907008EC301 /* AddEmployeeModuleAssembly.swift in Sources */,
 				4787D52E257E9EBA00D94AAC /* SecondPresenter.swift in Sources */,
 				475F40B8257D164700696695 /* MainViewController.swift in Sources */,
+				47D91E94258087C9008EC301 /* AddEmployeePresenter.swift in Sources */,
 				475F40BE257D1F9400696695 /* MainModuleAssembly.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

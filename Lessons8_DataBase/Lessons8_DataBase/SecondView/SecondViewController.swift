@@ -20,6 +20,8 @@ class SecondViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
+		self.navigationItem.rightBarButtonItems = [ UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addEmployee))]
+		self.navigationItem.title = "Employees"
 		self.configureElements()
 	}
 	
@@ -67,3 +69,13 @@ extension SecondViewController: UITableViewDataSource {
 extension SecondViewController: ISecondViewController {
 	
 }
+
+
+// MARK: Action
+
+extension SecondViewController {
+	@objc func addEmployee() {
+		self.presenter?.showAddEmployeeView()
+	}
+}
+

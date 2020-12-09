@@ -15,15 +15,21 @@ extension String: Error {
 protocol IModelQueryService: class {
 	func fetchRequest() -> [Company]?
 	func add(company name: String, id: String)
+	func add(employee name: String, id: String)
 	func removeCompany(atId id: UUID)
 	func register(observer: IQueueModelObserver, modelType: ModelType)
 }
 
 enum ModelType {
 	case company
+	case employee
 }
 
 final class ModelQueryService {
+	
+	static let manager = ModelQueryService()
+	
+	private init() {}
 	
 	lazy var persistContainer: NSPersistentContainer = {
 		let container = NSPersistentContainer(name: "Lessons8_DataBase")
@@ -100,6 +106,18 @@ extension ModelQueryService: IModelQueryService {
 		self.saveContext()
 	}
 	
+	func add(employee name: String, id: String) {
+		let context = self.persistContainer.viewContext
+		guard let entity = NSEntityDescription.entity(forEntityName: "Employee", in: context)
+		else { assertionFailure("Save error"); return }
+		
+		let employeeObject = Employee(entity: entity, insertInto: context)
+		employeeObject.name = name
+		employeeObject.id = UUID(uuidString: id)
+		
+		self.saveContext()
+	}
+	
 	func saveContext() {
 		let context = self.persistContainer.viewContext
 		
@@ -110,7 +128,7 @@ extension ModelQueryService: IModelQueryService {
 				assertionFailure(error.localizedDescription)
 			}
 		}
-		
 		self.notifyObservers(modelType: .company)
+		self.notifyObservers(modelType: .employee)
 	}
 }

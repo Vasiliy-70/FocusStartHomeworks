@@ -7,10 +7,10 @@
 
 import UIKit
 
-enum MainModuleAssemble {
-	static func createMainModule(queryModel: IModelQueryService, coordinateController: ICoordinateController) -> UIViewController {
+enum MainModuleAssembly {
+	static func createMainModule(coordinateController: ICoordinateController) -> UIViewController {
 		let view = MainViewController()
-		let presenter = MainPresenter(view: view, queryModel: queryModel, coordinateController: coordinateController)
+		let presenter = MainPresenter(view: view, coordinateController: coordinateController)
 		view.presenter = presenter
 		return view
 	}

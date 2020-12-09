@@ -13,7 +13,7 @@ protocol IMainPresenter: class {
 	func removeCompanyAt(index: Int)
 	func requestData()
 	func setData()
-	func requestDetailView()
+	func requestEmployeeCompanyAt(index: Int)
 }
 
 protocol IQueueModelObserver: class {
@@ -23,7 +23,7 @@ protocol IQueueModelObserver: class {
 final class MainPresenter {
 	private weak var view: IMainViewController?
 	private var coordinateController: ICoordinateController
-	private var queryModel: IModelQueryService
+	private var queryModel = ModelQueryService.manager
 	
 	private var companyNames = [String]() {
 		didSet {
@@ -42,10 +42,9 @@ final class MainPresenter {
 		}
 	}
 	
-	public init(view: IMainViewController, queryModel: IModelQueryService, coordinateController: ICoordinateController) {
+	public init(view: IMainViewController, coordinateController: ICoordinateController) {
 		self.view = view
 		self.coordinateController = coordinateController
-		self.queryModel = queryModel
 		self.queryModel.register(observer: self, modelType: .company)
 	}
 }
@@ -57,7 +56,7 @@ extension MainPresenter: IMainPresenter {
 		}
 	}
 	
-	func requestDetailView() {
+	func requestEmployeeCompanyAt(index: Int) {
 		self.coordinateController.showEmployeesList()
 	}
 	

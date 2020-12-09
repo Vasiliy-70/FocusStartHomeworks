@@ -86,7 +86,8 @@ extension MainViewController: UITableViewDelegate {
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		self.presenter?.requestDetailView()
+		self.presenter?.requestEmployeeCompanyAt(index: indexPath.row)
+		
 	}
 }
 

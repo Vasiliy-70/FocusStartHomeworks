@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		window.windowScene = windowScene
 		
 		let navigationController = UINavigationController()
-		let coordinateController = CoordinateController(navigationController: navigationController, modulesAssembly: ModulesAssembly())
+		let coordinateController = CoordinateController(navigationController: navigationController)
 		coordinateController.initialStartViewController()
 		
 		window.rootViewController = navigationController
