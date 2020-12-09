@@ -8,37 +8,37 @@
 import UIKit
 
 protocol ISecondViewController: class {
-
+	func updateData()
 }
 
 class SecondViewController: UIViewController {
 	var presenter: ISecondPresenter?
 	
 	private var employeesTable = UITableView()
-	private var cellId = "cellId"
+	private var cellIdentifier = "cellId"
 	
     override func viewDidLoad() {
         super.viewDidLoad()
 		
 		self.navigationItem.rightBarButtonItems = [ UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addEmployee))]
 		self.navigationItem.title = "Employees"
-		self.configureElements()
+		self.configureEmployeesTable()
 	}
 	
 	override func loadView() {
 		self.view = SecondView(tableView: self.employeesTable)
+	}
+	
+	override func viewWillAppear(_ animated: Bool) {
+		self.presenter?.requestData()
 	}
 }
 
 // MARK: ConfigureElements
 
 extension SecondViewController {
-	func configureElements() {
-		
-	}
-	
 	func configureEmployeesTable() {
-		self.employeesTable.register(UITableViewCell.self, forCellReuseIdentifier: self.cellId)
+		self.employeesTable.register(UITableViewCell.self, forCellReuseIdentifier: self.cellIdentifier)
 		
 		self.employeesTable.delegate = self
 		self.employeesTable.dataSource = self
@@ -48,18 +48,33 @@ extension SecondViewController {
 // MARK: UITableViewDelegate
 
 extension SecondViewController: UITableViewDelegate {
+	func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+		return true
+	}
 	
+	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+		if editingStyle == .delete {
+			if (self.employeesTable.cellForRow(at: indexPath)?.textLabel?.text) != nil {
+				self.presenter?.removeEmployeeAt(index: indexPath.row)
+			}
+		}
+	}
+	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		//self.presenter?.req(index: indexPath.row)
+	}
 }
 
 // MARK:UITableViewDataSource
 
 extension SecondViewController: UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return 1
+		return self.presenter?.employeeList.count ?? 0
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: self.cellId, for: indexPath)
+		let cell = tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath)
+		cell.textLabel?.text = self.presenter?.employeeList[indexPath.row]
 		return cell
 	}
 }
@@ -67,7 +82,9 @@ extension SecondViewController: UITableViewDataSource {
 // MARK:
 
 extension SecondViewController: ISecondViewController {
-	
+	func updateData() {
+		self.employeesTable.reloadData()
+	}
 }
 
 
@@ -76,6 +93,7 @@ extension SecondViewController: ISecondViewController {
 extension SecondViewController {
 	@objc func addEmployee() {
 		self.presenter?.showAddEmployeeView()
+		//self.presenter?.add(company: "vasya")
 	}
 }
 

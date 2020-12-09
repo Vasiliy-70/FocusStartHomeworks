@@ -13,10 +13,12 @@ extension String: Error {
 }
 
 protocol IModelQueryService: class {
-	func fetchRequest() -> [Company]?
+	func fetchRequestCompany() -> [Company]?
+	func fetchRequestEmployees(companyID: UUID) -> [Employee]?
 	func add(company name: String, id: String)
-	func add(employee name: String, id: String)
-	func removeCompany(atId id: UUID)
+	func add(employee name: String, id: String, companyID: UUID)
+	func removeCompanyAt(Id id: UUID)
+	func removeEmployeeAt(Id id: UUID)
 	func register(observer: IQueueModelObserver, modelType: ModelType)
 }
 
@@ -48,6 +50,8 @@ final class ModelQueryService {
 
 }
 
+// MARK: Notify
+
 extension ModelQueryService {
 	func notifyObservers(modelType: ModelType) {
 		for observer in self.observers {
@@ -58,8 +62,65 @@ extension ModelQueryService {
 	}
 }
 
+// MARK: IModelQueryService
+
 extension ModelQueryService: IModelQueryService {
-	func removeCompany(atId id: UUID) {
+	func removeEmployeeAt(Id id: UUID) {
+		let context = self.persistContainer.viewContext
+		let fetchRequest: NSFetchRequest<Employee> = Employee.fetchRequest()
+		do {
+			let employees = try context.fetch(fetchRequest)
+			for employee in employees {
+				if employee.id == id {
+					context.delete(employee)
+				}
+			}
+		} catch let error as NSError {
+			assertionFailure(error.description)
+		}
+		
+		self.saveContext()
+	}
+	
+	func add(employee name: String, id: String, companyID: UUID) {
+		let context = self.persistContainer.viewContext
+		let fetchRequest: NSFetchRequest<Company> = Company.fetchRequest()
+		
+		guard let entity = NSEntityDescription.entity(forEntityName: "Employee", in: context)
+		else { assertionFailure("Save error"); return }
+		
+		let predicate = NSPredicate(format: "id == %@", companyID as CVarArg)
+		fetchRequest.predicate = predicate
+		
+		do {
+			let company = try context.fetch(fetchRequest)
+			let employeeObject = Employee(entity: entity, insertInto: context)
+			
+			employeeObject.name = name
+			employeeObject.id = UUID(uuidString: id)
+			company.first?.addToEmployees(employeeObject)
+			
+			self.saveContext()
+		} catch let error as NSError {
+			assertionFailure(error.description)
+		}
+	}
+	
+	func fetchRequestEmployees(companyID: UUID) -> [Employee]? {
+		var employees = [Employee]()
+		let context = self.persistContainer.viewContext
+		let fetchRequest: NSFetchRequest<Employee> = Employee.fetchRequest()
+		let predicate = NSPredicate(format: "company.id == %@", companyID as CVarArg)
+		fetchRequest.predicate = predicate
+		do {
+			employees = try context.fetch(fetchRequest)
+		} catch let error as NSError {
+			assertionFailure(error.description)
+		}
+		return employees
+	}
+	
+	func removeCompanyAt(Id id: UUID) {
 		let context = self.persistContainer.viewContext
 		let fetchRequest: NSFetchRequest<Company> = Company.fetchRequest()
 		do {
@@ -80,7 +141,7 @@ extension ModelQueryService: IModelQueryService {
 		self.observers.append((observer, modelType))
 	}
 	
-	func fetchRequest() -> [Company]? {
+	func fetchRequestCompany() -> [Company]? {
 		var company = [Company]()
 		let context = self.persistContainer.viewContext
 		let fetchRequest: NSFetchRequest<Company> = Company.fetchRequest()
@@ -102,18 +163,6 @@ extension ModelQueryService: IModelQueryService {
 		let companyObject = Company(entity: entity, insertInto: context)
 		companyObject.name = name
 		companyObject.id = UUID(uuidString: id)
-		
-		self.saveContext()
-	}
-	
-	func add(employee name: String, id: String) {
-		let context = self.persistContainer.viewContext
-		guard let entity = NSEntityDescription.entity(forEntityName: "Employee", in: context)
-		else { assertionFailure("Save error"); return }
-		
-		let employeeObject = Employee(entity: entity, insertInto: context)
-		employeeObject.name = name
-		employeeObject.id = UUID(uuidString: id)
 		
 		self.saveContext()
 	}

@@ -9,10 +9,12 @@ import UIKit
 
 protocol ICoordinateController: class {
 	func showEmployeesList()
-	func showAddEmployeeList()
+	func showEmployeesCompanyAt(companyID: UUID)
+	func showAddEmployeeView(companyID: UUID)
 }
 
 final class CoordinateController: ICoordinateController {
+	
 	private var navigationController: UINavigationController?
 	
 	init(navigationController: UINavigationController) {
@@ -29,22 +31,41 @@ final class CoordinateController: ICoordinateController {
 	}
 	
 	func showEmployeesList() {
-		guard let navigationController = self.navigationController
+		/*guard let navigationController = self.navigationController
 		else {
 			assertionFailure("Error init showEmployeesList")
 			return
 		}
 		let secondViewController = SecondModuleAssembly.createSecondModule(coordinateController: self)
-		navigationController.pushViewController(secondViewController, animated: true)
+		navigationController.pushViewController(secondViewController, animated: true)*/
 	}
 	
-	func showAddEmployeeList() {
+	func showEmployeesCompanyAt(companyID: UUID) {
+		guard let navigationController = self.navigationController
+		else {
+			assertionFailure("Error init showEmployeesList")
+			return
+		}
+		let secondViewController = SecondModuleAssembly.createSecondModule(coordinateController: self, companyID: companyID)
+		navigationController.pushViewController(secondViewController, animated: true)
+	}
+	/*func showEmployeesCompanyAt(id: UUID) {
 		guard let navigationController = self.navigationController
 		else {
 			assertionFailure("Error init showAddEmployeeList")
 			return
 		}
 		let addEmployeeViewController = AddEmployeeModuleAssembly.createAddEmployeeModule()
+		navigationController.pushViewController(addEmployeeViewController, animated: true)
+	}*/
+	
+	func showAddEmployeeView(companyID: UUID) {
+		guard let navigationController = self.navigationController
+		else {
+			assertionFailure("Error init showAddEmployeeList")
+			return
+		}
+		let addEmployeeViewController = AddEmployeeModuleAssembly.createAddEmployeeModule(companyID: companyID)
 		navigationController.pushViewController(addEmployeeViewController, animated: true)
 	}
 }

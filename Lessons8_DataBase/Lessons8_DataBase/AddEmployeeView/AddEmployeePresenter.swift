@@ -14,14 +14,19 @@ protocol IAddEmployeePresenter {
 final class AddEmployeePresenter {
 	weak var view: AddEmployeeViewController?
 	private let queryModel = ModelQueryService.manager
+	private let companyID: UUID
 	
-	public init(view: AddEmployeeViewController) {
+	public init(view: AddEmployeeViewController, companyID: UUID) {
 		self.view = view
-		
+		self.companyID = companyID
 	}
 }
 
 extension AddEmployeePresenter: IAddEmployeePresenter {
 	func saveEmployee(name: String) {
+		if (name != "") {
+			let uuid = UUID().uuidString
+			self.queryModel.add(employee: name, id: uuid, companyID: self.companyID)
+		}
 	}
 }

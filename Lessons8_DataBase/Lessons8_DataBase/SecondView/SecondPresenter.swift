@@ -7,7 +7,10 @@
 
 import UIKit
 
-protocol ISecondPresenter {
+protocol ISecondPresenter: class {
+	var employeeList: [String] { get }
+	func removeEmployeeAt(index: Int)
+	func requestData()
 	func showAddEmployeeView()
 }
 
@@ -16,15 +19,61 @@ final class SecondPresenter {
 	private let coordinateController: ICoordinateController
 	private let queryModel = ModelQueryService.manager
 	
-	public init(view: ISecondViewController, coordinateController: ICoordinateController) {
+	private var companyID: UUID
+	private var ID: UUID?
+	private var employeeNames = [String]() {
+		didSet {
+			self.view?.updateData()
+		}
+	}
+	private var employeeData = [Employee]() {
+		didSet {
+			self.employeeNames.removeAll()
+			for employee in self.employeeData {
+				if let name = employee.name {
+					self.employeeNames.append(name)
+				}
+			/*for employee in self.employeeData {
+				if let name = employee.name,
+				   !self.employeeNames.contains(name) {
+					self.employeeNames.append(name)
+				}*/
+			}
+		}
+	}
+	
+	public init(view: ISecondViewController, coordinateController: ICoordinateController, companyID: UUID) {
 		self.view = view
 		self.coordinateController = coordinateController
-		
+		self.companyID = companyID
+		self.queryModel.register(observer: self, modelType: .employee)
 	}
 }
 
 extension SecondPresenter: ISecondPresenter {
+	func removeEmployeeAt(index: Int) {
+		if let id = self.employeeData[index].id {
+			self.queryModel.removeEmployeeAt(Id: id)
+		}
+	}
+	
+	var employeeList: [String] {
+		get {
+			self.employeeNames
+		}
+	}
+	
+	func requestData() {
+		self.employeeData = self.queryModel.fetchRequestEmployees(companyID: self.companyID) ?? []
+	}
+	
 	func showAddEmployeeView() {
-		self.coordinateController.showAddEmployeeList()
+		self.coordinateController.showAddEmployeeView(companyID: self.companyID)
+	}
+}
+
+extension SecondPresenter: IQueueModelObserver {
+	func notifierDataUpdate() {
+		self.requestData()
 	}
 }

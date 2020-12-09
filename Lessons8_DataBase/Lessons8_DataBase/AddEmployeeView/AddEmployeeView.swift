@@ -49,6 +49,7 @@ extension AddEmployeeView {
 	
 	func setupTextFieldsView() {
 		self.nameField.borderStyle = .roundedRect
+		self.nameField.addTarget(self, action: #selector(self.fillEmployerName), for: .editingChanged)
 	}
 }
 
@@ -87,12 +88,7 @@ extension AddEmployeeView {
 // MARK: UITextFieldDelegate
 
 extension AddEmployeeView: UITextFieldDelegate {
-	func textFieldDidEndEditing(_ textField: UITextField) {
-		switch textField {
-		case self.nameField:
-			self.delegate.employeeInfo[.name] = textField.text ?? ""
-		default:
-			break
-		}
+	@objc func fillEmployerName() {
+		self.delegate.employeeInfo[.name] = nameField.text
 	}
 }

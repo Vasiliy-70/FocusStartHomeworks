@@ -27,6 +27,8 @@
 		47D91E9125808475008EC301 /* AddEmployeeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D91E9025808475008EC301 /* AddEmployeeView.swift */; };
 		47D91E94258087C9008EC301 /* AddEmployeePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D91E93258087C9008EC301 /* AddEmployeePresenter.swift */; };
 		47D91E9725808907008EC301 /* AddEmployeeModuleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D91E9625808907008EC301 /* AddEmployeeModuleAssembly.swift */; };
+		47D91EA625810189008EC301 /* EmployeeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D91EA525810189008EC301 /* EmployeeView.swift */; };
+		47D91EAB2581099D008EC301 /* EmployeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47D91EAA2581099D008EC301 /* EmployeeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +54,8 @@
 		47D91E9025808475008EC301 /* AddEmployeeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEmployeeView.swift; sourceTree = "<group>"; };
 		47D91E93258087C9008EC301 /* AddEmployeePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEmployeePresenter.swift; sourceTree = "<group>"; };
 		47D91E9625808907008EC301 /* AddEmployeeModuleAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEmployeeModuleAssembly.swift; sourceTree = "<group>"; };
+		47D91EA525810189008EC301 /* EmployeeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeView.swift; sourceTree = "<group>"; };
+		47D91EAA2581099D008EC301 /* EmployeeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +94,7 @@
 				475F40A8257D0D5700696695 /* MainView */,
 				4787D525257E9BDF00D94AAC /* SecondView */,
 				47D91E8B25808367008EC301 /* AddEmployeeView */,
+				47D91EA425810145008EC301 /* EmployeeInfoView */,
 				475F40A7257D0D5100696695 /* Models */,
 			);
 			path = Lessons8_DataBase;
@@ -157,12 +162,21 @@
 		47D91E8B25808367008EC301 /* AddEmployeeView */ = {
 			isa = PBXGroup;
 			children = (
-				47D91E8C2580843B008EC301 /* AddEmployeeViewController.swift */,
 				47D91E9025808475008EC301 /* AddEmployeeView.swift */,
+				47D91E8C2580843B008EC301 /* AddEmployeeViewController.swift */,
 				47D91E93258087C9008EC301 /* AddEmployeePresenter.swift */,
 				47D91E9625808907008EC301 /* AddEmployeeModuleAssembly.swift */,
 			);
 			path = AddEmployeeView;
+			sourceTree = "<group>";
+		};
+		47D91EA425810145008EC301 /* EmployeeInfoView */ = {
+			isa = PBXGroup;
+			children = (
+				47D91EA525810189008EC301 /* EmployeeView.swift */,
+				47D91EAA2581099D008EC301 /* EmployeeViewController.swift */,
+			);
+			path = EmployeeInfoView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -241,8 +255,10 @@
 				4787D531257EAD0E00D94AAC /* SecondModuleAssembly.swift in Sources */,
 				475F4098257D0D2200696695 /* Lessons8_DataBase.xcdatamodeld in Sources */,
 				475F40BB257D18B000696695 /* MainPresenter.swift in Sources */,
+				47D91EA625810189008EC301 /* EmployeeView.swift in Sources */,
 				475F40B5257D139800696695 /* MainView.swift in Sources */,
 				475F40C1257D1FFD00696695 /* TestModel.swift in Sources */,
+				47D91EAB2581099D008EC301 /* EmployeeViewController.swift in Sources */,
 				47C510E1257E6326003917C0 /* CoordinateController.swift in Sources */,
 				475F408E257D0D2200696695 /* AppDelegate.swift in Sources */,
 				475F4090257D0D2200696695 /* SceneDelegate.swift in Sources */,

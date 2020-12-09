@@ -39,5 +39,6 @@ extension AddEmployeeViewController {
 	 @objc func saveEmployee() {
 		guard let name = self.employeeInfo[.name] else { return }
 			self.presenter?.saveEmployee(name: name)
+		self.navigationController?.popViewController(animated: true)
 	 }
  }
