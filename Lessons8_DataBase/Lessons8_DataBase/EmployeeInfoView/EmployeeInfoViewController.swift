@@ -62,12 +62,14 @@ extension EmployeeInfoViewController {
 	func editModeChange() {
 		switch self.editMode {
 		case .editing:
-			fallthrough
+			self.navigationItem.rightBarButtonItems = [ UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.saveEmployee))]
+			self.navigationItem.title = "Edit employee"
 		case .addition:
 			self.navigationItem.rightBarButtonItems = [ UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.saveEmployee))]
-			
+			self.navigationItem.title = "Add employee"
 		case .showing:
 			self.navigationItem.rightBarButtonItems = [ UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(self.editModeON))]
+			self.navigationItem.title = "Info"
 		}
 		if var view = self.view as? IEmployeeInfoView {
 			view.editMode = self.editMode

@@ -25,7 +25,7 @@ class MainViewController: UIViewController {
 		
 		self.navigationItem.rightBarButtonItems = [ UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addCompany))]
 		self.navigationItem.title = "Company List"
-		
+
 		self.configureElements()
 		self.presenter?.requestData()
 	}
@@ -33,7 +33,6 @@ class MainViewController: UIViewController {
 	override func loadView() {
 		self.view = MainView(table: self.companiesTable)
 	}
-	
 }
 
 //  MARK: ConfigureElements
@@ -88,6 +87,16 @@ extension MainViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		self.presenter?.requestEmployeeCompanyAt(index: indexPath.row)
 		
+	}
+	
+	func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+		let editingAction = UIContextualAction(style: .normal, title: "Edit") {
+			(action, view, handler)  in
+		}
+		editingAction.backgroundColor = .systemBlue
+		let configuration = UISwipeActionsConfiguration(actions: [editingAction])
+		configuration.performsFirstActionWithFullSwipe = false
+		return configuration
 	}
 }
 

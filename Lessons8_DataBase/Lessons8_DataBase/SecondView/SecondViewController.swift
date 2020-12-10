@@ -20,8 +20,7 @@ class SecondViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		self.navigationItem.rightBarButtonItems = [ UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addEmployee))]
-		self.navigationItem.title = "Employees"
+		self.configureNavigationItems()
 		self.configureEmployeesTable()
 	}
 	
@@ -37,6 +36,13 @@ class SecondViewController: UIViewController {
 // MARK: ConfigureElements
 
 extension SecondViewController {
+	func configureNavigationItems() {
+		let addEmployeeButton = UIBarButtonItem(barButtonSystemItem: .add,
+												target: self, action: #selector(self.addEmployee))
+		self.navigationItem.rightBarButtonItems = [addEmployeeButton]
+		self.navigationItem.title = "Employees"
+	}
+	
 	func configureEmployeesTable() {
 		self.employeesTable.register(UITableViewCell.self, forCellReuseIdentifier: self.cellIdentifier)
 		
@@ -62,6 +68,17 @@ extension SecondViewController: UITableViewDelegate {
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		self.presenter?.showEmployeeInfoAt(index: indexPath.row, editMode: .showing)
+	}
+	
+	func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+		let editingAction = UIContextualAction(style: .normal, title: "Edit") {
+			(action, view, handler)  in
+			self.presenter?.showEmployeeInfoAt(index: indexPath.row, editMode: .editing)
+		}
+		editingAction.backgroundColor = .systemBlue
+		let configuration = UISwipeActionsConfiguration(actions: [editingAction])
+		configuration.performsFirstActionWithFullSwipe = false
+		return configuration
 	}
 }
 
