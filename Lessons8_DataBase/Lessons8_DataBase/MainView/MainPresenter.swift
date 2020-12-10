@@ -35,20 +35,10 @@ final class MainPresenter {
 		didSet {
 			self.companyNames.removeAll()
 			for company in self.companyData {
-				print(company.id)
-				/*if let name = company.name,
-				!self.companyNames.contains(name) {
-				self.companyNames.append(name)*/
 				if let name = company.name {
 					self.companyNames.append(name)
 				}
 			}
-			/*for company in self.companyData {
-			if let name = company.name,
-			!self.companyNames.contains(name) {
-			self.companyNames.append(name)
-			}
-			}*/
 		}
 	}
 	
@@ -74,7 +64,6 @@ extension MainPresenter: IMainPresenter {
 	
 	func requestData() {
 		self.companyData = self.queryModel.fetchRequestCompany() ?? []
-		//self.companies = self.model.getCompaniesData()
 	}
 	
 	func setData() {

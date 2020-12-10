@@ -9,7 +9,7 @@ import UIKit
 
 protocol ICoordinateController: class {
 	func showEmployeesCompanyAt(companyID: UUID)
-	func showEmployeeInfo(companyID: UUID, editMode: Bool)
+	func showEmployeeInfo(employeeID: UUID, companyID: UUID, editMode: Bool)
 }
 
 final class CoordinateController: ICoordinateController {
@@ -39,13 +39,13 @@ final class CoordinateController: ICoordinateController {
 		navigationController.pushViewController(secondViewController, animated: true)
 	}
 
-	func showEmployeeInfo(companyID: UUID, editMode: Bool) {
+	func showEmployeeInfo(employeeID: UUID, companyID: UUID, editMode: Bool) {
 		guard let navigationController = self.navigationController
 		else {
 			assertionFailure("Error init showAddEmployeeList")
 			return
 		}
-		let addEmployeeViewController = AddEmployeeModuleAssembly.createAddEmployeeModule(companyID: companyID, editMode: editMode)
+		let addEmployeeViewController = AddEmployeeModuleAssembly.createAddEmployeeModule(companyID: companyID, employeeID: employeeID, editMode: editMode)
 		navigationController.pushViewController(addEmployeeViewController, animated: true)
 	}
 }

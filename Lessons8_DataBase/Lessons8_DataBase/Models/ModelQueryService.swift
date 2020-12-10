@@ -15,6 +15,7 @@ extension String: Error {
 protocol IModelQueryService: class {
 	func fetchRequestCompany() -> [Company]?
 	func fetchRequestEmployees(companyID: UUID) -> [Employee]?
+	func fetchRequestEmployeeInfo(employeeID: UUID) -> [Employee]?
 	func add(company name: String, id: String)
 	func add(employee info: [EmployeePropertyKey : String?], companyID: UUID)
 	func removeCompanyAt(Id id: UUID)
@@ -65,6 +66,20 @@ extension ModelQueryService {
 // MARK: IModelQueryService
 
 extension ModelQueryService: IModelQueryService {
+	func fetchRequestEmployeeInfo(employeeID: UUID) -> [Employee]? {
+		var employees = [Employee]()
+		let context = self.persistContainer.viewContext
+		let fetchRequest: NSFetchRequest<Employee> = Employee.fetchRequest()
+		let predicate = NSPredicate(format: "id == %@", employeeID as CVarArg)
+		fetchRequest.predicate = predicate
+		do {
+			employees = try context.fetch(fetchRequest)
+		} catch let error as NSError {
+			assertionFailure(error.description)
+		}
+		return employees
+	}
+	
 	func removeEmployeeAt(Id id: UUID) {
 		let context = self.persistContainer.viewContext
 		let fetchRequest: NSFetchRequest<Employee> = Employee.fetchRequest()

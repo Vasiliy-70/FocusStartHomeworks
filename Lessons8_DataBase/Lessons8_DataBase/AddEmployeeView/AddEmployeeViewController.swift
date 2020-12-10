@@ -17,11 +17,6 @@ class AddEmployeeViewController: UIViewController {
 	init(editMode: Bool) {
 		self.editMode = editMode
 		super.init(nibName: nil, bundle: nil)
-		
-		if self.editMode {
-			
-		}
-
 	}
 	
 	required init?(coder: NSCoder) {
