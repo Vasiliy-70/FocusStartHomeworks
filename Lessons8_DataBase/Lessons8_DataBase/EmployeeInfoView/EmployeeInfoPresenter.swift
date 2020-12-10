@@ -1,5 +1,5 @@
 //
-//  AddEmployeePresenter.swift
+//  EmployeeInfoPresenter.swift
 //  Lessons8_DataBase
 //
 //  Created by Боровик Василий on 09.12.2020.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol IAddEmployeePresenter {
+protocol IEmployeeInfoPresenter {
 	func saveEmployee(info: [EmployeePropertyKey:String?], editMode: EmployeeInfoMode)
 	func getEmployeeInfo() -> [EmployeePropertyKey:String?]
 }
@@ -20,8 +20,8 @@ enum EmployeePropertyKey {
 	case position
 }
 
-final class AddEmployeePresenter {
-	weak var view: AddEmployeeViewController?
+final class EmployeeInfoPresenter {
+	weak var view: EmployeeInfoViewController?
 	private let queryModel = ModelQueryService.manager
 	private let companyID: UUID
 	private let employeeID: UUID
@@ -39,39 +39,44 @@ final class AddEmployeePresenter {
 		}
 	}
 	
-	public init(view: AddEmployeeViewController, companyID: UUID, employeeID: UUID) {
+	public init(view: EmployeeInfoViewController, companyID: UUID, employeeID: UUID?) {
 		self.view = view
 		self.companyID = companyID
-		self.employeeID = employeeID
+		self.employeeID = employeeID ?? UUID()
 		self.requestData()
 	}
 }
 
-extension AddEmployeePresenter: IAddEmployeePresenter {
+// MARK: IEmployeeInfoPresenter
+
+extension EmployeeInfoPresenter: IEmployeeInfoPresenter {
 	func getEmployeeInfo() -> [EmployeePropertyKey : String?] {
 		return self.employeeInfo
 	}
 	
 	func saveEmployee(info: [EmployeePropertyKey:String?], editMode: EmployeeInfoMode) {
 		
-		if let _ = info[.name] as? String,
+		if let name = info[.name] as? String,
+		   name != "",
 		   let age = Int16(info[.age] as? String ?? "none"),
-		   age > 10,
+		   age > 0,
 		   let _ = Int16(info[.experience] as? String ?? "none"),
 		   let _ = info[.education] as? String,
-		   let _ = info[.position] as? String {
-			
+		   let position = info[.position] as? String,
+		   position != ""  {
 			if editMode == .editing {
 				self.queryModel.change(employee: info, employeeID: self.employeeID)
 			} else {
 				self.queryModel.add(employee: info, companyID: self.companyID)
 			}
 			self.view?.navigationController?.popViewController(animated: true)
+		} else {
+			self.view?.showAlert()
 		}
 	}
 }
 
-extension AddEmployeePresenter {
+extension EmployeeInfoPresenter {
 	func requestData() {
 		self.employeeData = self.queryModel.fetchRequestEmployeeInfo(employeeID: self.employeeID) ?? []
 	}

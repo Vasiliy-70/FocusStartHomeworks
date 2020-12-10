@@ -12,7 +12,6 @@ protocol IMainPresenter: class {
 	func add(company: String)
 	func removeCompanyAt(index: Int)
 	func requestData()
-	func setData()
 	func requestEmployeeCompanyAt(index: Int)
 }
 
@@ -49,6 +48,8 @@ final class MainPresenter {
 	}
 }
 
+// MARK: IMainPresenter
+
 extension MainPresenter: IMainPresenter {
 	var companyList: [String] {
 		get {
@@ -66,24 +67,18 @@ extension MainPresenter: IMainPresenter {
 		self.companyData = self.queryModel.fetchRequestCompany() ?? []
 	}
 	
-	func setData() {
-		
-		//self.model.setCompaniesData(self.companies)
-	}
-	
 	func removeCompanyAt(index: Int) {
-		//self.companyNames.remove(at: index)
 		if let uuid = self.companyData[index].id {
 			self.queryModel.removeCompanyAt(Id: uuid)
 		}
 	}
 	
 	func add(company: String) {
-		let uuid = UUID().uuidString
-		//self.companyNames.append(company)
-		self.queryModel.add(company: company, id: uuid)
+		self.queryModel.add(company: company)
 	}
 }
+
+// MARK: IQueueModelObserver
 
 extension MainPresenter: IQueueModelObserver {
 	func notifierDataUpdate() {

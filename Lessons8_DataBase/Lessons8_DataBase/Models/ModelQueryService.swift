@@ -16,7 +16,7 @@ protocol IModelQueryService: class {
 	func fetchRequestCompany() -> [Company]?
 	func fetchRequestEmployees(companyID: UUID) -> [Employee]?
 	func fetchRequestEmployeeInfo(employeeID: UUID) -> [Employee]?
-	func add(company name: String, id: String)
+	func add(company name: String)
 	func add(employee info: [EmployeePropertyKey : String?], companyID: UUID)
 	func change(employee info: [EmployeePropertyKey : String?], employeeID: UUID)
 	func removeCompanyAt(Id id: UUID)
@@ -69,10 +69,13 @@ extension ModelQueryService {
 extension ModelQueryService: IModelQueryService {
 	func change(employee info: [EmployeePropertyKey : String?], employeeID: UUID) {
 		if let name = info[.name] as? String,
+		   name != "",
 		   let age = Int16(info[.age] as? String ?? "none"),
+		   age > 0,
 		   let experience = Int16(info[.experience] as? String ?? "none"),
 		   let education = info[.education] as? String,
-		   let position = info[.position] as? String {
+		   let position = info[.position] as? String,
+		   position != "" {
 			
 			let context = self.persistContainer.viewContext
 			let fetchRequest: NSFetchRequest<Employee> = Employee.fetchRequest()
@@ -213,14 +216,14 @@ extension ModelQueryService: IModelQueryService {
 			return company
 		}
 		
-		func add(company name: String, id: String) {
+		func add(company name: String) {
 			let context = self.persistContainer.viewContext
 			guard let entity = NSEntityDescription.entity(forEntityName: "Company", in: context)
 			else { assertionFailure("Save error"); return }
 			
 			let companyObject = Company(entity: entity, insertInto: context)
 			companyObject.name = name
-			companyObject.id = UUID(uuidString: id)
+			companyObject.id = UUID()
 			
 			self.saveContext()
 		}

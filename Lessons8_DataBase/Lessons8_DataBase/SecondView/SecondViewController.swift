@@ -79,7 +79,7 @@ extension SecondViewController: UITableViewDataSource {
 	}
 }
 
-// MARK:
+// MARK: ISecondViewController
 
 extension SecondViewController: ISecondViewController {
 	func updateData() {
@@ -92,7 +92,7 @@ extension SecondViewController: ISecondViewController {
 
 extension SecondViewController {
 	@objc func addEmployee() {
-		//self.presenter?.showEmployeeInfoAt(index: <#T##Int#>, editMode: true)
+		self.presenter?.addNewEmployee()
 	}
 }
 

@@ -98,7 +98,8 @@ extension MainViewController: UITableViewDataSource {
 		return self.presenter?.companyList.count ?? 0
 	}
 	
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+	func tableView(_ tableView: UITableView,
+				   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath)
 		cell.textLabel?.text = self.presenter?.companyList[indexPath.row]
 		return cell

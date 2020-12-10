@@ -1,5 +1,5 @@
 //
-//  AddEmployeeViewController.swift
+//  EmployeeInfoViewController.swift
 //  Lessons8_DataBase
 //
 //  Created by Боровик Василий on 09.12.2020.
@@ -7,10 +7,15 @@
 
 import UIKit
 
-class AddEmployeeViewController: UIViewController {
-	
+protocol IEmployeeInfoViewController {
+	func showAlert()
+}
+
+class EmployeeInfoViewController: UIViewController {
+
+	private var alertView: UIAlertController?
 	var employeeInfo: [EmployeePropertyKey : String?] = [:]
-	var presenter: IAddEmployeePresenter?
+	var presenter: IEmployeeInfoPresenter?
 	private var editMode: EmployeeInfoMode {
 		didSet {
 			self.editModeChange()
@@ -20,6 +25,7 @@ class AddEmployeeViewController: UIViewController {
 	init(editMode: EmployeeInfoMode) {
 		self.editMode = editMode
 		super.init(nibName: nil, bundle: nil)
+		self.configureAlerts()
 	}
 	
 	required init?(coder: NSCoder) {
@@ -35,20 +41,33 @@ class AddEmployeeViewController: UIViewController {
 		if let presenter = self.presenter {
 			self.employeeInfo = presenter.getEmployeeInfo()
 		}
-		self.view = AddEmployeeView(delegate: self, editMode: self.editMode)
+		self.view = EmployeeInfoView(delegate: self, editMode: self.editMode)
 	}
 }
 
-extension AddEmployeeViewController {
+// MARK: ConfigureController
+
+extension EmployeeInfoViewController {
+	func configureAlerts() {
+		let alertView = UIAlertController(title: "Error", message: "Invalid data entered", preferredStyle: .alert)
+		let action = UIAlertAction(title: "Apply", style: .default, handler: nil)
+		alertView.addAction(action)
+		self.alertView = alertView
+	}
+}
+
+// MARK: Action
+
+extension EmployeeInfoViewController {
 	func editModeChange() {
 		switch self.editMode {
 		case .editing:
+			fallthrough
+		case .addition:
 			self.navigationItem.rightBarButtonItems = [ UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.saveEmployee))]
 			
 		case .showing:
 			self.navigationItem.rightBarButtonItems = [ UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(self.editModeON))]
-		default:
-			break
 		}
 		if var view = self.view as? IEmployeeInfoView {
 			view.editMode = self.editMode
@@ -65,4 +84,14 @@ extension AddEmployeeViewController {
 		self.editMode = .editing
 	}
 	
+}
+
+// MARK: IEmployeeInfoViewController
+
+extension EmployeeInfoViewController: IEmployeeInfoViewController {
+	func showAlert() {
+		if let alertView = self.alertView {
+			self.present(alertView, animated: true, completion: nil)
+		}
+	}
 }

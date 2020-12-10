@@ -15,7 +15,7 @@ enum EmployeeInfoMode {
 
 protocol ICoordinateController: class {
 	func showEmployeesCompanyAt(companyID: UUID)
-	func showEmployeeInfo(employeeID: UUID, companyID: UUID, editMode: EmployeeInfoMode)
+	func showEmployeeInfo(employeeID: UUID?, companyID: UUID, editMode: EmployeeInfoMode)
 }
 
 final class CoordinateController: ICoordinateController {
@@ -45,13 +45,13 @@ final class CoordinateController: ICoordinateController {
 		navigationController.pushViewController(secondViewController, animated: true)
 	}
 
-	func showEmployeeInfo(employeeID: UUID, companyID: UUID, editMode: EmployeeInfoMode) {
+	func showEmployeeInfo(employeeID: UUID?, companyID: UUID, editMode: EmployeeInfoMode) {
 		guard let navigationController = self.navigationController
 		else {
 			assertionFailure("Error init showAddEmployeeList")
 			return
 		}
-		let addEmployeeViewController = AddEmployeeModuleAssembly.createAddEmployeeModule(companyID: companyID, employeeID: employeeID, editMode: editMode)
+		let addEmployeeViewController = EmployeeInfoModuleAssembly.createAddEmployeeModule(companyID: companyID, employeeID: employeeID, editMode: editMode)
 		navigationController.pushViewController(addEmployeeViewController, animated: true)
 	}
 }

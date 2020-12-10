@@ -12,6 +12,7 @@ protocol ISecondPresenter: class {
 	func removeEmployeeAt(index: Int)
 	func requestData()
 	func showEmployeeInfoAt(index: Int, editMode: EmployeeInfoMode)
+	func addNewEmployee()
 }
 
 final class SecondPresenter {
@@ -46,6 +47,10 @@ final class SecondPresenter {
 }
 
 extension SecondPresenter: ISecondPresenter {
+	func addNewEmployee() {
+		self.coordinateController.showEmployeeInfo(employeeID: nil, companyID: self.companyID, editMode: .addition)
+	}
+	
 	func showEmployeeInfoAt(index: Int, editMode: EmployeeInfoMode) {
 		if let uuid = self.employeeData[index].id {
 			self.coordinateController.showEmployeeInfo(employeeID: uuid, companyID: self.companyID, editMode: editMode)

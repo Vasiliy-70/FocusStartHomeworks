@@ -1,5 +1,5 @@
 //
-//  AddEmployeeView.swift
+//  EmployeeInfoView.swift
 //  Lessons8_DataBase
 //
 //  Created by Боровик Василий on 09.12.2020.
@@ -12,9 +12,9 @@ protocol IEmployeeInfoView {
 	var editMode: EmployeeInfoMode { get set }
 }
 
-class AddEmployeeView: UIView {
+class EmployeeInfoView: UIView {
 	
-	private var delegate: AddEmployeeViewController
+	private var delegate: EmployeeInfoViewController
 	
 	private var nameLabel = UILabel()
 	private var ageLabel = UILabel()
@@ -36,15 +36,17 @@ class AddEmployeeView: UIView {
 	}
 	
 	private enum Constants {
-		static var textFieldsBackground: UIColor = .white
+		static var fieldColorDefault: UIColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+		static var fieldColorEditing: UIColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+		static var viewBackgroundColor: UIColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
 	}
 	
-	init(delegate: AddEmployeeViewController, editMode: EmployeeInfoMode) {
+	init(delegate: EmployeeInfoViewController, editMode: EmployeeInfoMode) {
 		self.delegate = delegate
 		
 		super.init(frame: .zero)
 		
-		self.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+		self.backgroundColor = Constants.viewBackgroundColor
 		self.setupViewAppearance()
 		self.setupViewConstraints()
 		
@@ -61,7 +63,7 @@ class AddEmployeeView: UIView {
 
 // MARK: View Appearance
 
-extension AddEmployeeView {
+extension EmployeeInfoView {
 	func setupViewAppearance() {
 		self.setupLabelsView()
 		self.setupTextFieldsView()
@@ -93,7 +95,7 @@ extension AddEmployeeView {
 
 // MARK: Setup Constraints
 
-extension AddEmployeeView {
+extension EmployeeInfoView {
 	func setupViewConstraints() {
 		self.setupLabelsConstraints()
 		self.setupTextFieldsConstraints()
@@ -174,7 +176,7 @@ extension AddEmployeeView {
 
 // MARK: UITextFieldDelegate
 
-extension AddEmployeeView: IEmployeeInfoView {
+extension EmployeeInfoView: IEmployeeInfoView {
 	var editMode: EmployeeInfoMode {
 		get {
 			return .showing
@@ -189,11 +191,16 @@ extension AddEmployeeView: IEmployeeInfoView {
 			self.educationField.isUserInteractionEnabled = editEnabled
 			self.positionField.isUserInteractionEnabled = editEnabled
 			
-			self.nameField.backgroundColor = editEnabled ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-			self.ageField.backgroundColor = editEnabled ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-			self.experienceField.backgroundColor = editEnabled ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-			self.educationField.backgroundColor = editEnabled ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-			self.positionField.backgroundColor = editEnabled ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+			self.nameField.backgroundColor =
+				editEnabled ? Constants.fieldColorEditing: Constants.fieldColorDefault
+			self.ageField.backgroundColor =
+				editEnabled ? Constants.fieldColorEditing: Constants.fieldColorDefault
+			self.experienceField.backgroundColor =
+				editEnabled ? Constants.fieldColorEditing: Constants.fieldColorDefault
+			self.educationField.backgroundColor =
+				editEnabled ? Constants.fieldColorEditing: Constants.fieldColorDefault
+			self.positionField.backgroundColor =
+				editEnabled ? Constants.fieldColorEditing: Constants.fieldColorDefault
 			
 			if newValue == .showing || newValue == .editing {
 				self.readEmployeeInfo()
@@ -212,7 +219,7 @@ extension AddEmployeeView: IEmployeeInfoView {
 	}
 }
 
-extension AddEmployeeView {
+extension EmployeeInfoView {
 	func readEmployeeInfo() {
 		let info = self.delegate.employeeInfo
 		self.nameField.text = info[.name] ?? ""
