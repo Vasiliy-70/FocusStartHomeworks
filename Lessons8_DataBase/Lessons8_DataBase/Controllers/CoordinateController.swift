@@ -7,9 +7,15 @@
 
 import UIKit
 
+enum EmployeeInfoMode {
+	case editing
+	case addition
+	case showing
+}
+
 protocol ICoordinateController: class {
 	func showEmployeesCompanyAt(companyID: UUID)
-	func showEmployeeInfo(employeeID: UUID, companyID: UUID, editMode: Bool)
+	func showEmployeeInfo(employeeID: UUID, companyID: UUID, editMode: EmployeeInfoMode)
 }
 
 final class CoordinateController: ICoordinateController {
@@ -39,7 +45,7 @@ final class CoordinateController: ICoordinateController {
 		navigationController.pushViewController(secondViewController, animated: true)
 	}
 
-	func showEmployeeInfo(employeeID: UUID, companyID: UUID, editMode: Bool) {
+	func showEmployeeInfo(employeeID: UUID, companyID: UUID, editMode: EmployeeInfoMode) {
 		guard let navigationController = self.navigationController
 		else {
 			assertionFailure("Error init showAddEmployeeList")

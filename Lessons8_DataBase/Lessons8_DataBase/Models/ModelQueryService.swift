@@ -18,6 +18,7 @@ protocol IModelQueryService: class {
 	func fetchRequestEmployeeInfo(employeeID: UUID) -> [Employee]?
 	func add(company name: String, id: String)
 	func add(employee info: [EmployeePropertyKey : String?], companyID: UUID)
+	func change(employee info: [EmployeePropertyKey : String?], employeeID: UUID)
 	func removeCompanyAt(Id id: UUID)
 	func removeEmployeeAt(Id id: UUID)
 	func register(observer: IQueueModelObserver, modelType: ModelType)
@@ -66,6 +67,37 @@ extension ModelQueryService {
 // MARK: IModelQueryService
 
 extension ModelQueryService: IModelQueryService {
+	func change(employee info: [EmployeePropertyKey : String?], employeeID: UUID) {
+		if let name = info[.name] as? String,
+		   let age = Int16(info[.age] as? String ?? "none"),
+		   let experience = Int16(info[.experience] as? String ?? "none"),
+		   let education = info[.education] as? String,
+		   let position = info[.position] as? String {
+			
+			let context = self.persistContainer.viewContext
+			let fetchRequest: NSFetchRequest<Employee> = Employee.fetchRequest()
+			
+			let predicate = NSPredicate(format: "id == %@", employeeID as CVarArg)
+			fetchRequest.predicate = predicate
+			
+			do {
+				let employees = try context.fetch(fetchRequest)
+				
+				employees.first?.name = name
+				employees.first?.id = UUID()
+				employees.first?.experience = experience
+				employees.first?.education = education
+				employees.first?.age = age
+				employees.first?.position = position
+				
+				self.saveContext()
+			} catch let error as NSError {
+				assertionFailure(error.description)
+			}
+			
+		}
+	}
+	
 	func fetchRequestEmployeeInfo(employeeID: UUID) -> [Employee]? {
 		var employees = [Employee]()
 		let context = self.persistContainer.viewContext

@@ -8,7 +8,7 @@
 import UIKit
 
 protocol IAddEmployeePresenter {
-	func saveEmployee(info: [EmployeePropertyKey:String?])
+	func saveEmployee(info: [EmployeePropertyKey:String?], editMode: EmployeeInfoMode)
 	func getEmployeeInfo() -> [EmployeePropertyKey:String?]
 }
 
@@ -52,7 +52,7 @@ extension AddEmployeePresenter: IAddEmployeePresenter {
 		return self.employeeInfo
 	}
 	
-	func saveEmployee(info: [EmployeePropertyKey:String?]) {
+	func saveEmployee(info: [EmployeePropertyKey:String?], editMode: EmployeeInfoMode) {
 		
 		if let _ = info[.name] as? String,
 		   let age = Int16(info[.age] as? String ?? "none"),
@@ -60,8 +60,12 @@ extension AddEmployeePresenter: IAddEmployeePresenter {
 		   let _ = Int16(info[.experience] as? String ?? "none"),
 		   let _ = info[.education] as? String,
 		   let _ = info[.position] as? String {
-
-			self.queryModel.add(employee: info, companyID: self.companyID)
+			
+			if editMode == .editing {
+				self.queryModel.change(employee: info, employeeID: self.employeeID)
+			} else {
+				self.queryModel.add(employee: info, companyID: self.companyID)
+			}
 			self.view?.navigationController?.popViewController(animated: true)
 		}
 	}

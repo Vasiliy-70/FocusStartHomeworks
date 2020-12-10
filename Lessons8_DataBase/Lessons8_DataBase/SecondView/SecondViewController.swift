@@ -61,7 +61,7 @@ extension SecondViewController: UITableViewDelegate {
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		self.presenter?.showEmployeeInfoAt(index: indexPath.row, editMode: false)
+		self.presenter?.showEmployeeInfoAt(index: indexPath.row, editMode: .showing)
 	}
 }
 

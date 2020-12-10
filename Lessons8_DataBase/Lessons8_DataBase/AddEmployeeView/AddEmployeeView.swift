@@ -9,6 +9,7 @@ import UIKit
 
 protocol IEmployeeInfoView {
 	func getEmployeeInfo() -> [EmployeePropertyKey : String?]
+	var editMode: EmployeeInfoMode { get set }
 }
 
 class AddEmployeeView: UIView {
@@ -26,27 +27,7 @@ class AddEmployeeView: UIView {
 	private var experienceField = UITextField()
 	private var educationField = UITextField()
 	private var positionField = UITextField()
-	
-	private var editMode: Bool = false {
-		willSet {
-			self.nameField.isUserInteractionEnabled = newValue
-			self.ageField.isUserInteractionEnabled = newValue
-			self.experienceField.isUserInteractionEnabled = newValue
-			self.educationField.isUserInteractionEnabled = newValue
-			self.positionField.isUserInteractionEnabled = newValue
-			
-			self.nameField.backgroundColor = newValue ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-			self.ageField.backgroundColor = newValue ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-			self.experienceField.backgroundColor = newValue ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-			self.educationField.backgroundColor = newValue ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-			self.positionField.backgroundColor = newValue ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-			
-			if !newValue {
-				self.readEmployeeInfo()
-			}
-		}
-	}
-	
+		
 	private enum Constraints {
 		static let labelsOffset: CGFloat = 20
 		static let labelsWidth: CGFloat = 150
@@ -58,7 +39,7 @@ class AddEmployeeView: UIView {
 		static var textFieldsBackground: UIColor = .white
 	}
 	
-	init(delegate: AddEmployeeViewController, editMode: Bool) {
+	init(delegate: AddEmployeeViewController, editMode: EmployeeInfoMode) {
 		self.delegate = delegate
 		
 		super.init(frame: .zero)
@@ -194,6 +175,32 @@ extension AddEmployeeView {
 // MARK: UITextFieldDelegate
 
 extension AddEmployeeView: IEmployeeInfoView {
+	var editMode: EmployeeInfoMode {
+		get {
+			return .showing
+		}
+		set {
+			let editEnabled = newValue == .addition ||
+				newValue == .editing ? true : false
+			
+			self.nameField.isUserInteractionEnabled = editEnabled
+			self.ageField.isUserInteractionEnabled = editEnabled
+			self.experienceField.isUserInteractionEnabled = editEnabled
+			self.educationField.isUserInteractionEnabled = editEnabled
+			self.positionField.isUserInteractionEnabled = editEnabled
+			
+			self.nameField.backgroundColor = editEnabled ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+			self.ageField.backgroundColor = editEnabled ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+			self.experienceField.backgroundColor = editEnabled ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+			self.educationField.backgroundColor = editEnabled ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+			self.positionField.backgroundColor = editEnabled ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+			
+			if newValue == .showing || newValue == .editing {
+				self.readEmployeeInfo()
+			}
+		}
+	}
+	
 	func getEmployeeInfo() -> [EmployeePropertyKey : String?] {
 		var info = [EmployeePropertyKey : String?]()
 		info[.name] = self.nameField.text

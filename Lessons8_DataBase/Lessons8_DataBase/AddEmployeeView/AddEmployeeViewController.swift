@@ -7,14 +7,17 @@
 
 import UIKit
 
-
 class AddEmployeeViewController: UIViewController {
 	
 	var employeeInfo: [EmployeePropertyKey : String?] = [:]
 	var presenter: IAddEmployeePresenter?
-	private let editMode: Bool
+	private var editMode: EmployeeInfoMode {
+		didSet {
+			self.editModeChange()
+		}
+	}
 	
-	init(editMode: Bool) {
+	init(editMode: EmployeeInfoMode) {
 		self.editMode = editMode
 		super.init(nibName: nil, bundle: nil)
 	}
@@ -25,9 +28,7 @@ class AddEmployeeViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
-		self.navigationItem.rightBarButtonItems = [ UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.saveEmployee))]
-		
+		self.editModeChange()
 	}
 	
 	override func loadView() {
@@ -39,10 +40,29 @@ class AddEmployeeViewController: UIViewController {
 }
 
 extension AddEmployeeViewController {
+	func editModeChange() {
+		switch self.editMode {
+		case .editing:
+			self.navigationItem.rightBarButtonItems = [ UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.saveEmployee))]
+			
+		case .showing:
+			self.navigationItem.rightBarButtonItems = [ UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(self.editModeON))]
+		default:
+			break
+		}
+		if var view = self.view as? IEmployeeInfoView {
+			view.editMode = self.editMode
+		}
+	}
+	
 	@objc func saveEmployee() {
 		if let view = self.view as? IEmployeeInfoView {
 			let employee = view.getEmployeeInfo()
-			self.presenter?.saveEmployee(info: employee)
+			self.presenter?.saveEmployee(info: employee, editMode: self.editMode)
 		}
 	}
+	@objc func editModeON() {
+		self.editMode = .editing
+	}
+	
 }

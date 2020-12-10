@@ -11,7 +11,7 @@ protocol ISecondPresenter: class {
 	var employeeList: [String] { get }
 	func removeEmployeeAt(index: Int)
 	func requestData()
-	func showEmployeeInfoAt(index: Int, editMode: Bool)
+	func showEmployeeInfoAt(index: Int, editMode: EmployeeInfoMode)
 }
 
 final class SecondPresenter {
@@ -46,7 +46,7 @@ final class SecondPresenter {
 }
 
 extension SecondPresenter: ISecondPresenter {
-	func showEmployeeInfoAt(index: Int, editMode: Bool) {
+	func showEmployeeInfoAt(index: Int, editMode: EmployeeInfoMode) {
 		if let uuid = self.employeeData[index].id {
 			self.coordinateController.showEmployeeInfo(employeeID: uuid, companyID: self.companyID, editMode: editMode)
 		}
