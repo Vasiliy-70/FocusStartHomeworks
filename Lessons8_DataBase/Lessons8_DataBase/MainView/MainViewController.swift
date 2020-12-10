@@ -53,9 +53,18 @@ extension MainViewController {
 	func configureAddView() {
 		let addViewAlert = 	UIAlertController(title: "Add company", message: "Enter company name", preferredStyle: .alert)
 		let saveAction = UIAlertAction(title: "Save", style: .default, handler: {[weak self] _ in
-			if let self = self {
-				self.presenter?.add(company: self.addCompanyView?.textFields?.first?.text ?? "undefined")
+			if let self = self,
+			   let name = self.addCompanyView?.textFields?.first?.text,
+			   name != "" {
+				self.presenter?.add(company: name)
 				self.addCompanyView?.textFields?.first?.text = ""
+			} else {
+				let alert = UIAlertController(title: "Error", message: "Invalid data entered", preferredStyle: .alert)
+				let applyAction = UIAlertAction(title: "Apply", style: .default, handler: {[weak self] _ in
+					self?.addCompanyView?.textFields?.first?.text = ""
+				})
+				alert.addAction(applyAction)
+				self?.present(alert, animated: true, completion: nil)
 			}
 		})
 		let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: {[weak self] _ in
@@ -87,16 +96,6 @@ extension MainViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		self.presenter?.requestEmployeeCompanyAt(index: indexPath.row)
 		
-	}
-	
-	func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-		let editingAction = UIContextualAction(style: .normal, title: "Edit") {
-			(action, view, handler)  in
-		}
-		editingAction.backgroundColor = .systemBlue
-		let configuration = UISwipeActionsConfiguration(actions: [editingAction])
-		configuration.performsFirstActionWithFullSwipe = false
-		return configuration
 	}
 }
 

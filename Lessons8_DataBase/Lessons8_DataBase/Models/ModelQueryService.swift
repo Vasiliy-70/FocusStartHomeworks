@@ -8,10 +8,6 @@
 import CoreData
 import UIKit
 
-extension String: Error {
-	
-}
-
 protocol IModelQueryService: class {
 	func fetchRequestCompany() -> [Company]?
 	func fetchRequestEmployees(companyID: UUID) -> [Employee]?
@@ -67,6 +63,54 @@ extension ModelQueryService {
 // MARK: IModelQueryService
 
 extension ModelQueryService: IModelQueryService {
+	func register(observer: IQueueModelObserver, modelType: ModelType) {
+		self.observers.append((observer, modelType))
+	}
+	
+	func fetchRequestCompany() -> [Company]? {
+		var company = [Company]()
+		let context = self.persistContainer.viewContext
+		let fetchRequest: NSFetchRequest<Company> = Company.fetchRequest()
+		
+		do {
+			company = try context.fetch(fetchRequest)
+		} catch let error as NSError {
+			assertionFailure(error.description)
+			return nil
+		}
+		return company
+	}
+	
+	func fetchRequestEmployees(companyID: UUID) -> [Employee]? {
+		var employees = [Employee]()
+		let context = self.persistContainer.viewContext
+		let fetchRequest: NSFetchRequest<Employee> = Employee.fetchRequest()
+		let predicate = NSPredicate(format: "company.id == %@", companyID as CVarArg)
+		fetchRequest.predicate = predicate
+		
+		do {
+			employees = try context.fetch(fetchRequest)
+		} catch let error as NSError {
+			assertionFailure(error.description)
+		}
+		return employees
+	}
+	
+	func fetchRequestEmployeeInfo(employeeID: UUID) -> [Employee]? {
+		var employees = [Employee]()
+		let context = self.persistContainer.viewContext
+		let fetchRequest: NSFetchRequest<Employee> = Employee.fetchRequest()
+		let predicate = NSPredicate(format: "id == %@", employeeID as CVarArg)
+		fetchRequest.predicate = predicate
+		
+		do {
+			employees = try context.fetch(fetchRequest)
+		} catch let error as NSError {
+			assertionFailure(error.description)
+		}
+		return employees
+	}
+	
 	func change(employee info: [EmployeePropertyKey : String?], employeeID: UUID) {
 		if let name = info[.name] as? String,
 		   name != "",
@@ -101,23 +145,28 @@ extension ModelQueryService: IModelQueryService {
 		}
 	}
 	
-	func fetchRequestEmployeeInfo(employeeID: UUID) -> [Employee]? {
-		var employees = [Employee]()
+	func removeCompanyAt(Id id: UUID) {
 		let context = self.persistContainer.viewContext
-		let fetchRequest: NSFetchRequest<Employee> = Employee.fetchRequest()
-		let predicate = NSPredicate(format: "id == %@", employeeID as CVarArg)
-		fetchRequest.predicate = predicate
+		let fetchRequest: NSFetchRequest<Company> = Company.fetchRequest()
+		
 		do {
-			employees = try context.fetch(fetchRequest)
+			let companies = try context.fetch(fetchRequest)
+			for company in companies {
+				if company.id == id {
+					context.delete(company)
+				}
+			}
 		} catch let error as NSError {
 			assertionFailure(error.description)
 		}
-		return employees
+		
+		self.saveContext()
 	}
 	
 	func removeEmployeeAt(Id id: UUID) {
 		let context = self.persistContainer.viewContext
 		let fetchRequest: NSFetchRequest<Employee> = Employee.fetchRequest()
+		
 		do {
 			let employees = try context.fetch(fetchRequest)
 			for employee in employees {
@@ -128,6 +177,19 @@ extension ModelQueryService: IModelQueryService {
 		} catch let error as NSError {
 			assertionFailure(error.description)
 		}
+		
+		self.saveContext()
+	}
+	
+	func add(company name: String) {
+		let context = self.persistContainer.viewContext
+		guard let entity = NSEntityDescription.entity(forEntityName: "Company", in: context),
+			  name != ""
+		else { assertionFailure("Save error"); return }
+		
+		let companyObject = Company(entity: entity, insertInto: context)
+		companyObject.name = name
+		companyObject.id = UUID()
 		
 		self.saveContext()
 	}
@@ -167,78 +229,18 @@ extension ModelQueryService: IModelQueryService {
 			
 		}
 	}
-		func fetchRequestEmployees(companyID: UUID) -> [Employee]? {
-			var employees = [Employee]()
-			let context = self.persistContainer.viewContext
-			let fetchRequest: NSFetchRequest<Employee> = Employee.fetchRequest()
-			let predicate = NSPredicate(format: "company.id == %@", companyID as CVarArg)
-			fetchRequest.predicate = predicate
+	
+	func saveContext() {
+		let context = self.persistContainer.viewContext
+		
+		if context.hasChanges {
 			do {
-				employees = try context.fetch(fetchRequest)
-			} catch let error as NSError {
-				assertionFailure(error.description)
+				try context.save()
+			} catch {
+				assertionFailure(error.localizedDescription)
 			}
-			return employees
 		}
-		
-		func removeCompanyAt(Id id: UUID) {
-			let context = self.persistContainer.viewContext
-			let fetchRequest: NSFetchRequest<Company> = Company.fetchRequest()
-			do {
-				let companies = try context.fetch(fetchRequest)
-				for company in companies {
-					if company.id == id {
-						context.delete(company)
-					}
-				}
-			} catch let error as NSError {
-				assertionFailure(error.description)
-			}
-			
-			self.saveContext()
-		}
-		
-		func register(observer: IQueueModelObserver, modelType: ModelType) {
-			self.observers.append((observer, modelType))
-		}
-		
-		func fetchRequestCompany() -> [Company]? {
-			var company = [Company]()
-			let context = self.persistContainer.viewContext
-			let fetchRequest: NSFetchRequest<Company> = Company.fetchRequest()
-			
-			do {
-				company = try context.fetch(fetchRequest)
-			} catch let error as NSError {
-				assertionFailure(error.description)
-				return nil
-			}
-			return company
-		}
-		
-		func add(company name: String) {
-			let context = self.persistContainer.viewContext
-			guard let entity = NSEntityDescription.entity(forEntityName: "Company", in: context)
-			else { assertionFailure("Save error"); return }
-			
-			let companyObject = Company(entity: entity, insertInto: context)
-			companyObject.name = name
-			companyObject.id = UUID()
-			
-			self.saveContext()
-		}
-		
-		func saveContext() {
-			let context = self.persistContainer.viewContext
-			
-			if context.hasChanges {
-				do {
-					try context.save()
-				} catch {
-					assertionFailure(error.localizedDescription)
-				}
-			}
-			self.notifyObservers(modelType: .company)
-			self.notifyObservers(modelType: .employee)
-		}
+		self.notifyObservers(modelType: .company)
+		self.notifyObservers(modelType: .employee)
 	}
+}
