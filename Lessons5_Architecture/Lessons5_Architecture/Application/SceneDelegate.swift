@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		window = UIWindow(frame: windowScene.coordinateSpace.bounds)
 		
 		let navigationController = UINavigationController()
-		let coordinateController = CoordinateController(navigationController: navigationController, moduleAssembly: ModuleAssembly())
+		let coordinateController = CoordinateController(navigationController: navigationController)
 		coordinateController.initialViewController()
 		
 		

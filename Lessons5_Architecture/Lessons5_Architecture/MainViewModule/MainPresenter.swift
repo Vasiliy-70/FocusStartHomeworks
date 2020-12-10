@@ -34,7 +34,7 @@ extension MainPresenter {
 	func compareValues(receivedValue: Int) {
 		let randomValue = Int.random(in: self.minValue...self.maxValue)
 		if randomValue == self.receivedValue {
-			self.coordinateController?.showStatistics()
+			self.coordinateController?.showStatisticsAt(model: self.model)
 		}
 	}
 	

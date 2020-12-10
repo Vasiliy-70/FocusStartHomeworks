@@ -7,7 +7,8 @@
 import UIKit
 
 enum MainModuleAssembly {
-	static func createMainModule(coordinateController: ICoordinateController, model: Model) -> UIViewController {
+	static func createMainModule(coordinateController: ICoordinateController) -> UIViewController {
+		let model = Model(minValue: 0, maxValue: 5)
 		let view = MainViewController()
 		let presenter = MainPresenter(coordinateController: coordinateController, viewController: view, model: model)
 		view.presenter = presenter

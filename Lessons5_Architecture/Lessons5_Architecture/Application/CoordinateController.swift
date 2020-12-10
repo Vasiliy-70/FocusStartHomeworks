@@ -9,33 +9,37 @@ import UIKit
 	
 protocol ICoordinateController: class {
 	func initialViewController()
-	func showStatistics()
+	func showStatisticsAt(model: Model)
 	var navigationController: UINavigationController? { get set }
-	var moduleAssembly: IModuleAssembly? { get set }
 }
 
 final class CoordinateController {
 	var navigationController: UINavigationController?
-	var moduleAssembly: IModuleAssembly?
-	
-	init(navigationController: UINavigationController, moduleAssembly: IModuleAssembly) {
+
+	init(navigationController: UINavigationController) {
 		self.navigationController = navigationController
-		self.moduleAssembly = moduleAssembly
 	}
 }
 
 extension CoordinateController: ICoordinateController {
 	func initialViewController() {
-		guard let navigationController = self.navigationController,
-			  let mainViewController = self.moduleAssembly?.createMainModule(coordinateController: self) else { assertionFailure("Error in initial mainViewController"); return }
+		guard let navigationController = self.navigationController else {
+			assertionFailure("Error in initial mainViewController")
+			return
+		}
+		let mainViewController = MainModuleAssembly.createMainModule(
+			coordinateController: self)
 		navigationController.viewControllers = [mainViewController]
 	}
 	
-	func showStatistics() {
-		guard let navigationController = self.navigationController,
-			  let statsViewController = self.moduleAssembly?.createStatsModule(coordinateController: self) else { assertionFailure("Error in creating of statsViewController"); return }
+	func showStatisticsAt(model: Model) {
+		guard let navigationController = self.navigationController
+		else {
+			assertionFailure("Error in creating of statsViewController")
+			return
+		}
+		let statsViewController = StatsModuleAssembly.createStatsModule(
+			coordinateController: self, model: model)
 		navigationController.pushViewController(statsViewController, animated: true)
 	}
-	
-	
 }

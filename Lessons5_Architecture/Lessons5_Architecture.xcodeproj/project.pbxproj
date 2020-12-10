@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4783A2272562CA8B0055B1C0 /* ModuleAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4783A2262562CA8B0055B1C0 /* ModuleAssembly.swift */; };
 		47B2DB332562B5D000CCB096 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B2DB322562B5D000CCB096 /* Model.swift */; };
 		47B2DB372562B63900CCB096 /* MainPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B2DB362562B63900CCB096 /* MainPresenter.swift */; };
 		47B2DB3A2562B70200CCB096 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B2DB392562B70200CCB096 /* MainView.swift */; };
@@ -25,7 +24,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4783A2262562CA8B0055B1C0 /* ModuleAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleAssembly.swift; sourceTree = "<group>"; };
 		47B2DB322562B5D000CCB096 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		47B2DB362562B63900CCB096 /* MainPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPresenter.swift; sourceTree = "<group>"; };
 		47B2DB392562B70200CCB096 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -68,7 +66,6 @@
 			children = (
 				47E1AEBB256293B8008AAC3C /* AppDelegate.swift */,
 				47E1AEBD256293B8008AAC3C /* SceneDelegate.swift */,
-				4783A2262562CA8B0055B1C0 /* ModuleAssembly.swift */,
 				47F76BD22563781400CF61F2 /* CoordinateController.swift */,
 			);
 			path = Application;
@@ -215,7 +212,6 @@
 				47E1AEC0256293B8008AAC3C /* MainViewController.swift in Sources */,
 				47B2DB3A2562B70200CCB096 /* MainView.swift in Sources */,
 				47E1AEBC256293B8008AAC3C /* AppDelegate.swift in Sources */,
-				4783A2272562CA8B0055B1C0 /* ModuleAssembly.swift in Sources */,
 				47F76BC0256307C000CF61F2 /* StatsView.swift in Sources */,
 				47DFE4E22577FCCA00162BF7 /* MainModuleAssembly.swift in Sources */,
 				47DFE4E62577FFA600162BF7 /* StatsModuleAssembly.swift in Sources */,

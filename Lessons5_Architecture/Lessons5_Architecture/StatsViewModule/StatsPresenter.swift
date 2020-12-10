@@ -3,9 +3,7 @@
 //  Lessons5_Architecture
 //
 //  Created by Боровик Василий on 17.11.2020.
-//
-
-import Foundation
+//
 
 protocol IStatsPresenter: class {
 	func getStatistic()
