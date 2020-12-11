@@ -27,10 +27,6 @@ enum ModelType {
 
 final class ModelQueryService {
 	
-	static let manager = ModelQueryService()
-	
-	private init() {}
-	
 	lazy var persistContainer: NSPersistentContainer = {
 		let container = NSPersistentContainer(name: "Lessons8_DataBase")
 		container.loadPersistentStores{ (storeDescription, error) in

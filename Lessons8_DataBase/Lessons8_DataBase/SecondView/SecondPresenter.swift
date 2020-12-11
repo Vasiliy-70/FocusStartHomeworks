@@ -18,7 +18,7 @@ protocol ISecondPresenter: class {
 final class SecondPresenter {
 	weak var view: ISecondViewController?
 	private let coordinateController: ICoordinateController
-	private let queryModel = ModelQueryService.manager
+	private let queryModel: ModelQueryService
 	
 	private var companyID: UUID
 	private var ID: UUID?
@@ -38,10 +38,12 @@ final class SecondPresenter {
 		}
 	}
 	
-	public init(view: ISecondViewController, coordinateController: ICoordinateController, companyID: UUID) {
+	public init(view: ISecondViewController, coordinateController: ICoordinateController, queryModel: ModelQueryService, companyID: UUID) {
 		self.view = view
 		self.coordinateController = coordinateController
 		self.companyID = companyID
+		self.queryModel = queryModel
+		
 		self.queryModel.register(observer: self, modelType: .employee)
 	}
 }

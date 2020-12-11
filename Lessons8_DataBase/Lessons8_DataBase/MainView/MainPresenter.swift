@@ -22,7 +22,7 @@ protocol IQueueModelObserver: class {
 final class MainPresenter {
 	private weak var view: IMainViewController?
 	private var coordinateController: ICoordinateController
-	private var queryModel = ModelQueryService.manager
+	private var queryModel: ModelQueryService
 	
 	private var companyNames = [String]() {
 		didSet {
@@ -41,9 +41,11 @@ final class MainPresenter {
 		}
 	}
 	
-	public init(view: IMainViewController, coordinateController: ICoordinateController) {
+	public init(view: IMainViewController, coordinateController: ICoordinateController, queryModel: ModelQueryService) {
 		self.view = view
 		self.coordinateController = coordinateController
+		self.queryModel = queryModel
+		
 		self.queryModel.register(observer: self, modelType: .company)
 	}
 }

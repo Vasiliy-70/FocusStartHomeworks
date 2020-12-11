@@ -22,7 +22,7 @@ enum EmployeePropertyKey {
 
 final class EmployeeInfoPresenter {
 	weak var view: EmployeeInfoViewController?
-	private let queryModel = ModelQueryService.manager
+	private let queryModel: ModelQueryService
 	private let companyID: UUID
 	private let employeeID: UUID
 	
@@ -39,10 +39,12 @@ final class EmployeeInfoPresenter {
 		}
 	}
 	
-	public init(view: EmployeeInfoViewController, companyID: UUID, employeeID: UUID?) {
+	public init(view: EmployeeInfoViewController, queryModel: ModelQueryService, companyID: UUID, employeeID: UUID?) {
 		self.view = view
 		self.companyID = companyID
 		self.employeeID = employeeID ?? UUID()
+		self.queryModel = queryModel
+		
 		self.requestData()
 	}
 }

@@ -8,9 +8,9 @@
 import UIKit
 
 enum SecondModuleAssembly {
-	static func createSecondModule(coordinateController: ICoordinateController, companyID: UUID) -> UIViewController {
+	static func createSecondModule(coordinateController: ICoordinateController, queryModel: ModelQueryService, companyID: UUID) -> UIViewController {
 		let view = SecondViewController()
-		let presenter = SecondPresenter(view: view, coordinateController: coordinateController, companyID: companyID)
+		let presenter = SecondPresenter(view: view, coordinateController: coordinateController, queryModel: queryModel, companyID: companyID)
 		view.presenter = presenter
 		return view
 	}
