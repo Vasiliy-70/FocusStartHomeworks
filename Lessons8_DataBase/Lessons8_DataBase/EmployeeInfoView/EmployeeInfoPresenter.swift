@@ -8,16 +8,9 @@
 import UIKit
 
 protocol IEmployeeInfoPresenter {
-	func saveEmployee(info: [EmployeePropertyKey:String?], editMode: EmployeeInfoMode)
-	func getEmployeeInfo() -> [EmployeePropertyKey:String?]
-}
-
-enum EmployeePropertyKey {
-	case name
-	case age
-	case experience
-	case education
-	case position
+	var employee: [EmployeePropertyKey:String?] { get }
+	func actionSaveButton()
+	func viewDidLoad()
 }
 
 final class EmployeeInfoPresenter {
@@ -26,7 +19,11 @@ final class EmployeeInfoPresenter {
 	private let companyID: UUID
 	private let employeeID: UUID
 	
-	private var employeeInfo = [EmployeePropertyKey:String?]()
+	private var employeeInfo = [EmployeePropertyKey:String?]() {
+		didSet {
+			self.view?.updateData()
+		}
+	}
 	
 	private var employeeData = [Employee]() {
 		willSet {
@@ -49,16 +46,27 @@ final class EmployeeInfoPresenter {
 	}
 }
 
+extension EmployeeInfoPresenter {
+	func requestData() {
+		self.employeeData = self.queryModel.fetchRequestEmployeeInfo(employeeID: self.employeeID) ?? []
+	}
+}
+
+
 // MARK: IEmployeeInfoPresenter
 
 extension EmployeeInfoPresenter: IEmployeeInfoPresenter {
-	func getEmployeeInfo() -> [EmployeePropertyKey : String?] {
-		return self.employeeInfo
+	var employee: [EmployeePropertyKey : String?] {
+		self.employeeInfo
 	}
 	
-	func saveEmployee(info: [EmployeePropertyKey:String?], editMode: EmployeeInfoMode) {
-		
-		if let name = info[.name] as? String,
+	func viewDidLoad() {
+		self.requestData()
+	}
+	
+	func actionSaveButton() {
+		if let info = self.view?.employeeInfo,
+		   let name = info[.name] as? String,
 		   name != "",
 		   let age = Int16(info[.age] as? String ?? "none"),
 		   age > 0,
@@ -66,7 +74,7 @@ extension EmployeeInfoPresenter: IEmployeeInfoPresenter {
 		   let _ = info[.education] as? String,
 		   let position = info[.position] as? String,
 		   position != ""  {
-			if editMode == .editing {
+			if self.view?.editMode == .editing {
 				self.queryModel.change(employee: info, employeeID: self.employeeID)
 			} else {
 				self.queryModel.add(employee: info, companyID: self.companyID)
@@ -78,8 +86,3 @@ extension EmployeeInfoPresenter: IEmployeeInfoPresenter {
 	}
 }
 
-extension EmployeeInfoPresenter {
-	func requestData() {
-		self.employeeData = self.queryModel.fetchRequestEmployeeInfo(employeeID: self.employeeID) ?? []
-	}
-}

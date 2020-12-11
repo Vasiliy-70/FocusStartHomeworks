@@ -9,10 +9,11 @@ import UIKit
 
 protocol ISecondPresenter: class {
 	var employeeList: [String] { get }
-	func removeEmployeeAt(index: Int)
-	func requestData()
-	func showEmployeeInfoAt(index: Int, editMode: EmployeeInfoMode)
-	func addNewEmployee()
+	func actionDeleteRow()
+	func actionEditRow()
+	func actionTapRow()
+	func actionBarButton()
+	func viewWillAppear()
 }
 
 final class SecondPresenter {
@@ -43,25 +44,46 @@ final class SecondPresenter {
 		self.coordinateController = coordinateController
 		self.companyID = companyID
 		self.queryModel = queryModel
-		
-		self.queryModel.register(observer: self, modelType: .employee)
 	}
 }
 
+extension SecondPresenter {
+	func requestData() {
+		self.employeeData = self.queryModel.fetchRequestEmployees(companyID: self.companyID) ?? []
+	}
+}
+
+
+// MARK: ISecondPresenter
+
 extension SecondPresenter: ISecondPresenter {
-	func addNewEmployee() {
+	func viewWillAppear() {
+		self.requestData()
+	}
+	
+	func actionBarButton() {
 		self.coordinateController.showEmployeeInfo(employeeID: nil, companyID: self.companyID, editMode: .addition)
 	}
 	
-	func showEmployeeInfoAt(index: Int, editMode: EmployeeInfoMode) {
-		if let uuid = self.employeeData[index].id {
-			self.coordinateController.showEmployeeInfo(employeeID: uuid, companyID: self.companyID, editMode: editMode)
+	func actionTapRow() {
+		if	let index = self.view?.selectedRow,
+			let id = self.employeeData[index].id {
+			self.coordinateController.showEmployeeInfo(employeeID: id, companyID: self.companyID, editMode: .showing)
 		}
 	}
 	
-	func removeEmployeeAt(index: Int) {
-		if let id = self.employeeData[index].id {
-			self.queryModel.removeEmployeeAt(Id: id)
+	func actionDeleteRow() {
+		if	let index = self.view?.selectedRow,
+			let id = self.employeeData[index].id {
+			self.queryModel.removeEmployeeAt(id: id)
+			self.requestData()
+		}
+	}
+	
+	func actionEditRow() {
+		if	let index = self.view?.selectedRow,
+			let id = self.employeeData[index].id {
+			self.coordinateController.showEmployeeInfo(employeeID: id, companyID: self.companyID, editMode: .editing)
 		}
 	}
 	
@@ -69,15 +91,5 @@ extension SecondPresenter: ISecondPresenter {
 		get {
 			self.employeeNames
 		}
-	}
-	
-	func requestData() {
-		self.employeeData = self.queryModel.fetchRequestEmployees(companyID: self.companyID) ?? []
-	}
-}
-
-extension SecondPresenter: IQueueModelObserver {
-	func notifierDataUpdate() {
-		self.requestData()
 	}
 }

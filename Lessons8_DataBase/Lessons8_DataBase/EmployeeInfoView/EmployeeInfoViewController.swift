@@ -8,23 +8,26 @@
 import UIKit
 
 protocol IEmployeeInfoViewController {
+	var editMode: EmployeeInfoMode { get }
 	func showAlert()
+	func updateData()
 }
 
 class EmployeeInfoViewController: UIViewController {
 
 	private var alertView: UIAlertController?
-	var employeeInfo: [EmployeePropertyKey : String?] = [:]
+	private var employee: [EmployeePropertyKey : String?] = [:]
 	var presenter: IEmployeeInfoPresenter?
-	private var editMode: EmployeeInfoMode {
+	private var viewMode: EmployeeInfoMode {
 		didSet {
 			self.editModeChange()
 		}
 	}
 	
 	init(editMode: EmployeeInfoMode) {
-		self.editMode = editMode
+		self.viewMode = editMode
 		super.init(nibName: nil, bundle: nil)
+		
 		self.configureAlerts()
 	}
 	
@@ -35,13 +38,11 @@ class EmployeeInfoViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.editModeChange()
+		self.presenter?.viewDidLoad()
 	}
 	
 	override func loadView() {
-		if let presenter = self.presenter {
-			self.employeeInfo = presenter.getEmployeeInfo()
-		}
-		self.view = EmployeeInfoView(delegate: self, editMode: self.editMode)
+		self.view = EmployeeInfoView(viewController: self, editMode: self.viewMode)
 	}
 }
 
@@ -60,30 +61,30 @@ extension EmployeeInfoViewController {
 
 extension EmployeeInfoViewController {
 	func editModeChange() {
-		switch self.editMode {
+		switch self.viewMode {
 		case .editing:
-			self.navigationItem.rightBarButtonItems = [ UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.saveEmployee))]
+			self.navigationItem.rightBarButtonItems = [ UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.actionSaveButton))]
 			self.navigationItem.title = "Edit employee"
 		case .addition:
-			self.navigationItem.rightBarButtonItems = [ UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.saveEmployee))]
+			self.navigationItem.rightBarButtonItems = [ UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.actionSaveButton))]
 			self.navigationItem.title = "Add employee"
 		case .showing:
 			self.navigationItem.rightBarButtonItems = [ UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(self.editModeON))]
 			self.navigationItem.title = "Info"
 		}
 		if var view = self.view as? IEmployeeInfoView {
-			view.editMode = self.editMode
+			view.editMode = self.viewMode
 		}
 	}
 	
-	@objc func saveEmployee() {
+	@objc func actionSaveButton() {
 		if let view = self.view as? IEmployeeInfoView {
-			let employee = view.getEmployeeInfo()
-			self.presenter?.saveEmployee(info: employee, editMode: self.editMode)
+			self.employee = view.getEmployeeInfo()
+			self.presenter?.actionSaveButton()
 		}
 	}
 	@objc func editModeON() {
-		self.editMode = .editing
+		self.viewMode = .editing
 	}
 	
 }
@@ -91,6 +92,22 @@ extension EmployeeInfoViewController {
 // MARK: IEmployeeInfoViewController
 
 extension EmployeeInfoViewController: IEmployeeInfoViewController {
+	func updateData() {
+		if let employee = self.presenter?.employee {
+			self.employee = employee
+			let view = self.view as? IEmployeeInfoView
+			view?.setEmployee(info: self.employee)
+		}
+	}
+	
+	var editMode: EmployeeInfoMode {
+		self.viewMode
+	}
+	
+	var employeeInfo: [EmployeePropertyKey : String?] {
+		self.employee
+	}
+	
 	func showAlert() {
 		if let alertView = self.alertView {
 			self.present(alertView, animated: true, completion: nil)

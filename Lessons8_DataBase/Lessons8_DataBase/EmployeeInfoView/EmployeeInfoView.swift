@@ -8,13 +8,13 @@
 import UIKit
 
 protocol IEmployeeInfoView {
-	func getEmployeeInfo() -> [EmployeePropertyKey : String?]
 	var editMode: EmployeeInfoMode { get set }
+	func getEmployeeInfo() -> [EmployeePropertyKey : String?]
+	func setEmployee(info: [EmployeePropertyKey : String?])
 }
 
-class EmployeeInfoView: UIView {
-	
-	private var delegate: EmployeeInfoViewController
+final class EmployeeInfoView: UIView {
+	private var viewController: IEmployeeInfoViewController
 	
 	private var nameLabel = UILabel()
 	private var ageLabel = UILabel()
@@ -41,14 +41,15 @@ class EmployeeInfoView: UIView {
 		static var viewBackgroundColor: UIColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
 	}
 	
-	init(delegate: EmployeeInfoViewController, editMode: EmployeeInfoMode) {
-		self.delegate = delegate
+	init(viewController: IEmployeeInfoViewController, editMode: EmployeeInfoMode) {
+		self.viewController = viewController
 		
 		super.init(frame: .zero)
 		
 		self.backgroundColor = Constants.viewBackgroundColor
 		self.setupViewAppearance()
 		self.setupViewConstraints()
+		self.hideKeyboardWhenTappedAround()
 		
 		defer {
 			self.editMode = editMode
@@ -91,7 +92,6 @@ extension EmployeeInfoView {
 		self.positionField.borderStyle = .roundedRect
 	}
 }
-
 
 // MARK: Setup Constraints
 
@@ -177,6 +177,14 @@ extension EmployeeInfoView {
 // MARK: UITextFieldDelegate
 
 extension EmployeeInfoView: IEmployeeInfoView {
+	func setEmployee(info: [EmployeePropertyKey : String?]) {
+		self.nameField.text = info[.name] ?? ""
+		self.ageField.text = info[.age] ?? ""
+		self.educationField.text = info[.education] ?? ""
+		self.experienceField.text = info[.experience] ?? ""
+		self.positionField.text = info[.position] ?? ""
+	}
+
 	var editMode: EmployeeInfoMode {
 		get {
 			return .showing
@@ -201,10 +209,6 @@ extension EmployeeInfoView: IEmployeeInfoView {
 				editEnabled ? Constants.fieldColorEditing: Constants.fieldColorDefault
 			self.positionField.backgroundColor =
 				editEnabled ? Constants.fieldColorEditing: Constants.fieldColorDefault
-			
-			if newValue == .showing || newValue == .editing {
-				self.readEmployeeInfo()
-			}
 		}
 	}
 	
@@ -219,13 +223,17 @@ extension EmployeeInfoView: IEmployeeInfoView {
 	}
 }
 
+// MARK: Action
+
 extension EmployeeInfoView {
-	func readEmployeeInfo() {
-		let info = self.delegate.employeeInfo
-		self.nameField.text = info[.name] ?? ""
-		self.ageField.text = info[.age] ?? ""
-		self.educationField.text = info[.education] ?? ""
-		self.experienceField.text = info[.experience] ?? ""
-		self.positionField.text = info[.position] ?? ""
+	func hideKeyboardWhenTappedAround() {
+		let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.hideKeyboard))
+		tap.cancelsTouchesInView = false
+		self.addGestureRecognizer(tap)
+	}
+	
+	@objc func hideKeyboard() {
+		self.endEditing(true)
 	}
 }
+

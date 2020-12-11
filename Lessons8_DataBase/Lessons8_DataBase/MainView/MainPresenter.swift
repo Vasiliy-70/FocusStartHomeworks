@@ -9,14 +9,10 @@ import Foundation
 
 protocol IMainPresenter: class {
 	var companyList: [String] { get }
-	func add(company: String)
-	func removeCompanyAt(index: Int)
-	func requestData()
-	func requestEmployeeCompanyAt(index: Int)
-}
-
-protocol IQueueModelObserver: class {
-	func notifierDataUpdate()
+	func actionAlertSave()
+	func actionDeleteRow()
+	func actionTapRow()
+	func viewDidLoad()
 }
 
 final class MainPresenter {
@@ -45,45 +41,45 @@ final class MainPresenter {
 		self.view = view
 		self.coordinateController = coordinateController
 		self.queryModel = queryModel
-		
-		self.queryModel.register(observer: self, modelType: .company)
+	}
+}
+
+extension MainPresenter {
+	func requestData() {
+		self.companyData = self.queryModel.fetchRequestCompany() ?? []
 	}
 }
 
 // MARK: IMainPresenter
 
 extension MainPresenter: IMainPresenter {
-	var companyList: [String] {
-		get {
-			self.companyNames
-		}
-	}
-	
-	func requestEmployeeCompanyAt(index: Int) {
-		if let uuid = self.companyData[index].id {
-			self.coordinateController.showEmployeesCompanyAt(companyID: uuid)
-		}
-	}
-	
-	func requestData() {
-		self.companyData = self.queryModel.fetchRequestCompany() ?? []
-	}
-	
-	func removeCompanyAt(index: Int) {
-		if let uuid = self.companyData[index].id {
-			self.queryModel.removeCompanyAt(Id: uuid)
-		}
-	}
-	
-	func add(company: String) {
-		self.queryModel.add(company: company)
-	}
-}
-
-// MARK: IQueueModelObserver
-
-extension MainPresenter: IQueueModelObserver {
-	func notifierDataUpdate() {
+	func viewDidLoad() {
 		self.requestData()
+	}
+	
+	func actionTapRow() {
+		if let index = self.view?.selectedRow,
+		   let id = self.companyData[index].id {
+			self.coordinateController.showEmployeesCompanyAt(companyID: id)
+		}
+	}
+	
+	var companyList: [String] {
+		self.companyNames
+	}
+	
+	func actionDeleteRow() {
+		if let index = self.view?.selectedRow,
+		   let id = self.companyData[index].id {
+			self.queryModel.removeCompanyAt(id: id)
+			self.requestData()
+		}
+	}
+	
+	func actionAlertSave() {
+		if let company = self.view?.companyName {
+			self.queryModel.add(company: company)
+			self.requestData()
+		}
 	}
 }

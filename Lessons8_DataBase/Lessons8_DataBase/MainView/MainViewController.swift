@@ -9,65 +9,76 @@ import UIKit
 
 protocol IMainViewController: class {
 	func updateData()
+	var companyName: String? { get }
+	var selectedRow: Int? { get }
+}
+
+protocol IMainViewTableController: class {
+	var cellId: String { get }
+	var delegate: UITableViewDelegate { get }
+	var dataSource: UITableViewDataSource { get }
 }
 
 class MainViewController: UIViewController {
-	
 	var presenter: IMainPresenter?
 	private var addCompanyView: UIAlertController?
-	
-	private var companiesTable = UITableView()
+	private var company: String?
+	private var indexRow: Int?
 	
 	private let cellIdentifier = "cellId"
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		self.navigationItem.rightBarButtonItems = [ UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.addCompany))]
-		self.navigationItem.title = "Company List"
-
-		self.configureElements()
-		self.presenter?.requestData()
+		self.configureNavigationBar()
+		self.configureAddView()
+		self.presenter?.viewDidLoad()
 	}
 	
 	override func loadView() {
-		self.view = MainView(table: self.companiesTable)
+		self.view = MainView(tableController: self)
 	}
 }
 
 //  MARK: ConfigureElements
 
 extension MainViewController {
-	func configureElements() {
-		self.configureTable()
-		self.configureAddView()
-	}
 	
-	func configureTable() {
-		self.companiesTable.register(UITableViewCell.self, forCellReuseIdentifier: self.cellIdentifier)
-		
-		self.companiesTable.delegate = self
-		self.companiesTable.dataSource = self
+	func configureNavigationBar() {
+		self.navigationItem.rightBarButtonItems = [
+			UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.showAddView))
+		]
+		self.navigationItem.title = "Company List"
 	}
 	
 	func configureAddView() {
-		let addViewAlert = 	UIAlertController(title: "Add company", message: "Enter company name", preferredStyle: .alert)
-		let saveAction = UIAlertAction(title: "Save", style: .default, handler: {[weak self] _ in
+		let addViewAlert = 	UIAlertController(title: "Add company",
+												 message: "Enter company name",
+												 preferredStyle: .alert)
+		let saveAction = UIAlertAction(title: "Save", style: .default,
+									   handler: {[weak self] _ in
 			if let self = self,
 			   let name = self.addCompanyView?.textFields?.first?.text,
 			   name != "" {
-				self.presenter?.add(company: name)
+				self.company = name
+				
+				self.presenter?.actionAlertSave()
 				self.addCompanyView?.textFields?.first?.text = ""
 			} else {
-				let alert = UIAlertController(title: "Error", message: "Invalid data entered", preferredStyle: .alert)
-				let applyAction = UIAlertAction(title: "Apply", style: .default, handler: {[weak self] _ in
+				let alert = UIAlertController(title: "Error",
+											  message: "Invalid data entered",
+											  preferredStyle: .alert)
+				let applyAction = UIAlertAction(title: "Apply", style: .default,
+												handler: {[weak self] _ in
 					self?.addCompanyView?.textFields?.first?.text = ""
 				})
+				
 				alert.addAction(applyAction)
 				self?.present(alert, animated: true, completion: nil)
 			}
 		})
-		let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: {[weak self] _ in
+		let cancelAction = UIAlertAction(title: "Cancel", style: .default,
+										 handler: {[weak self] _ in
 			self?.addCompanyView?.textFields?.first?.text = ""
 		})
 		
@@ -85,17 +96,20 @@ extension MainViewController: UITableViewDelegate {
 		return true
 	}
 	
-	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+	func tableView(_ tableView: UITableView,
+				   commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
-			if (self.companiesTable.cellForRow(at: indexPath)?.textLabel?.text) != nil {
-				self.presenter?.removeCompanyAt(index: indexPath.row)
+			let view = self.view as? IMainViewTable
+			if view?.textInCellForRow(at: indexPath) != nil {
+				self.indexRow = indexPath.row
+				self.presenter?.actionDeleteRow()
 			}
 		}
 	}
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		self.presenter?.requestEmployeeCompanyAt(index: indexPath.row)
-		
+		self.indexRow = indexPath.row
+		self.presenter?.actionTapRow()
 	}
 }
 
@@ -108,7 +122,8 @@ extension MainViewController: UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView,
 				   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath)
+		let cell = tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier,
+												 for: indexPath)
 		cell.textLabel?.text = self.presenter?.companyList[indexPath.row]
 		return cell
 	}
@@ -117,17 +132,43 @@ extension MainViewController: UITableViewDataSource {
 // MARK: IMainViewController
 
 extension MainViewController: IMainViewController {
+	var selectedRow: Int? {
+		self.indexRow
+	}
+	
+	var companyName: String? {
+		self.company
+	}
+	
 	func updateData() {
-		self.companiesTable.reloadData()
+		let view = self.view as? IMainViewTable
+		view?.reloadTable()
+	}
+}
+
+// MARK: IMainViewTableConfigure
+
+extension MainViewController: IMainViewTableController {
+	var delegate: UITableViewDelegate {
+		self
+	}
+	
+	var dataSource: UITableViewDataSource {
+		self
+	}
+	
+	var cellId: String {
+		self.cellIdentifier
 	}
 }
 
 // MARK: Action
 
 extension MainViewController {
-	@objc func addCompany() {
+	@objc func showAddView() {
 		if let addView = self.addCompanyView {
 			self.present(addView, animated: true, completion: nil)
 		}
 	}
 }
+
