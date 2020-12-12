@@ -19,7 +19,6 @@ protocol ICoordinateController: class {
 }
 
 final class CoordinateController: ICoordinateController {
-	
 	private var navigationController: UINavigationController?
 	private var queryModel = ModelQueryService()
 	
@@ -30,7 +29,8 @@ final class CoordinateController: ICoordinateController {
 	func initialStartViewController() {
 		guard let navigationController = self.navigationController
 		else {
-			assertionFailure("Error init start vc"); return
+			assertionFailure("Error init start vc")
+			return
 		}
 		let mainViewController = MainModuleAssembly.createMainModule(coordinateController: self, queryModel: self.queryModel)
 		navigationController.viewControllers = [mainViewController]

@@ -12,7 +12,7 @@ protocol IMainViewTable {
 	func textInCellForRow(at indexPath: IndexPath) -> String?
 }
 
-class MainView: UIView {
+final class MainView: UIView {
 	private let companiesTable = UITableView()
 	private let tableController: IMainViewTableController
 	

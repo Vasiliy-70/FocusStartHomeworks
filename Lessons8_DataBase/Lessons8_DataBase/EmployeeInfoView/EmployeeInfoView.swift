@@ -14,8 +14,6 @@ protocol IEmployeeInfoView {
 }
 
 final class EmployeeInfoView: UIView {
-	private var viewController: IEmployeeInfoViewController
-	
 	private var nameLabel = UILabel()
 	private var ageLabel = UILabel()
 	private var experienceLabel = UILabel()
@@ -41,9 +39,7 @@ final class EmployeeInfoView: UIView {
 		static var viewBackgroundColor: UIColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
 	}
 	
-	init(viewController: IEmployeeInfoViewController, editMode: EmployeeInfoMode) {
-		self.viewController = viewController
-		
+	init(editMode: EmployeeInfoMode) {
 		super.init(frame: .zero)
 		
 		self.backgroundColor = Constants.viewBackgroundColor

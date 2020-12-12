@@ -88,8 +88,6 @@ extension SecondPresenter: ISecondPresenter {
 	}
 	
 	var employeeList: [String] {
-		get {
-			self.employeeNames
-		}
+		self.employeeNames
 	}
 }

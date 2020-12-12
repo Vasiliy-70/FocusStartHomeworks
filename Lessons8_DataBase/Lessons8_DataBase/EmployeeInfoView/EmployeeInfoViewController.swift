@@ -9,12 +9,11 @@ import UIKit
 
 protocol IEmployeeInfoViewController {
 	var editMode: EmployeeInfoMode { get }
-	func showAlert()
+	func showAlert(message: String)
 	func updateData()
 }
 
-class EmployeeInfoViewController: UIViewController {
-
+final class EmployeeInfoViewController: UIViewController {
 	private var alertView: UIAlertController?
 	private var employee: [EmployeePropertyKey : String?] = [:]
 	var presenter: IEmployeeInfoPresenter?
@@ -42,7 +41,7 @@ class EmployeeInfoViewController: UIViewController {
 	}
 	
 	override func loadView() {
-		self.view = EmployeeInfoView(viewController: self, editMode: self.viewMode)
+		self.view = EmployeeInfoView(editMode: self.viewMode)
 	}
 }
 
@@ -72,6 +71,7 @@ extension EmployeeInfoViewController {
 			self.navigationItem.rightBarButtonItems = [ UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(self.editModeON))]
 			self.navigationItem.title = "Info"
 		}
+		
 		if var view = self.view as? IEmployeeInfoView {
 			view.editMode = self.viewMode
 		}
@@ -108,8 +108,9 @@ extension EmployeeInfoViewController: IEmployeeInfoViewController {
 		self.employee
 	}
 	
-	func showAlert() {
+	func showAlert(message: String) {
 		if let alertView = self.alertView {
+			alertView.message = message
 			self.present(alertView, animated: true, completion: nil)
 		}
 	}

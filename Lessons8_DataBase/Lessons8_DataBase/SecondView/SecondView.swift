@@ -12,7 +12,7 @@ protocol ISecondViewTable {
 	func textInCellForRow(at indexPath: IndexPath) -> String?
 }
 
-class SecondView: UIView {
+final class SecondView: UIView {
 	private let employeesTable = UITableView()
 	private let tableController: ISecondViewTableController
 	

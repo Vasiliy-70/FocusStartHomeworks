@@ -19,7 +19,7 @@ protocol IMainViewTableController: class {
 	var dataSource: UITableViewDataSource { get }
 }
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
 	var presenter: IMainPresenter?
 	private var addCompanyView: UIAlertController?
 	private var company: String?
@@ -43,7 +43,6 @@ class MainViewController: UIViewController {
 //  MARK: ConfigureElements
 
 extension MainViewController {
-	
 	func configureNavigationBar() {
 		self.navigationItem.rightBarButtonItems = [
 			UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.showAddView))

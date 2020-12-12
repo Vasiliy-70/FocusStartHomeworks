@@ -65,24 +65,45 @@ extension EmployeeInfoPresenter: IEmployeeInfoPresenter {
 	}
 	
 	func actionSaveButton() {
-		if let info = self.view?.employeeInfo,
-		   let name = info[.name] as? String,
-		   name != "",
-		   let age = Int16(info[.age] as? String ?? "none"),
-		   age > 0,
-		   let _ = Int16(info[.experience] as? String ?? "none"),
-		   let _ = info[.education] as? String,
-		   let position = info[.position] as? String,
-		   position != ""  {
-			if self.view?.editMode == .editing {
-				self.queryModel.change(employee: info, employeeID: self.employeeID)
-			} else {
-				self.queryModel.add(employee: info, companyID: self.companyID)
-			}
-			self.view?.navigationController?.popViewController(animated: true)
-		} else {
-			self.view?.showAlert()
+		guard let info = self.view?.employeeInfo
+		else {
+			self.view?.showAlert(message: "Invalid data entered")
+			return
 		}
+		
+		guard let name = info[.name] as? String,
+			  name != ""
+		else {
+			self.view?.showAlert(message: "Invalid data entered in field: Имя")
+			return
+		}
+		
+		guard let age = Int16(info[.age] as? String ?? "none"),
+			  age > 0
+		else {
+			self.view?.showAlert(message: "Invalid data entered in field: Возраст")
+			return
+		}
+		
+		guard Int16(info[.experience] as? String ?? "none") != nil
+		else {
+			self.view?.showAlert(message: "Invalid data entered in field: Стаж работы")
+			return
+		}
+		
+		guard  let position = info[.position] as? String,
+			   position != ""
+		else {
+			self.view?.showAlert(message: "Invalid data entered in field: Должность")
+			return
+		}
+	
+		if self.view?.editMode == .editing {
+			self.queryModel.change(employee: info, employeeID: self.employeeID)
+		} else {
+			self.queryModel.add(employee: info, companyID: self.companyID)
+		}
+		self.view?.navigationController?.popViewController(animated: true)
 	}
 }
 
