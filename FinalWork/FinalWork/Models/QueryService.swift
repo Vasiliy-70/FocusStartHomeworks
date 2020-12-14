@@ -9,15 +9,18 @@ import CoreData
 import UIKit
 
 protocol IQueryService {
+	func changeRecipe(content: RecipeContent)
 	func fetchRequestRecipesAt(id: UUID?) -> [Recipe]?
 	func addRecipe(info: RecipeContent)
 	func removeRecipeAt(id: UUID)
 }
 
 struct RecipeContent {
+	var id: UUID?
 	var name: String?
 	var image: UIImage?
 }
+
 enum RecipeProperty {
 	case name
 	case image
@@ -55,7 +58,28 @@ extension QueryService {
 // MARK: IQueryService
 
 extension QueryService: IQueryService {
-
+	func changeRecipe(content: RecipeContent) {
+		if let name = content.name,
+		   name != "",
+		   let id = content.id {
+			
+			let fetchRequest: NSFetchRequest<Recipe> = Recipe.fetchRequest()
+			let predicate = NSPredicate(format: "id==%@", id as CVarArg )
+			fetchRequest.predicate = predicate
+			
+			do {
+				let recipes = try self.context.fetch(fetchRequest)
+				recipes.first?.id = id
+				recipes.first?.name = name
+				recipes.first?.image = content.image?.pngData()
+			} catch {
+				assertionFailure(error.localizedDescription)
+			}
+		}
+		
+		self.saveContext()
+	}
+	
 	func removeRecipeAt(id: UUID) {
 		let fetchRequest: NSFetchRequest<Recipe> = Recipe.fetchRequest()
 		

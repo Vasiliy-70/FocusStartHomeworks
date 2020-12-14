@@ -25,6 +25,10 @@
 		47AD92892586412F0078F2FD /* RecipeEditViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AD92882586412F0078F2FD /* RecipeEditViewPresenter.swift */; };
 		47AD928F2586471E0078F2FD /* RecipeEditViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AD928E2586471E0078F2FD /* RecipeEditViewAssembly.swift */; };
 		47DAF4922587266300F5CF42 /* ImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DAF4912587266300F5CF42 /* ImageViewExtension.swift */; };
+		47DAF4A32587D21600F5CF42 /* IngredientsEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DAF4A22587D21600F5CF42 /* IngredientsEditViewController.swift */; };
+		47DAF4AB2587D22F00F5CF42 /* IngredientsEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DAF4AA2587D22F00F5CF42 /* IngredientsEditView.swift */; };
+		47DAF4B62587D25700F5CF42 /* IngredientsEditViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DAF4B52587D25700F5CF42 /* IngredientsEditViewPresenter.swift */; };
+		47DAF4BB2587D27A00F5CF42 /* IngredientsEditViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DAF4BA2587D27A00F5CF42 /* IngredientsEditViewAssembly.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +73,10 @@
 		47AD92882586412F0078F2FD /* RecipeEditViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeEditViewPresenter.swift; sourceTree = "<group>"; };
 		47AD928E2586471E0078F2FD /* RecipeEditViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeEditViewAssembly.swift; sourceTree = "<group>"; };
 		47DAF4912587266300F5CF42 /* ImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewExtension.swift; sourceTree = "<group>"; };
+		47DAF4A22587D21600F5CF42 /* IngredientsEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsEditViewController.swift; sourceTree = "<group>"; };
+		47DAF4AA2587D22F00F5CF42 /* IngredientsEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsEditView.swift; sourceTree = "<group>"; };
+		47DAF4B52587D25700F5CF42 /* IngredientsEditViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsEditViewPresenter.swift; sourceTree = "<group>"; };
+		47DAF4BA2587D27A00F5CF42 /* IngredientsEditViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsEditViewAssembly.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				47DAF4902587263C00F5CF42 /* Views */,
+				47DAF4A12587D1CD00F5CF42 /* IngredientsEditView */,
 				4700A7C12586164C00699D2F /* Controllers */,
 				47AD927A25863C560078F2FD /* RecipeEditView */,
 				4700A7A925860EC500699D2F /* MainView */,
@@ -212,6 +221,17 @@
 				47DAF4912587266300F5CF42 /* ImageViewExtension.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		47DAF4A12587D1CD00F5CF42 /* IngredientsEditView */ = {
+			isa = PBXGroup;
+			children = (
+				47DAF4AA2587D22F00F5CF42 /* IngredientsEditView.swift */,
+				47DAF4A22587D21600F5CF42 /* IngredientsEditViewController.swift */,
+				47DAF4B52587D25700F5CF42 /* IngredientsEditViewPresenter.swift */,
+				47DAF4BA2587D27A00F5CF42 /* IngredientsEditViewAssembly.swift */,
+			);
+			path = IngredientsEditView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -344,6 +364,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				47AD927C25863C8F0078F2FD /* RecipeEditView.swift in Sources */,
+				47DAF4AB2587D22F00F5CF42 /* IngredientsEditView.swift in Sources */,
+				47DAF4A32587D21600F5CF42 /* IngredientsEditViewController.swift in Sources */,
+				47DAF4BB2587D27A00F5CF42 /* IngredientsEditViewAssembly.swift in Sources */,
 				4700A79F2586064F00699D2F /* QueryService.swift in Sources */,
 				47AD927325861AAF0078F2FD /* MainView.swift in Sources */,
 				4700A7602586040500699D2F /* AppDelegate.swift in Sources */,
@@ -354,6 +377,7 @@
 				47DAF4922587266300F5CF42 /* ImageViewExtension.swift in Sources */,
 				47AD9284258640E50078F2FD /* RecipeEditViewController.swift in Sources */,
 				4700A7622586040500699D2F /* SceneDelegate.swift in Sources */,
+				47DAF4B62587D25700F5CF42 /* IngredientsEditViewPresenter.swift in Sources */,
 				4700A7BD2586164600699D2F /* CoordinateController.swift in Sources */,
 				4700A76A2586040500699D2F /* FinalWork.xcdatamodeld in Sources */,
 				4700A7AB25860EF500699D2F /* MainViewController.swift in Sources */,

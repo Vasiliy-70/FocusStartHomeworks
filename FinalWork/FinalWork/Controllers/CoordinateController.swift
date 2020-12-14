@@ -9,6 +9,7 @@ import UIKit
 
 protocol ICoordinateController: class {
 	func showRecipeEditView(recipeID: UUID?)
+	func showIngredientsEditView(recipeID: UUID?)
 }
 
 final class CoordinateController {
@@ -35,13 +36,23 @@ extension CoordinateController {
 // MARK: ICoordinateController
 
 extension CoordinateController: ICoordinateController {
+	func showIngredientsEditView(recipeID: UUID?) {
+		guard let navigationController = self.navigationController
+		else {
+			assertionFailure("Error show IngredientsEditView")
+			return
+		}
+		let ingredientsEditView = IngredientsEditViewAssembly.createIngredientsEditView(coordinateController: self, queryModel: self.queryModel, recipeID: recipeID)
+		navigationController.pushViewController(ingredientsEditView, animated: true)
+	}
+	
 	func showRecipeEditView(recipeID: UUID?) {
 		guard let navigationController = self.navigationController
 		else {
 			assertionFailure("Error show RecipeEditView")
 			return
 		}
-		let recipeEditView = RecipeEditViewAssembly.createRecipeEditViewController(queryModel: self.queryModel, recipeID: recipeID)
+		let recipeEditView = RecipeEditViewAssembly.createRecipeEditViewController(coordinateController: self,queryModel: self.queryModel, recipeID: recipeID)
 		navigationController.pushViewController(recipeEditView, animated: true)
 	}
 }

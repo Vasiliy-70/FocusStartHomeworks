@@ -18,7 +18,12 @@ protocol IRecipeEditViewActionHandler: class {
 
 final class RecipeEditViewController: UIViewController {
 	var presenter: IRecipeEditViewPresenter?
-	private var recipeInfo = RecipeContent()
+	private var recipeInfo = RecipeContent() {
+		willSet {
+			self.navigationItem.title = newValue.id != nil ?
+				"Редактирование рецепта" : "Создание рецепта"
+		}
+	}
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,8 +39,7 @@ final class RecipeEditViewController: UIViewController {
 
 extension RecipeEditViewController {
 	func configureNavigationBar() {
-		self.navigationItem.rightBarButtonItems = [ UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.actionSaveButton))]
-		self.navigationItem.title = "Редактирование рецепта"
+		self.navigationItem.rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.actionSaveButton))]
 	}
 }
 
@@ -60,7 +64,8 @@ extension RecipeEditViewController: IRecipeEditViewController {
 extension RecipeEditViewController {
 	@objc func actionSaveButton() {
 		if let view = self.view as? IRecipeEditView {
-			self.recipeInfo = view.getRecipeInfo()
+			self.recipeInfo.name = view.getRecipeInfo().name
+			self.recipeInfo.image = view.getRecipeInfo().image
 			self.presenter?.actionSaveButton()
 		}
 	}
