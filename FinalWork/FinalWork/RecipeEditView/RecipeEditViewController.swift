@@ -8,13 +8,17 @@
 import UIKit
 
 protocol IRecipeEditViewController: class {
-	var recipe: [RecipeProperty : String?] { get }
+	var recipe: RecipeContent { get }
 	func updateData()
+}
+
+protocol IRecipeEditViewActionHandler: class {
+	func tapOnImage()
 }
 
 final class RecipeEditViewController: UIViewController {
 	var presenter: IRecipeEditViewPresenter?
-	private var recipeInfo = [RecipeProperty : String?]()
+	private var recipeInfo = RecipeContent()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +28,7 @@ final class RecipeEditViewController: UIViewController {
     }
 	
 	override func loadView() {
-		self.view = RecipeEditView()
+		self.view = RecipeEditView(viewController: self)
 	}
 }
 
@@ -38,7 +42,7 @@ extension RecipeEditViewController {
 // MARK: IRecipeEditViewController
 
 extension RecipeEditViewController: IRecipeEditViewController {
-	var recipe: [RecipeProperty : String?] {
+	var recipe: RecipeContent {
 		self.recipeInfo
 	}
 	
@@ -51,7 +55,6 @@ extension RecipeEditViewController: IRecipeEditViewController {
 	}
 }
 
-
 // MARK: Action
 
 extension RecipeEditViewController {
@@ -61,4 +64,37 @@ extension RecipeEditViewController {
 			self.presenter?.actionSaveButton()
 		}
 	}
+	
+	func presentImageViewPicker(sender: AnyObject) {
+		let imagePicker = UIImagePickerController()
+		imagePicker.delegate = self
+		imagePicker.sourceType = .photoLibrary
+		imagePicker.allowsEditing = false
+		
+		self.present(imagePicker, animated: true, completion: nil)
+	}
 }
+
+// MARK: UIImagePickerControllerDelegate, UINavigationControllerDelegate
+
+extension RecipeEditViewController:  UIImagePickerControllerDelegate,
+									 UINavigationControllerDelegate {
+	
+	func imagePickerController(_ picker: UIImagePickerController,
+							   didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+		if let image = info[.originalImage] as? UIImage {
+			self.recipeInfo.image = image
+			(self.view as? IRecipeEditView)?.showRecipe(info: self.recipeInfo)
+			self.navigationController?.dismiss(animated: true, completion: nil)
+		}
+	}
+}
+
+// MARK: IRecipeEditViewActionHandler
+
+extension RecipeEditViewController: IRecipeEditViewActionHandler {
+	func tapOnImage() {
+		self.presentImageViewPicker(sender: self)
+	}
+}
+ 

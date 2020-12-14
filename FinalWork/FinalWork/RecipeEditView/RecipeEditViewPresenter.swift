@@ -8,7 +8,7 @@
 import UIKit
 
 protocol IRecipeEditViewPresenter {
-	var recipe: [RecipeProperty: String?] { get }
+	var recipe: RecipeContent { get }
 	func actionSaveButton()
 	func viewDidLoad()
 }
@@ -18,7 +18,7 @@ final class RecipeEditViewPresenter {
 	private let queryModel: IQueryService
 	private let recipeID: UUID?
 	
-	private var recipeInfo = [RecipeProperty : String?]() {
+	private var recipeInfo = RecipeContent() {
 		didSet {
 			self.view?.updateData()
 		}
@@ -26,8 +26,8 @@ final class RecipeEditViewPresenter {
 	
 	private var recipeModel = [Recipe]() {
 		willSet {
-			self.recipeInfo.removeAll()
-			self.recipeInfo[.name] = newValue.first?.name
+			self.recipeInfo.name = newValue.first?.name
+			self.recipeInfo.image = UIImage(data: newValue.first?.image ?? Data())
 		}
 	}
 	
@@ -49,14 +49,15 @@ extension RecipeEditViewPresenter {
 // MARK: IRecipeEditPresenter
 
 extension RecipeEditViewPresenter: IRecipeEditViewPresenter {
-	var recipe: [RecipeProperty : String?] {
+	var recipe: RecipeContent {
 		self.recipeInfo
 	}
 	
 	func actionSaveButton() {
 		if let recipe = self.view?.recipe {
-			self.queryModel.add(recipe: recipe)
+			self.queryModel.addRecipe(info: recipe)
 		}
+		
 		let view = self.view as? UIViewController
 		view?.navigationController?.popViewController(animated: true)
 	}

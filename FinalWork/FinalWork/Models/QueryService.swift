@@ -6,15 +6,21 @@
 //
 
 import CoreData
+import UIKit
 
 protocol IQueryService {
 	func fetchRequestRecipesAt(id: UUID?) -> [Recipe]?
-	func add(recipe: [RecipeProperty : String?])
+	func addRecipe(info: RecipeContent)
 	func removeRecipeAt(id: UUID)
 }
 
+struct RecipeContent {
+	var name: String?
+	var image: UIImage?
+}
 enum RecipeProperty {
 	case name
+	case image
 }
 
 final class QueryService {
@@ -85,9 +91,8 @@ extension QueryService: IQueryService {
 		return recipe
 	}
 	
-	func add(recipe: [RecipeProperty : String?]) {
-		guard let name = recipe[.name],
-			  name != "",
+	func addRecipe(info: RecipeContent) {
+		guard info.name != "",
 			  let entity = NSEntityDescription.entity(forEntityName: "Recipe", in: self.context)
 		else {
 			assertionFailure("Save error")
@@ -95,7 +100,8 @@ extension QueryService: IQueryService {
 		}
 		
 		let recipe = Recipe(entity: entity, insertInto: self.context)
-		recipe.name = name
+		recipe.name = info.name
+		recipe.image = info.image?.pngData()
 		recipe.id = UUID()
 		
 		self.saveContext()
