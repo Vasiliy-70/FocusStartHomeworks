@@ -10,11 +10,13 @@ import UIKit
 
 protocol IQueryService {
 	func changeRecipe(content: RecipeContent)
+	func changeIngredient(content: IngredientContent)
 	func fetchRequestRecipesAt(id: UUID?) -> [Recipe]?
 	func fetchRequestIngredientsAt(recipeID: UUID) -> [Ingredient]?
 	func addRecipe(info: RecipeContent)
 	func addIngredient(info: IngredientContent, recipeID: UUID)
 	func removeRecipeAt(id: UUID)
+	func removeIngredientAt(id: UUID)
 }
 
 struct RecipeContent {
@@ -71,12 +73,11 @@ extension QueryService: IQueryService {
 		   let id = content.id {
 			
 			let fetchRequest: NSFetchRequest<Recipe> = Recipe.fetchRequest()
-			let predicate = NSPredicate(format: "id==%@", id as CVarArg )
+			let predicate = NSPredicate(format: "id == %@", id as CVarArg )
 			fetchRequest.predicate = predicate
 			
 			do {
 				let recipes = try self.context.fetch(fetchRequest)
-				recipes.first?.id = id
 				recipes.first?.name = name
 				recipes.first?.image = content.image?.pngData()
 			} catch {
@@ -87,15 +88,52 @@ extension QueryService: IQueryService {
 		self.saveContext()
 	}
 	
+	func changeIngredient(content: IngredientContent) {
+		if let name = content.name,
+		   name != "",
+		   let id = content.id {
+			
+			let fetchRequest: NSFetchRequest<Ingredient> = Ingredient.fetchRequest()
+			let predicate = NSPredicate(format: "id == %@", id as CVarArg)
+			fetchRequest.predicate = predicate
+			
+			do {
+				let ingredient = try self.context.fetch(fetchRequest)
+				ingredient.first?.name = name
+			} catch {
+				assertionFailure(error.localizedDescription)
+			}
+		}
+		
+		self.saveContext()
+	}
+	
 	func removeRecipeAt(id: UUID) {
 		let fetchRequest: NSFetchRequest<Recipe> = Recipe.fetchRequest()
+		let predicate = NSPredicate(format: "id == %@", id as CVarArg )
+		fetchRequest.predicate = predicate
 		
 		do {
 			let recipes = try self.context.fetch(fetchRequest)
 			for recipe in recipes {
-				if recipe.id == id {
-					self.context.delete(recipe)
-				}
+				self.context.delete(recipe)
+			}
+		} catch {
+			assertionFailure(error.localizedDescription)
+		}
+		
+		self.saveContext()
+	}
+	
+	func removeIngredientAt(id: UUID) {
+		let fetchRequest: NSFetchRequest<Ingredient> = Ingredient.fetchRequest()
+		let predicate = NSPredicate(format: "id == %@", id as CVarArg)
+		fetchRequest.predicate = predicate
+		
+		do {
+			let ingredients = try self.context.fetch(fetchRequest)
+			for ingredient in ingredients {
+				self.context.delete(ingredient)
 			}
 		} catch {
 			assertionFailure(error.localizedDescription)

@@ -22,8 +22,8 @@ final class IngredientsEditView: UIView {
 		static let ingredientsTableOffset: CGFloat = 10
 		
 		static let applyButtonOffset: CGFloat = 10
-		static let applyButtonHeight: CGFloat = 50
-		static let applyButtonWidth: CGFloat = 150
+		static let applyButtonHeight: CGFloat = 40
+		static let applyButtonWidth: CGFloat = 100
 	}
 	
 	init(tableController: IIngredientEditViewTableController) {
@@ -57,10 +57,9 @@ extension IngredientsEditView {
 	
 	func configureButton() {
 		self.applyButton.backgroundColor = .white
-		self.applyButton.setTitle("Сохранить", for: .normal)
+		self.applyButton.setTitle("Готово", for: .normal)
 		self.applyButton.setTitleColor(.blue, for: .normal)
 		self.applyButton.setTitleColor(.white, for: .highlighted)
-		self.applyButton.layer.borderWidth = 1
 		self.applyButton.addTarget(self, action: #selector(self.applyButtonAction), for: .touchUpInside)
 	}
 	

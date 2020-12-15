@@ -23,6 +23,7 @@ final class IngredientsEditViewPresenter {
 	private var coordinateController: ICoordinateController
 	private var queryModel: IQueryService?
 	private var recipeID: UUID
+	private var isNewIngredientEdit = false
 	
 	private var ingredientName = [String]() {
 		didSet {
@@ -61,7 +62,14 @@ extension IngredientsEditViewPresenter: IIngredientsEditViewPresenter {
 	func actionEditCellAlert(newName: String) {
 		var ingredient = IngredientContent()
 		ingredient.name = newName
-		self.queryModel?.addIngredient(info: ingredient, recipeID: self.recipeID)
+		if self.isNewIngredientEdit {
+			self.queryModel?.addIngredient(info: ingredient, recipeID: self.recipeID)
+		} else {
+			if let index = self.view?.selectedRow {
+				ingredient.id = self.ingredientModel[index].id
+				self.queryModel?.changeIngredient(content: ingredient)
+			}
+		}
 		self.requestData()
 	}
 	
@@ -74,23 +82,28 @@ extension IngredientsEditViewPresenter: IIngredientsEditViewPresenter {
 	}
 	
 	func actionEditRow() {
-		if let index = self.view?.selectedRow,
-		   let id = self.ingredientModel[index].id {
-//			self.coordinateController.showRecipeEditView(recipeID: id)
+		self.isNewIngredientEdit = false
+		if let index = self.view?.selectedRow {
+			let ingredientName = self.ingredientName[index]
+			self.view?.showAlertIngredients(title: "Имя ингредиента", message: "Введите новое значение", textValue: ingredientName)
 		}
+		/*if let index = self.view?.selectedRow,
+		   let id = self.ingredientModel[index].id {
+			self.coordinateController.showRecipeEditView(recipeID: id)
+		}*/
 	}
 	
 	func actionDeleteRow() {
 		if let index = self.view?.selectedRow,
 		   let id = self.ingredientModel[index].id {
-			//self.queryModel?.removeRecipeAt(id: id)
-			//self.requestData()
+			self.queryModel?.removeIngredientAt(id: id)
+			self.requestData()
 		}
-	}
+	} 
 	
 	func actionAddButton() {
-		self.view?.showAlertIngredients()
-		//self.queryModel?.addIngredient(info: self.ingredientList, recipeID: <#T##UUID#>)
+		self.isNewIngredientEdit = true
+		self.view?.showAlertIngredients(title: "Имя ингредиента", message: "Введите новое значение", textValue: "")
 	}
 	
 	func viewDidLoad() {

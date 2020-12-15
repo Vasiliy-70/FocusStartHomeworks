@@ -10,7 +10,7 @@ import UIKit
 protocol IIngredientsEditViewController: class {
 	func updateData()
 	var selectedRow: Int? { get }
-	func showAlertIngredients()
+	func showAlertIngredients(title: String, message: String, textValue: String?)
 }
 
 protocol IIngredientEditViewTableController: class {
@@ -145,7 +145,10 @@ extension IngredientsEditViewController: IIngredientsEditViewController {
 		self.currentRow
 	}
 	
-	func showAlertIngredients() {
+	func showAlertIngredients(title: String, message: String, textValue: String?) {
+		self.editCellAlert.title = title
+		self.editCellAlert.message = message
+		self.editCellAlert.textFields?.first?.text = textValue ?? ""
 		self.present(self.editCellAlert, animated: true, completion: nil)
 	}
 }
