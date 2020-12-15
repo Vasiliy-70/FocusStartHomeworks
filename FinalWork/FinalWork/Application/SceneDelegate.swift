@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 		
 		let navigationController = UINavigationController()
 		let coordinateController = CoordinateController(navigationController: navigationController)
-		coordinateController.initialStartViewController()
+		coordinateController.showMainView()
 		
 		window.rootViewController = navigationController
 		window.makeKeyAndVisible()

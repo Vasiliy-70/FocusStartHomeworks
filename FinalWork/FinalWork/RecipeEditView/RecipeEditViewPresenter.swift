@@ -10,6 +10,8 @@ import UIKit
 protocol IRecipeEditViewPresenter {
 	var recipe: RecipeContent { get }
 	func actionSaveButton()
+	func actionAlertIngredients()
+	func cancelAlertIngredients()
 	func viewDidLoad()
 }
 
@@ -17,7 +19,7 @@ final class RecipeEditViewPresenter {
 	weak var view: IRecipeEditViewController?
 	private let coordinateController: ICoordinateController
 	private let queryModel: IQueryService
-	private let recipeID: UUID?
+	private var recipeID: UUID?
 	
 	private var recipeInfo = RecipeContent() {
 		didSet {
@@ -54,22 +56,38 @@ extension RecipeEditViewPresenter {
 // MARK: IRecipeEditPresenter
 
 extension RecipeEditViewPresenter: IRecipeEditViewPresenter {
+	
+	
 	var recipe: RecipeContent {
 		self.recipeInfo
 	}
 	
 	func actionSaveButton() {
-//		if let recipe = self.view?.recipe {
-//			if self.view?.recipe.id != nil {
-//				self.queryModel.changeRecipe(content: recipe)
-//			} else {
-//				self.queryModel.addRecipe(info: recipe)
-//			}
-//		}
-//
-//		let view = self.view as? UIViewController
-//		view?.navigationController?.popViewController(animated: true)
-		self.coordinateController.showIngredientsEditView(recipeID: self.recipeInfo.id)
+		if var recipe = self.view?.recipe {
+			if self.view?.recipe.id != nil {
+				self.queryModel.changeRecipe(content: recipe)
+			} else {
+				self.recipeID = UUID()
+				recipe.id = self.recipeID
+				self.queryModel.addRecipe(info: recipe)
+			}
+			self.requestData()
+			self.view?.showAlertIngredients()
+		}
+	}
+	
+	func actionAlertIngredients() {
+		if let id = self.recipeInfo.id {
+			self.coordinateController.showIngredientsEditView(recipeID: id)
+		}
+	}
+	
+	func cancelAlertIngredients() {
+		//self.coordinateController.showMainView()
+		if let view = self.view as? UIViewController {
+			view.navigationController?.popToRootViewController(animated: true)
+		}
+	
 	}
 	
 	func viewDidLoad() {

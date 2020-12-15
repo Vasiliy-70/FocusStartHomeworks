@@ -10,6 +10,7 @@ import UIKit
 protocol IRecipeEditViewController: class {
 	var recipe: RecipeContent { get }
 	func updateData()
+	func showAlertIngredients()
 }
 
 protocol IRecipeEditViewActionHandler: class {
@@ -18,6 +19,8 @@ protocol IRecipeEditViewActionHandler: class {
 
 final class RecipeEditViewController: UIViewController {
 	var presenter: IRecipeEditViewPresenter?
+	var alertIngredients = UIAlertController()
+	
 	private var recipeInfo = RecipeContent() {
 		willSet {
 			self.navigationItem.title = newValue.id != nil ?
@@ -29,6 +32,7 @@ final class RecipeEditViewController: UIViewController {
         super.viewDidLoad()
 		
 		self.configureNavigationBar()
+		self.configureAlert()
 		self.presenter?.viewDidLoad()
     }
 	
@@ -40,6 +44,26 @@ final class RecipeEditViewController: UIViewController {
 extension RecipeEditViewController {
 	func configureNavigationBar() {
 		self.navigationItem.rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.actionSaveButton))]
+	}
+}
+
+extension RecipeEditViewController {
+	func configureAlert() {
+		let alertIngredients = UIAlertController(title: "Готово!", message: "Хотите ли вы добавить ингредиенты?", preferredStyle: .alert)
+		
+		let addIngredients = UIAlertAction(title: "Да", style: .default, handler: {
+			[weak self] _ in
+			self?.presenter?.actionAlertIngredients()
+		})
+		
+		let cancel = UIAlertAction(title: "Нет", style: .cancel, handler: {
+			[weak self] _ in
+			self?.presenter?.cancelAlertIngredients()
+		})
+		
+		alertIngredients.addAction(addIngredients)
+		alertIngredients.addAction(cancel)
+		self.alertIngredients = alertIngredients
 	}
 }
 
@@ -56,6 +80,10 @@ extension RecipeEditViewController: IRecipeEditViewController {
 			let view = self.view as? IRecipeEditView
 			view?.showRecipe(info: self.recipeInfo)
 		}
+	}
+	
+	func showAlertIngredients() {
+		self.present(self.alertIngredients, animated: true, completion: nil)
 	}
 }
 

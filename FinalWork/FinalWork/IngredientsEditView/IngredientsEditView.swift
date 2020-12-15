@@ -16,17 +16,21 @@ final class IngredientsEditView: UIView {
 	private let ingredientsTable = UITableView()
 	private let tableController: IIngredientEditViewTableController
 	
+	private var applyButton = UIButton()
+	
 	private enum Constraints {
 		static let ingredientsTableOffset: CGFloat = 10
+		
+		static let applyButtonOffset: CGFloat = 10
+		static let applyButtonHeight: CGFloat = 50
+		static let applyButtonWidth: CGFloat = 150
 	}
 	
 	init(tableController: IIngredientEditViewTableController) {
 		self.tableController = tableController
 		super.init(frame: .zero)
 		
-		self.backgroundColor = .white
-		self.configureTable()
-		self.setupTableAppearance()
+		self.setupViewSettings()
 	}
 	
 	required init?(coder: NSCoder) {
@@ -35,11 +39,41 @@ final class IngredientsEditView: UIView {
 }
 
 extension IngredientsEditView {
+	func setupViewSettings() {
+		self.backgroundColor = .white
+		
+		self.configureTable()
+		self.configureButton()
+		self.setupButtonConstraint()
+		self.setupTableAppearance()
+	}
+	
 	func configureTable() {
 		self.ingredientsTable.register(UITableViewCell.self, forCellReuseIdentifier: self.tableController.cellId)
 		
 		self.ingredientsTable.delegate = self.tableController.delegate
 		self.ingredientsTable.dataSource = self.tableController.dataSource
+	}
+	
+	func configureButton() {
+		self.applyButton.backgroundColor = .white
+		self.applyButton.setTitle("Сохранить", for: .normal)
+		self.applyButton.setTitleColor(.blue, for: .normal)
+		self.applyButton.setTitleColor(.white, for: .highlighted)
+		self.applyButton.layer.borderWidth = 1
+		self.applyButton.addTarget(self, action: #selector(self.applyButtonAction), for: .touchUpInside)
+	}
+	
+	func setupButtonConstraint() {
+		self.addSubview(self.applyButton)
+		self.applyButton.translatesAutoresizingMaskIntoConstraints = false
+		
+		NSLayoutConstraint.activate([
+			self.applyButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+			self.applyButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -Constraints.applyButtonOffset),
+			self.applyButton.widthAnchor.constraint(equalToConstant: Constraints.applyButtonWidth),
+			self.applyButton.heightAnchor.constraint(equalToConstant: Constraints.applyButtonHeight)
+		])
 	}
 	
 	func setupTableAppearance() {
@@ -51,12 +85,12 @@ extension IngredientsEditView {
 			self.ingredientsTable.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: Constraints.ingredientsTableOffset),
 			self.ingredientsTable.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: Constraints.ingredientsTableOffset),
 			self.ingredientsTable.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -Constraints.ingredientsTableOffset),
-			self.ingredientsTable.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -Constraints.ingredientsTableOffset)
+			self.ingredientsTable.bottomAnchor.constraint(equalTo: self.applyButton.topAnchor, constant: -Constraints.ingredientsTableOffset)
 		])
 	}
 }
 
-// MARK:
+// MARK: IIngredientsEditView
 
 extension IngredientsEditView: IIngredientsEditView {
 	func reloadTable() {
@@ -65,5 +99,13 @@ extension IngredientsEditView: IIngredientsEditView {
 	
 	func textInCellForRow(at indexPath: IndexPath) -> String? {
 		self.ingredientsTable.cellForRow(at: indexPath)?.textLabel?.text
+	}
+}
+
+// MARK: Action
+
+extension IngredientsEditView {
+	@objc func applyButtonAction() {
+		(self.tableController as? IIngredientEditViewActionHandler )?.tapOnApplyButton()
 	}
 }

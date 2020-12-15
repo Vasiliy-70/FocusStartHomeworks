@@ -10,6 +10,7 @@ import UIKit
 protocol IIngredientsEditViewController: class {
 	func updateData()
 	var selectedRow: Int? { get }
+	func showAlertIngredients()
 }
 
 protocol IIngredientEditViewTableController: class {
@@ -18,8 +19,14 @@ protocol IIngredientEditViewTableController: class {
 	var dataSource: UITableViewDataSource { get }
 }
 
+protocol IIngredientEditViewActionHandler: class {
+	func tapOnApplyButton()
+}
+
 final class IngredientsEditViewController: UIViewController {
 	var presenter: IIngredientsEditViewPresenter?
+	private var editCellAlert = UIAlertController()
+	
 	private var ingredientList: [String]?
 	private var currentRow: Int?
 	private var cellIdentifier = "ingredientViewCell"
@@ -28,6 +35,7 @@ final class IngredientsEditViewController: UIViewController {
 		super.viewDidLoad()
 		
 		self.configureNavigationBar()
+		self.configureAlert()
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -46,6 +54,33 @@ extension IngredientsEditViewController {
 		]
 		self.navigationItem.title = "Ингредиенты"
 	}
+	
+	func configureAlert() {
+		let editCellAlert = UIAlertController(title: "Редактирование ингредиента", message: "Введите значение", preferredStyle: .alert)
+		
+		let applyChange = UIAlertAction(title: "Применить", style: .default, handler: {
+			[weak self] _ in
+			if let self = self,
+			   let name = self.editCellAlert.textFields?.first?.text,
+			   name != "" {
+				self.presenter?.actionEditCellAlert(newName: name)
+			} else {
+				let alert = UIAlertController(title: "Ошибка", message: "Описание ингредиента не может быть пустым", preferredStyle: .alert)
+				let applyAction = UIAlertAction(title: "Ок", style: .default, handler: nil)
+				
+				alert.addAction(applyAction)
+				self?.present(alert, animated: true, completion: nil)
+			}
+			self?.editCellAlert.textFields?.first?.text = ""
+		})
+		
+		let cancel = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
+		
+		editCellAlert.addTextField(configurationHandler: nil)
+		editCellAlert.addAction(applyChange)
+		editCellAlert.addAction(cancel)
+		self.editCellAlert = editCellAlert
+	}
 }
 
 // MARK: UITableViewDelegate
@@ -57,7 +92,7 @@ extension IngredientsEditViewController: UITableViewDelegate {
 	
 	func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
-			let view = self.view as? IMainView
+			let view = self.view as? IngredientsEditView
 			if view?.textInCellForRow(at: indexPath) != nil {
 				self.currentRow = indexPath.row
 				self.presenter?.actionDeleteRow()
@@ -67,7 +102,7 @@ extension IngredientsEditViewController: UITableViewDelegate {
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		self.currentRow = indexPath.row
-		self.presenter?.actionTapRow()
+		//self.presenter?.actionTapRow()
 	}
 	
 	func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -102,12 +137,16 @@ extension IngredientsEditViewController: UITableViewDataSource {
 extension IngredientsEditViewController: IIngredientsEditViewController {
 	func updateData() {
 		self.ingredientList = self.presenter?.ingredientList
-		let view = self.view as? IMainView
+		let view = self.view as? IIngredientsEditView
 		view?.reloadTable()
 	}
 	
 	var selectedRow: Int? {
 		self.currentRow
+	}
+	
+	func showAlertIngredients() {
+		self.present(self.editCellAlert, animated: true, completion: nil)
 	}
 }
 
@@ -124,6 +163,14 @@ extension IngredientsEditViewController: IIngredientEditViewTableController {
 	
 	var dataSource: UITableViewDataSource {
 		self
+	}
+}
+
+// MARK: IIngredientEditViewActionHandler
+
+extension IngredientsEditViewController: IIngredientEditViewActionHandler {
+	func tapOnApplyButton() {
+		self.presenter?.actionApplyButton()
 	}
 }
 

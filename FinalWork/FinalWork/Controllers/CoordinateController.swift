@@ -9,7 +9,8 @@ import UIKit
 
 protocol ICoordinateController: class {
 	func showRecipeEditView(recipeID: UUID?)
-	func showIngredientsEditView(recipeID: UUID?)
+	func showIngredientsEditView(recipeID: UUID)
+	func showMainView()
 }
 
 final class CoordinateController {
@@ -21,8 +22,10 @@ final class CoordinateController {
 	}
 }
 
-extension CoordinateController {
-	func initialStartViewController() {
+// MARK: ICoordinateController
+
+extension CoordinateController: ICoordinateController {
+	func showMainView() {
 		guard let navigationController = self.navigationController
 		else {
 			assertionFailure("Error init start VC")
@@ -31,12 +34,8 @@ extension CoordinateController {
 		let mainViewController = MainViewAssembly.createMainViewController(coordinateController: self, queryModel: self.queryModel)
 		navigationController.viewControllers = [mainViewController]
 	}
-}
-
-// MARK: ICoordinateController
-
-extension CoordinateController: ICoordinateController {
-	func showIngredientsEditView(recipeID: UUID?) {
+	
+	func showIngredientsEditView(recipeID: UUID) {
 		guard let navigationController = self.navigationController
 		else {
 			assertionFailure("Error show IngredientsEditView")

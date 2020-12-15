@@ -11,7 +11,9 @@ import UIKit
 protocol IQueryService {
 	func changeRecipe(content: RecipeContent)
 	func fetchRequestRecipesAt(id: UUID?) -> [Recipe]?
+	func fetchRequestIngredientsAt(recipeID: UUID) -> [Ingredient]?
 	func addRecipe(info: RecipeContent)
+	func addIngredient(info: IngredientContent, recipeID: UUID)
 	func removeRecipeAt(id: UUID)
 }
 
@@ -19,6 +21,11 @@ struct RecipeContent {
 	var id: UUID?
 	var name: String?
 	var image: UIImage?
+}
+
+struct IngredientContent {
+	var id: UUID?
+	var name: String?
 }
 
 enum RecipeProperty {
@@ -102,7 +109,7 @@ extension QueryService: IQueryService {
 		let fetchRequest: NSFetchRequest<Recipe> = Recipe.fetchRequest()
 		
 		if let id = id {
-			let predicate = NSPredicate(format: "id==%@", id as CVarArg )
+			let predicate = NSPredicate(format: "id == %@", id as CVarArg )
 			fetchRequest.predicate = predicate
 		}
 		
@@ -113,6 +120,23 @@ extension QueryService: IQueryService {
 			return nil
 		}
 		return recipe
+	}
+	
+	func fetchRequestIngredientsAt(recipeID: UUID) -> [Ingredient]? {
+		var ingredients = [Ingredient]()
+		let fetchRequest: NSFetchRequest<Ingredient> = Ingredient.fetchRequest()
+		
+		let predicate = NSPredicate(format: "recipe.id == %@", recipeID as CVarArg)
+		fetchRequest.predicate = predicate
+	
+		do {
+			ingredients = try self.context.fetch(fetchRequest)
+		} catch {
+			assertionFailure(error.localizedDescription)
+			return nil
+		}
+		
+		return ingredients
 	}
 	
 	func addRecipe(info: RecipeContent) {
@@ -126,9 +150,35 @@ extension QueryService: IQueryService {
 		let recipe = Recipe(entity: entity, insertInto: self.context)
 		recipe.name = info.name
 		recipe.image = info.image?.pngData()
-		recipe.id = UUID()
+		recipe.id = info.id ?? UUID()
 		
 		self.saveContext()
+	}
+	
+	func addIngredient(info: IngredientContent, recipeID: UUID) {
+		guard info.name != "",
+			  let entity = NSEntityDescription.entity(forEntityName: "Ingredient", in: self.context)
+		else {
+			assertionFailure("Save error")
+			return
+		}
+		
+		let fetchRequest: NSFetchRequest<Recipe> = Recipe.fetchRequest()
+		let predicate = NSPredicate(format: "id == %@", recipeID as CVarArg)
+		fetchRequest.predicate = predicate
+		
+		do {
+			let recipes = try self.context.fetch(fetchRequest)
+			let ingredientObject = Ingredient(entity: entity, insertInto: self.context)
+			
+			ingredientObject.id = UUID()
+			ingredientObject.name = info.name
+			recipes.first?.addToIngredients(ingredientObject)
+			
+			self.saveContext()
+		} catch {
+			assertionFailure(error.localizedDescription)
+		}
 	}
 }
 
