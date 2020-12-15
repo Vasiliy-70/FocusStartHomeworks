@@ -15,7 +15,7 @@ protocol IIngredientsEditViewPresenter: class {
 	func actionApplyButton()
 	func actionAddButton()
 	func actionEditCellAlert(newName: String)
-	func viewDidLoad()
+	func viewWillAppear()
 }
 
 final class IngredientsEditViewPresenter {
@@ -106,7 +106,7 @@ extension IngredientsEditViewPresenter: IIngredientsEditViewPresenter {
 		self.view?.showAlertIngredients(title: "Имя ингредиента", message: "Введите новое значение", textValue: "")
 	}
 	
-	func viewDidLoad() {
+	func viewWillAppear() {
 		self.requestData()
 	}
 }

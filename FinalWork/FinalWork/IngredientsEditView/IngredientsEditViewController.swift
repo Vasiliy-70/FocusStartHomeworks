@@ -39,7 +39,7 @@ final class IngredientsEditViewController: UIViewController {
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
-		self.presenter?.viewDidLoad()
+		self.presenter?.viewWillAppear()
 	}
 	
 	override func loadView() {

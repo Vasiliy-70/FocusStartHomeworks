@@ -66,7 +66,10 @@ extension MainPresenter: IMainPresenter {
 	}
 	
 	func actionTapRow() {
-		//
+		if let index = self.view?.selectedRow,
+		   let id = self.recipesModel[index].id {
+			self.coordinateController.showRecipeView(recipeID: id)
+		}
 	}
 	
 	func actionDeleteRow() {
