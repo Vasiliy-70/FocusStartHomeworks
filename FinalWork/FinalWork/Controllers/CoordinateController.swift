@@ -34,7 +34,13 @@ extension CoordinateController: ICoordinateController {
 			return
 		}
 		let mainViewController = MainViewAssembly.createMainViewController(coordinateController: self, queryModel: self.queryModel)
-		navigationController.viewControllers = [mainViewController]
+		let cartViewController = CartViewAssembly.createCartView(coordinateController: self, queryModel: self.queryModel)
+		
+		let tabBar = UITabBarController()
+		tabBar.viewControllers = []
+		tabBar.setViewControllers([mainViewController, cartViewController], animated: true)
+
+		navigationController.pushViewController(tabBar, animated: true)
 	}
 	
 	func showIngredientsEditView(recipeID: UUID) {
@@ -44,8 +50,8 @@ extension CoordinateController: ICoordinateController {
 			return
 		}
 		let ingredientsEditView = IngredientsEditViewAssembly.createIngredientsEditView(coordinateController: self, queryModel: self.queryModel, recipeID: recipeID)
-		navigationController.present(ingredientsEditView, animated: true, completion: nil)
-		//navigationController.pushViewController(ingredientsEditView, animated: true)
+		
+		navigationController.pushViewController(ingredientsEditView, animated: true)
 	}
 	
 	func showRecipeEditView(recipeID: UUID?) {
@@ -66,7 +72,12 @@ extension CoordinateController: ICoordinateController {
 		}
 		
 		let recipeView = RecipeViewAssembly.createRecipeView(coordinateController: self, queryModel: queryModel, recipeID: recipeID)
-		navigationController.pushViewController(recipeView, animated: true)
+		let ingredientsView = IngredientsViewAssembly.createIngredientsView(coordinateController: self, queryModel: queryModel, recipeID: recipeID)
+		
+		let tabBar = UITabBarController()
+		tabBar.setViewControllers([recipeView, ingredientsView], animated: true)
+
+		navigationController.pushViewController(tabBar, animated: true)
 	}
 	
 	func showIngredientView(recipeID: UUID) {
@@ -80,3 +91,4 @@ extension CoordinateController: ICoordinateController {
 		navigationController.pushViewController(ingredientsView, animated: true)
 	}
 }
+

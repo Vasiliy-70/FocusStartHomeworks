@@ -13,6 +13,7 @@ protocol IQueryService {
 	func changeIngredient(content: IngredientContent)
 	func fetchRequestRecipesAt(id: UUID?) -> [Recipe]?
 	func fetchRequestIngredientsAt(recipeID: UUID) -> [Ingredient]?
+	func fetchRequestSelectedRecipes() -> [Recipe]?
 	func addRecipe(info: RecipeContent)
 	func addIngredient(info: IngredientContent, recipeID: UUID)
 	func removeRecipeAt(id: UUID)
@@ -24,11 +25,13 @@ struct RecipeContent {
 	var name: String?
 	var definition: String?
 	var image: UIImage?
+	var isSelected: Bool?
 }
 
 struct IngredientContent {
 	var id: UUID?
 	var name: String?
+	var isMarked: Bool?
 }
 
 enum RecipeProperty {
@@ -68,6 +71,22 @@ extension QueryService {
 // MARK: IQueryService
 
 extension QueryService: IQueryService {
+	func fetchRequestSelectedRecipes() -> [Recipe]? {
+		var recipe = [Recipe]()
+		let fetchRequest: NSFetchRequest<Recipe> = Recipe.fetchRequest()
+		
+		let predicate = NSPredicate(format: "isSelected == true", true as CVarArg )
+		fetchRequest.predicate = predicate
+		
+		do {
+			recipe = try self.context.fetch(fetchRequest)
+		} catch let error as NSError {
+			assertionFailure(error.localizedDescription)
+			return nil
+		}
+		return recipe
+	}
+	
 	func changeIngredient(content: IngredientContent) {
 		if let name = content.name,
 		   name != "",
@@ -102,6 +121,7 @@ extension QueryService: IQueryService {
 				recipes.first?.name = name
 				recipes.first?.definition = content.definition
 				recipes.first?.image = content.image?.pngData()
+				recipes.first?.isSelected = content.isSelected ?? false
 			} catch {
 				assertionFailure(error.localizedDescription)
 			}
@@ -109,7 +129,6 @@ extension QueryService: IQueryService {
 		
 		self.saveContext()
 	}
-	
 	
 	func removeRecipeAt(id: UUID) {
 		let fetchRequest: NSFetchRequest<Recipe> = Recipe.fetchRequest()
@@ -169,7 +188,7 @@ extension QueryService: IQueryService {
 		
 		let predicate = NSPredicate(format: "recipe.id == %@", recipeID as CVarArg)
 		fetchRequest.predicate = predicate
-		
+
 		do {
 			ingredients = try self.context.fetch(fetchRequest)
 		} catch {

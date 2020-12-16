@@ -15,8 +15,11 @@ final class RecipeViewController: UIViewController {
 	var presenter: IRecipeViewPresenter?
 	var recipeInfo = RecipeContent()
 	
+	
     override func viewDidLoad() {
         super.viewDidLoad()
+		
+		self.configureTabBarController()
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -26,7 +29,22 @@ final class RecipeViewController: UIViewController {
 	override func loadView() {
 		self.view = RecipeView()
 	}
+}
 
+extension RecipeViewController {
+	func configureTabBarController() {
+		self.tabBarController?.navigationItem.title = "Просмотр рецепта"
+		self.title = "Описание"
+		self.tabBarItem = UITabBarItem(title: "Описание", image: UIImage(named: "book-simple-7"), selectedImage: nil)
+		
+		self.tabBarController?.navigationItem.rightBarButtonItems = [
+			UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(self.tabBarButtonAction))
+		]
+	}
+	
+	@objc func tabBarButtonAction() {
+		self.presenter?.actionButtonTabBar()
+	}
 }
 
 // MARK: IRecipeViewController

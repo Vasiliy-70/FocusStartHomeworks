@@ -27,11 +27,12 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		self.configureNavigationBar()
+		self.configureTabBarController()
     }
 	
 	override func viewWillAppear(_ animated: Bool) {
 		self.presenter?.viewDidLoad()
+		self.tabBarController?.title = "Рецепты"
 	}
 	
 	override func loadView() {
@@ -40,11 +41,12 @@ final class MainViewController: UIViewController {
 }
 
 extension MainViewController {
-	func configureNavigationBar() {
+	func configureTabBarController() {
+		self.tabBarItem = UITabBarItem(title: "Каталог", image: UIImage(named: "book-simple-7"), selectedImage: nil)
+		
 		self.navigationItem.rightBarButtonItems = [
 			UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.actionAddButton))
 		]
-		self.navigationItem.title = "Ваши рецепты"
 	}
 }
 

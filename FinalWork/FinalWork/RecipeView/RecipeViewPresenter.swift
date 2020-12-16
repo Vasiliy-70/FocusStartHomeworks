@@ -10,6 +10,7 @@ import UIKit
 protocol IRecipeViewPresenter {
 	var recipe: RecipeContent { get }
 	func viewWillAppear()
+	func actionButtonTabBar()
 }
 
 final class RecipeViewPresenter {
@@ -27,9 +28,11 @@ final class RecipeViewPresenter {
 	private var recipeModel = [Recipe]() {
 		willSet {
 			recipeInfo = RecipeContent()
+			recipeInfo.id = self.recipeID
 			recipeInfo.name = newValue.first?.name
 			recipeInfo.definition = newValue.first?.definition
 			recipeInfo.image = UIImage(data: newValue.first?.image ?? Data())
+			recipeInfo.isSelected = newValue.first?.isSelected
 		}
 	}
 	
@@ -50,6 +53,17 @@ extension RecipeViewPresenter {
 // MARK: IRecipeViewPresenter
 
 extension RecipeViewPresenter: IRecipeViewPresenter {
+	func actionButtonTabBar() {
+		if let isSelected = self.recipeInfo.isSelected,
+		   isSelected {
+			self.recipeInfo.isSelected = false
+		} else {
+			self.recipeInfo.isSelected = true
+		}
+		
+		self.queryModel.changeRecipe(content: self.recipeInfo)
+	}
+	
 	var recipe: RecipeContent {
 		self.recipeInfo
 	}

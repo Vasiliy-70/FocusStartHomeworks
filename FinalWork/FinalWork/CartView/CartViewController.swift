@@ -1,5 +1,5 @@
 //
-//  IngredientsViewController.swift
+//  CartViewController.swift
 //  FinalWork
 //
 //  Created by Боровик Василий on 16.12.2020.
@@ -7,50 +7,50 @@
 
 import UIKit
 
-protocol IIngredientsViewController: class {
+protocol ICartViewController: class {
 	func updateData()
 }
 
-protocol IIngredientsViewTableController: class {
+protocol ICartViewTableController: class {
 	var cellId: String { get }
 	var delegate: UITableViewDelegate { get }
 	var dataSource: UITableViewDataSource { get }
 }
 
-final class IngredientsViewController: UIViewController {
-	var presenter: IIngredientsViewPresenter?
+final class CartViewController: UIViewController {
+	var presenter: ICartViewPresenter?
 	private var ingredientsList: [String]?
 	private var cellIdentifier = "mainViewCell"
 	
 	public init() {
 		super.init(nibName: nil, bundle: nil)
 		
-		self.tabBarItem = UITabBarItem(title: "Ингредиенты", image: UIImage(named: "file-document-7"), selectedImage: nil)
-		self.title = "Ингредиенты"
+		self.tabBarItem = UITabBarItem(title: "Корзина", image: UIImage(named: "shopping-cart"), selectedImage: nil)
 	}
 	
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-
+	
 	override func viewWillAppear(_ animated: Bool) {
 		self.presenter?.viewDidLoad()
+		self.tabBarController?.title = "Корзина"
 	}
 	
 	override func loadView() {
-		self.view = IngredientsView(tableController: self)
+		self.view = CartView(tableController: self)
 	}
 }
 
 // MARK: UITableViewDelegate
 
-extension IngredientsViewController: UITableViewDelegate {
+extension CartViewController: UITableViewDelegate {
 	
 }
 
 // MARK: UITableViewDataSource
 
-extension IngredientsViewController: UITableViewDataSource {
+extension CartViewController: UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return self.presenter?.ingredientsList.count ?? 0
 	}
@@ -62,19 +62,19 @@ extension IngredientsViewController: UITableViewDataSource {
 	}
 }
 
-// MARK: IIngredientsViewController
+// MARK: ICartViewController
 
-extension IngredientsViewController: IIngredientsViewController {
+extension CartViewController: ICartViewController {
 	func updateData() {
 		self.ingredientsList = self.presenter?.ingredientsList
-		let view = self.view as? IIngredientsView
+		let view = self.view as? ICartView
 		view?.reloadTable()
 	}
 }
 
-// MARK: IIngredientsViewTableController
+// MARK: ICartViewTableController
 
-extension IngredientsViewController: IIngredientsViewTableController {
+extension CartViewController: ICartViewTableController {
 	var cellId: String {
 		self.cellIdentifier
 	}
