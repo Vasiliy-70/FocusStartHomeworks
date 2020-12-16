@@ -87,10 +87,6 @@ extension IngredientsEditViewPresenter: IIngredientsEditViewPresenter {
 			let ingredientName = self.ingredientName[index]
 			self.view?.showAlertIngredients(title: "Имя ингредиента", message: "Введите новое значение", textValue: ingredientName)
 		}
-		/*if let index = self.view?.selectedRow,
-		   let id = self.ingredientModel[index].id {
-			self.coordinateController.showRecipeEditView(recipeID: id)
-		}*/
 	}
 	
 	func actionDeleteRow() {

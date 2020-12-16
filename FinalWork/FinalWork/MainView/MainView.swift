@@ -56,7 +56,7 @@ extension MainView {
 	}
 }
 
-// MARK:
+// MARK: IMainView
 
 extension MainView: IMainView {
 	func reloadTable() {

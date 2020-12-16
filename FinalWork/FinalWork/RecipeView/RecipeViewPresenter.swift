@@ -28,6 +28,7 @@ final class RecipeViewPresenter {
 		willSet {
 			recipeInfo = RecipeContent()
 			recipeInfo.name = newValue.first?.name
+			recipeInfo.definition = newValue.first?.definition
 			recipeInfo.image = UIImage(data: newValue.first?.image ?? Data())
 		}
 	}

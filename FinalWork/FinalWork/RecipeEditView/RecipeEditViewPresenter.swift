@@ -31,6 +31,7 @@ final class RecipeEditViewPresenter {
 		willSet {
 			self.recipeInfo.id = newValue.first?.id
 			self.recipeInfo.name = newValue.first?.name
+			self.recipeInfo.definition = newValue.first?.definition
 			self.recipeInfo.image = UIImage(data: newValue.first?.image ?? Data())
 		}
 	}

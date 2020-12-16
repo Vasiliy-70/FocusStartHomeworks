@@ -144,6 +144,7 @@ extension RecipeEditView: IRecipeEditView {
 	func getRecipeInfo() ->  RecipeContent {
 		var info =  RecipeContent()
 		info.name = self.nameField.text
+		info.definition = self.descriptionField.text
 		info.image = self.dishImage.image
 		
 		return info
@@ -151,6 +152,7 @@ extension RecipeEditView: IRecipeEditView {
 	
 	func showRecipe(info: RecipeContent) {
 		self.nameField.text = info.name ?? ""
+		self.descriptionField.text = info.definition ?? ""
 		self.dishImage.image = info.image ?? UIImage(named: "emptyDish")
 	}
 }

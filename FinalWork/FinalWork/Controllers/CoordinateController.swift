@@ -12,6 +12,7 @@ protocol ICoordinateController: class {
 	func showRecipeEditView(recipeID: UUID?)
 	func showIngredientsEditView(recipeID: UUID)
 	func showRecipeView(recipeID: UUID)
+	func showIngredientView(recipeID: UUID)
 }
 
 final class CoordinateController {
@@ -43,7 +44,8 @@ extension CoordinateController: ICoordinateController {
 			return
 		}
 		let ingredientsEditView = IngredientsEditViewAssembly.createIngredientsEditView(coordinateController: self, queryModel: self.queryModel, recipeID: recipeID)
-		navigationController.pushViewController(ingredientsEditView, animated: true)
+		navigationController.present(ingredientsEditView, animated: true, completion: nil)
+		//navigationController.pushViewController(ingredientsEditView, animated: true)
 	}
 	
 	func showRecipeEditView(recipeID: UUID?) {
@@ -65,5 +67,16 @@ extension CoordinateController: ICoordinateController {
 		
 		let recipeView = RecipeViewAssembly.createRecipeView(coordinateController: self, queryModel: queryModel, recipeID: recipeID)
 		navigationController.pushViewController(recipeView, animated: true)
+	}
+	
+	func showIngredientView(recipeID: UUID) {
+		guard let navigationController = self.navigationController
+		else {
+			assertionFailure("Error show IngredientsView")
+			return
+		}
+		
+		let ingredientsView = IngredientsViewAssembly.createIngredientsView(coordinateController: self, queryModel: queryModel, recipeID: recipeID)
+		navigationController.pushViewController(ingredientsView, animated: true)
 	}
 }

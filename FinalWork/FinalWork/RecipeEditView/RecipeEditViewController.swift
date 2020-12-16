@@ -93,6 +93,7 @@ extension RecipeEditViewController {
 	@objc func actionSaveButton() {
 		if let view = self.view as? IRecipeEditView {
 			self.recipeInfo.name = view.getRecipeInfo().name
+			self.recipeInfo.definition = view.getRecipeInfo().definition
 			self.recipeInfo.image = view.getRecipeInfo().image
 			self.presenter?.actionSaveButton()
 		}

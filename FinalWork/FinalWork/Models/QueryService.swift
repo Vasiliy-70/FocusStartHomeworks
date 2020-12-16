@@ -22,6 +22,7 @@ protocol IQueryService {
 struct RecipeContent {
 	var id: UUID?
 	var name: String?
+	var definition: String?
 	var image: UIImage?
 }
 
@@ -67,27 +68,6 @@ extension QueryService {
 // MARK: IQueryService
 
 extension QueryService: IQueryService {
-	func changeRecipe(content: RecipeContent) {
-		if let name = content.name,
-		   name != "",
-		   let id = content.id {
-			
-			let fetchRequest: NSFetchRequest<Recipe> = Recipe.fetchRequest()
-			let predicate = NSPredicate(format: "id == %@", id as CVarArg )
-			fetchRequest.predicate = predicate
-			
-			do {
-				let recipes = try self.context.fetch(fetchRequest)
-				recipes.first?.name = name
-				recipes.first?.image = content.image?.pngData()
-			} catch {
-				assertionFailure(error.localizedDescription)
-			}
-		}
-		
-		self.saveContext()
-	}
-	
 	func changeIngredient(content: IngredientContent) {
 		if let name = content.name,
 		   name != "",
@@ -107,6 +87,29 @@ extension QueryService: IQueryService {
 		
 		self.saveContext()
 	}
+	
+	func changeRecipe(content: RecipeContent) {
+		if let name = content.name,
+		   name != "",
+		   let id = content.id {
+			
+			let fetchRequest: NSFetchRequest<Recipe> = Recipe.fetchRequest()
+			let predicate = NSPredicate(format: "id == %@", id as CVarArg )
+			fetchRequest.predicate = predicate
+			
+			do {
+				let recipes = try self.context.fetch(fetchRequest)
+				recipes.first?.name = name
+				recipes.first?.definition = content.definition
+				recipes.first?.image = content.image?.pngData()
+			} catch {
+				assertionFailure(error.localizedDescription)
+			}
+		}
+		
+		self.saveContext()
+	}
+	
 	
 	func removeRecipeAt(id: UUID) {
 		let fetchRequest: NSFetchRequest<Recipe> = Recipe.fetchRequest()
@@ -166,7 +169,7 @@ extension QueryService: IQueryService {
 		
 		let predicate = NSPredicate(format: "recipe.id == %@", recipeID as CVarArg)
 		fetchRequest.predicate = predicate
-	
+		
 		do {
 			ingredients = try self.context.fetch(fetchRequest)
 		} catch {
@@ -187,6 +190,7 @@ extension QueryService: IQueryService {
 		
 		let recipe = Recipe(entity: entity, insertInto: self.context)
 		recipe.name = info.name
+		recipe.definition = info.definition
 		recipe.image = info.image?.pngData()
 		recipe.id = info.id ?? UUID()
 		
