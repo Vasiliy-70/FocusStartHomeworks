@@ -13,7 +13,7 @@ protocol IMainPresenter: class {
 	func actionTapRow()
 	func actionDeleteRow()
 	func actionAddButton()
-	func viewDidLoad()
+	func viewWillAppear()
 }
 
 final class MainPresenter {
@@ -84,7 +84,7 @@ extension MainPresenter: IMainPresenter {
 		self.coordinateController.showRecipeEditView(recipeID: nil)
 	}
 	
-	func viewDidLoad() {
+	func viewWillAppear() {
 		self.requestData()
 	}
 }

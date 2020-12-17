@@ -99,6 +99,7 @@ extension QueryService: IQueryService {
 			do {
 				let ingredient = try self.context.fetch(fetchRequest)
 				ingredient.first?.name = name
+				ingredient.first?.isMarked = content.isMarked ?? false
 			} catch {
 				assertionFailure(error.localizedDescription)
 			}

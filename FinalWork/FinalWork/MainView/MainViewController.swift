@@ -20,19 +20,12 @@ protocol IMainViewTableController: class {
 
 final class MainViewController: UIViewController {
 	var presenter: IMainPresenter?
-	private var recipeList: [String]?
 	private var currentRow: Int?
 	private var cellIdentifier = "mainViewCell"
 	
-    override func viewDidLoad() {
-        super.viewDidLoad()
-		
-		self.configureTabBarController()
-    }
-	
 	override func viewWillAppear(_ animated: Bool) {
-		self.presenter?.viewDidLoad()
-		self.tabBarController?.title = "Рецепты"
+		self.presenter?.viewWillAppear()
+		self.configureTabBarController()
 	}
 	
 	override func loadView() {
@@ -42,11 +35,15 @@ final class MainViewController: UIViewController {
 
 extension MainViewController {
 	func configureTabBarController() {
+		self.tabBarController?.title = "Рецепты"
+		
 		self.tabBarItem = UITabBarItem(title: "Каталог", image: UIImage(named: "book-simple-7"), selectedImage: nil)
 		
-		self.navigationItem.rightBarButtonItems = [
+		self.tabBarController?.navigationItem.rightBarButtonItems = [
 			UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.actionAddButton))
 		]
+		
+		self.tabBarController?.navigationItem.leftBarButtonItems = []
 	}
 }
 
@@ -103,7 +100,6 @@ extension MainViewController: UITableViewDataSource {
 
 extension MainViewController: IMainViewController {
 	func updateData() {
-		self.recipeList = self.presenter?.recipeList
 		let view = self.view as? IMainView
 		view?.reloadTable()
 	}

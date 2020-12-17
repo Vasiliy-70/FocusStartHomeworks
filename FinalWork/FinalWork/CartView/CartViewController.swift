@@ -9,6 +9,7 @@ import UIKit
 
 protocol ICartViewController: class {
 	func updateData()
+	var selectedRow: Int? { get }
 }
 
 protocol ICartViewTableController: class {
@@ -19,8 +20,8 @@ protocol ICartViewTableController: class {
 
 final class CartViewController: UIViewController {
 	var presenter: ICartViewPresenter?
-	private var ingredientsList: [String]?
 	private var cellIdentifier = "mainViewCell"
+	private var currentRow:  Int?
 	
 	public init() {
 		super.init(nibName: nil, bundle: nil)
@@ -33,8 +34,9 @@ final class CartViewController: UIViewController {
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
-		self.presenter?.viewDidLoad()
-		self.tabBarController?.title = "Корзина"
+		self.presenter?.viewWillAppear()
+		
+		self.configureTabBarController()
 	}
 	
 	override func loadView() {
@@ -42,10 +44,36 @@ final class CartViewController: UIViewController {
 	}
 }
 
+extension CartViewController {
+	func configureTabBarController() {
+		self.tabBarController?.title = "Корзина"
+		
+		self.tabBarController?.navigationItem.rightBarButtonItems = [
+			UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.actionRightButtonTabBar))
+		]
+		
+		self.tabBarController?.navigationItem.leftBarButtonItems = [
+			UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(self.actionLeftButtonTabBar))
+		]
+	}
+	
+	@objc func actionRightButtonTabBar() {
+		self.presenter?.actionRightButtonTabBar()
+	}
+	
+	@objc func actionLeftButtonTabBar() {
+		self.presenter?.actionLeftButtonTabBar()
+	}
+}
+
+
 // MARK: UITableViewDelegate
 
 extension CartViewController: UITableViewDelegate {
-	
+	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		self.currentRow = indexPath.row
+		self.presenter?.actionTapRow()
+	}
 }
 
 // MARK: UITableViewDataSource
@@ -57,7 +85,19 @@ extension CartViewController: UITableViewDataSource {
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath)
-		cell.textLabel?.text = self.presenter?.ingredientsList[indexPath.row]
+		
+		if let ingredientsName = self.presenter?.ingredientsList[indexPath.row].name,
+		   let isMarked = self.presenter?.ingredientsList[indexPath.row].isMarked {
+			
+			if isMarked {
+				let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: ingredientsName)
+				attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
+				cell.textLabel?.attributedText = attributeString
+			} else {
+				cell.textLabel?.attributedText = nil
+				cell.textLabel?.text = ingredientsName
+			}
+		}
 		return cell
 	}
 }
@@ -65,8 +105,11 @@ extension CartViewController: UITableViewDataSource {
 // MARK: ICartViewController
 
 extension CartViewController: ICartViewController {
+	var selectedRow: Int? {
+		self.currentRow
+	}
+	
 	func updateData() {
-		self.ingredientsList = self.presenter?.ingredientsList
 		let view = self.view as? ICartView
 		view?.reloadTable()
 	}

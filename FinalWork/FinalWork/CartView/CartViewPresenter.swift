@@ -5,11 +5,14 @@
 //  Created by Боровик Василий on 16.12.2020.
 //
 
-import Foundation
+import UIKit
 
 protocol ICartViewPresenter: class {
-	var ingredientsList: [String] { get }
-	func viewDidLoad()
+	var ingredientsList: [IngredientContent] { get }
+	func viewWillAppear()
+	func actionTapRow()
+	func actionRightButtonTabBar()
+	func actionLeftButtonTabBar()
 }
 
 final class CartViewPresenter {
@@ -17,7 +20,7 @@ final class CartViewPresenter {
 	private var coordinateController: ICoordinateController
 	private var queryModel: IQueryService?
 	
-	private var ingredientsName = [String]() {
+	private var ingredientsInfo = [IngredientContent]() {
 		didSet {
 			self.view?.updateData()
 		}
@@ -25,10 +28,14 @@ final class CartViewPresenter {
 	
 	private var ingredientsModel = [Ingredient]() {
 		didSet {
-			self.ingredientsName.removeAll()
+			self.ingredientsInfo.removeAll()
 			for ingredient in ingredientsModel {
 				if let name = ingredient.name {
-					self.ingredientsName.append(name)
+					var ingredientList = IngredientContent()
+					ingredientList.id = ingredient.id
+					ingredientList.name = name
+					ingredientList.isMarked = ingredient.isMarked
+					self.ingredientsInfo.append(ingredientList)
 				}
 			}
 		}
@@ -50,18 +57,59 @@ extension CartViewPresenter {
 				self.ingredientsModel += self.queryModel?.fetchRequestIngredientsAt(recipeID: recipeID) ?? []
 			}
 		}
-		
 	}
 }
 
 // MARK: ICartViewPresenter
 
 extension CartViewPresenter: ICartViewPresenter {
-	var ingredientsList: [String] {
-		self.ingredientsName
+	func actionLeftButtonTabBar() {
+		self.resetMarkIngredients()
+		let selectedRecipes = self.queryModel?.fetchRequestSelectedRecipes() ?? []
+		for recipe in selectedRecipes {
+			var recipeContent = RecipeContent()
+			recipeContent.id = recipe.id
+			recipeContent.name = recipe.name
+			recipeContent.image = UIImage(data: recipe.image ?? Data())
+			recipeContent.definition = recipe.definition
+			recipeContent.isSelected = false
+			self.queryModel?.changeRecipe(content: recipeContent)
+		}
+		self.requestData()
+	}
+	func actionRightButtonTabBar() {
+		self.resetMarkIngredients()
+		self.requestData()
+	}
+	
+	func actionTapRow() {
+		if let index = self.view?.selectedRow {
+			var ingredient = IngredientContent()
+			ingredient.id = self.ingredientsModel[index].id
+			ingredient.name = self.ingredientsModel[index].name
+			ingredient.isMarked = !self.ingredientsModel[index].isMarked
+			self.queryModel?.changeIngredient(content: ingredient)
+		}
+		self.requestData()
+	}
+	
+	var ingredientsList: [IngredientContent] {
+		self.ingredientsInfo
 	}
 
-	func viewDidLoad() {
+	func viewWillAppear() {
 		self.requestData()
+	}
+}
+
+extension CartViewPresenter {
+	func resetMarkIngredients() {
+		var ingredientContent = IngredientContent()
+		for ingredient in self.ingredientsInfo {
+			ingredientContent.id = ingredient.id
+			ingredientContent.name = ingredient.name
+			ingredientContent.isMarked = false
+			self.queryModel?.changeIngredient(content: ingredientContent)
+		}
 	}
 }

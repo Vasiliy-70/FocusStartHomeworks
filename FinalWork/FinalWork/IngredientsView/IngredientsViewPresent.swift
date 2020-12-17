@@ -9,7 +9,7 @@ import Foundation
 
 protocol IIngredientsViewPresenter: class {
 	var ingredientsList: [String] { get }
-	func viewDidLoad()
+	func viewWillAppear()
 }
 
 final class IngredientsViewPresenter {
@@ -56,7 +56,7 @@ extension IngredientsViewPresenter: IIngredientsViewPresenter {
 		self.ingredientsName
 	}
 
-	func viewDidLoad() {
+	func viewWillAppear() {
 		self.requestData()
 	}
 }
