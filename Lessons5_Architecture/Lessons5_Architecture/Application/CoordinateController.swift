@@ -10,7 +10,6 @@ import UIKit
 protocol ICoordinateController: class {
 	func initialViewController()
 	func showStatisticsAt(model: Model)
-	var navigationController: UINavigationController? { get set }
 }
 
 final class CoordinateController {
@@ -38,8 +37,7 @@ extension CoordinateController: ICoordinateController {
 			assertionFailure("Error in creating of statsViewController")
 			return
 		}
-		let statsViewController = StatsModuleAssembly.createStatsModule(
-			coordinateController: self, model: model)
+		let statsViewController = StatsModuleAssembly.createStatsModule(model: model)
 		navigationController.pushViewController(statsViewController, animated: true)
 	}
 }

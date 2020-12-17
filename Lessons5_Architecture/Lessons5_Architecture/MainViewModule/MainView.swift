@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainView: UIView {
+final class MainView: UIView {
 	// MARK: Settings
 	weak var delegate: IMainViewUserAction?
 	
@@ -50,7 +50,7 @@ class MainView: UIView {
 
 // MARK: Appearance
 
-extension MainView {
+private extension MainView {
 	func setupAppearance() {
 		self.backgroundColor = .white
 		self.setupButtonAppearance()
@@ -77,7 +77,7 @@ extension MainView {
 
 // MARK: Constraints
 
-extension MainView {
+private extension MainView {
 	func setupConstraints() {
 		self.setupButtonConstraints()
 		self.setupLabelConstraints()
@@ -124,7 +124,7 @@ extension MainView {
 
 // MARK: Notification
 
-extension MainView {
+private extension MainView {
 	func setupNotifications() {
 		NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -133,7 +133,7 @@ extension MainView {
 
 // MARK: Action
 
-extension MainView {
+private extension MainView {
 	func setupUserAction() {
 		self.setupStartButtonAction()
 	}

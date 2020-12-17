@@ -8,7 +8,7 @@
 import UIKit
 
 enum StatsModuleAssembly {
-	static func createStatsModule(coordinateController: ICoordinateController, model: Model) -> UIViewController {
+	static func createStatsModule(model: Model) -> UIViewController {
 		let view = StatsViewController()
 		let presenter = StatsPresenter(viewController: view, model: model)
 		view.presenter = presenter

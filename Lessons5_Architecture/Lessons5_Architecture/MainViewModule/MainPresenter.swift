@@ -5,8 +5,6 @@
 //  Created by Боровик Василий on 16.11.2020.
 //
 
-import UIKit
-
 protocol IMainPresenter: class {
 	func requestData()
 	var userValue: Int { get set }
@@ -30,7 +28,7 @@ final class MainPresenter {
 	}
 }
 
-extension MainPresenter {
+private extension MainPresenter {
 	func compareValues(receivedValue: Int) {
 		let randomValue = Int.random(in: self.minValue...self.maxValue)
 		if randomValue == self.receivedValue {

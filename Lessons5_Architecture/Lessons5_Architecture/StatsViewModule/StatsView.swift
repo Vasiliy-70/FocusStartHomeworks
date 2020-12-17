@@ -7,7 +7,7 @@
 
 import UIKit
 
-class StatsView: UIView {
+final class StatsView: UIView {
 	weak var delegate: IMainViewUserAction?
 	
 	private enum Constraints {
@@ -31,7 +31,7 @@ class StatsView: UIView {
 
 // MARK: Appearance
 
-extension StatsView {
+private extension StatsView {
 	func setupAppearance() {
 		self.backgroundColor = .green
 		self.setupLabelAppearance()
@@ -45,7 +45,7 @@ extension StatsView {
 
 // MARK: Constraints
 
-extension StatsView {
+private extension StatsView {
 	func setupConstraints() {
 		self.addSubview(self.descriptionLabel)
 		self.descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
