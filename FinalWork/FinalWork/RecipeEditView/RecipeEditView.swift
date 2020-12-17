@@ -15,7 +15,7 @@ protocol IRecipeEditView: class {
 final class RecipeEditView: UIView {
 	private let viewController: IRecipeEditViewActionHandler
 	
-	private var dishImage = UIImageView(image: UIImage(named: "emptyDish.png"))
+	private var dishImage = UIImageView()
 	private var nameField = UITextField()
 	private var nameLabel = UILabel()
 	private var descriptionField = UITextView()
@@ -153,7 +153,7 @@ extension RecipeEditView: IRecipeEditView {
 	func showRecipe(info: RecipeContent) {
 		self.nameField.text = info.name ?? ""
 		self.descriptionField.text = info.definition ?? ""
-		self.dishImage.image = info.image ?? UIImage(named: "emptyDish")
+		self.dishImage.image = info.image ?? ImagesStory.empty
 	}
 }
 

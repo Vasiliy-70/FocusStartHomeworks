@@ -10,6 +10,7 @@ import UIKit
 protocol ICoordinateController: class {
 	func showMainView()
 	func showRecipeEditView(recipeID: UUID?)
+	func showRecipeEditViewModalMode(recipeID: UUID?)
 	func showIngredientsEditView(recipeID: UUID)
 	func showRecipeView(recipeID: UUID)
 	func showIngredientView(recipeID: UUID)
@@ -39,7 +40,7 @@ extension CoordinateController: ICoordinateController {
 		let tabBar = UITabBarController()
 		tabBar.viewControllers = []
 		tabBar.setViewControllers([mainViewController, cartViewController], animated: true)
-
+		
 		navigationController.pushViewController(tabBar, animated: true)
 	}
 	
@@ -60,8 +61,19 @@ extension CoordinateController: ICoordinateController {
 			assertionFailure("Error show RecipeEditView")
 			return
 		}
-		let recipeEditView = RecipeEditViewAssembly.createRecipeEditViewController(coordinateController: self,queryModel: self.queryModel, recipeID: recipeID)
+		let recipeEditView = RecipeEditViewAssembly.createRecipeEditViewController(coordinateController: self,queryModel: self.queryModel, recipeID: recipeID, modalMode: false)
 		navigationController.pushViewController(recipeEditView, animated: true)
+	}
+	
+	func showRecipeEditViewModalMode(recipeID: UUID?) {
+		guard let navigationController = self.navigationController
+		else {
+			assertionFailure("Error show RecipeEditView")
+			return
+		}
+		let recipeEditView = RecipeEditViewAssembly.createRecipeEditViewController(coordinateController: self,queryModel: self.queryModel, recipeID: recipeID, modalMode: true)
+		let modallyNavigationController = UINavigationController(rootViewController: recipeEditView)
+		navigationController.present(modallyNavigationController, animated: true, completion: nil)
 	}
 	
 	func showRecipeView(recipeID: UUID) {
@@ -76,7 +88,7 @@ extension CoordinateController: ICoordinateController {
 		
 		let tabBar = UITabBarController()
 		tabBar.setViewControllers([recipeView, ingredientsView], animated: true)
-
+		
 		navigationController.pushViewController(tabBar, animated: true)
 	}
 	

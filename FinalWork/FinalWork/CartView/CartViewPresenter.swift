@@ -13,6 +13,7 @@ protocol ICartViewPresenter: class {
 	func actionTapRow()
 	func actionRightButtonTabBar()
 	func actionLeftButtonTabBar()
+	func actionLeftSwipe()
 }
 
 final class CartViewPresenter {
@@ -63,6 +64,10 @@ extension CartViewPresenter {
 // MARK: ICartViewPresenter
 
 extension CartViewPresenter: ICartViewPresenter {
+	func actionLeftSwipe() {
+		(self.view as? UIViewController)?.tabBarController?.selectedIndex = 0
+	}
+	
 	func actionLeftButtonTabBar() {
 		self.resetMarkIngredients()
 		let selectedRecipes = self.queryModel?.fetchRequestSelectedRecipes() ?? []

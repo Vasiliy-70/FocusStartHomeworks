@@ -9,7 +9,8 @@ import UIKit
 
 protocol IRecipeEditViewPresenter {
 	var recipe: RecipeContent { get }
-	func actionSaveButton()
+	func actionSaveButton(modalMode: Bool)
+	func actionCancelButton()
 	func actionAlertIngredients()
 	func cancelAlertIngredients()
 	func viewDidLoad()
@@ -55,15 +56,16 @@ extension RecipeEditViewPresenter {
 }
 
 // MARK: IRecipeEditPresenter
-
 extension RecipeEditViewPresenter: IRecipeEditViewPresenter {
-	
+	func actionCancelButton() {
+		(self.view as? UIViewController)?.dismiss(animated: true, completion: nil)
+	}
 	
 	var recipe: RecipeContent {
 		self.recipeInfo
 	}
 	
-	func actionSaveButton() {
+	func actionSaveButton(modalMode: Bool) {
 		if var recipe = self.view?.recipe {
 			if self.view?.recipe.id != nil {
 				self.queryModel.changeRecipe(content: recipe)
@@ -72,8 +74,14 @@ extension RecipeEditViewPresenter: IRecipeEditViewPresenter {
 				recipe.id = self.recipeID
 				self.queryModel.addRecipe(info: recipe)
 			}
-			self.requestData()
-			self.view?.showAlertIngredients()
+			
+			if !modalMode {
+				self.requestData()
+				self.view?.showAlertIngredients()
+			} else {
+				NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RecipeEditViewFinished"), object: AnyObject.self)
+				(self.view as? UIViewController)?.dismiss(animated: true, completion: nil)
+			}
 		}
 	}
 	

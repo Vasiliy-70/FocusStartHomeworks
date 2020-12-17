@@ -5,15 +5,15 @@
 //  Created by Боровик Василий on 13.12.2020.
 //
 
-import Foundation
+import UIKit
 
 protocol IMainPresenter: class {
-	var recipeList: [String] { get }
+	var recipeList: [RecipeContent] { get }
 	func actionEditRow()
 	func actionTapRow()
 	func actionDeleteRow()
 	func actionAddButton()
-	func viewWillAppear()
+	func viewDidLoad()
 }
 
 final class MainPresenter {
@@ -21,7 +21,7 @@ final class MainPresenter {
 	private var coordinateController: ICoordinateController
 	private var queryModel: IQueryService?
 	
-	private var recipesName = [String]() {
+	private var recipesInfo = [RecipeContent]() {
 		didSet {
 			self.view?.updateData()
 		}
@@ -29,11 +29,15 @@ final class MainPresenter {
 	
 	private var recipesModel = [Recipe]() {
 		didSet {
-			self.recipesName.removeAll()
+			self.recipesInfo.removeAll()
 			for recipe in recipesModel {
-				if let name = recipe.name {
-					self.recipesName.append(name)
-				}
+				var recipeContent = RecipeContent()
+				recipeContent.id = recipe.id
+				recipeContent.name = recipe.name
+				recipeContent.image = UIImage(data: recipe.image ?? Data())
+				recipeContent.isSelected = recipe.isSelected
+				
+				self.recipesInfo.append(recipeContent)
 			}
 		}
 	}
@@ -51,17 +55,17 @@ extension MainPresenter {
 	}
 }
 
-// MARK: IMainViewController
+// MARK: IMainPresenter
 
 extension MainPresenter: IMainPresenter {
-	var recipeList: [String] {
-		self.recipesName
+	var recipeList: [RecipeContent] {
+		self.recipesInfo
 	}
 	
 	func actionEditRow() {
 		if let index = self.view?.selectedRow,
 		   let id = self.recipesModel[index].id {
-			self.coordinateController.showRecipeEditView(recipeID: id)
+			//self.coordinateController.showRecipeEditView()
 		}
 	}
 	
@@ -84,7 +88,7 @@ extension MainPresenter: IMainPresenter {
 		self.coordinateController.showRecipeEditView(recipeID: nil)
 	}
 	
-	func viewWillAppear() {
+	func viewDidLoad() {
 		self.requestData()
 	}
 }

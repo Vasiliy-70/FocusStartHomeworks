@@ -10,6 +10,7 @@ import UIKit
 protocol ICartViewController: class {
 	func updateData()
 	var selectedRow: Int? { get }
+	func leftSwipeRecognizer()
 }
 
 protocol ICartViewTableController: class {
@@ -26,7 +27,7 @@ final class CartViewController: UIViewController {
 	public init() {
 		super.init(nibName: nil, bundle: nil)
 		
-		self.tabBarItem = UITabBarItem(title: "Корзина", image: UIImage(named: "shopping-cart"), selectedImage: nil)
+		self.tabBarItem = UITabBarItem(title: "Корзина", image: ImagesStory.cartIcon, selectedImage: nil)
 	}
 	
 	required init?(coder: NSCoder) {
@@ -49,19 +50,19 @@ extension CartViewController {
 		self.tabBarController?.title = "Корзина"
 		
 		self.tabBarController?.navigationItem.rightBarButtonItems = [
-			UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.actionRightButtonTabBar))
+			UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.actionCartButtonTabBar))
 		]
 		
 		self.tabBarController?.navigationItem.leftBarButtonItems = [
-			UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(self.actionLeftButtonTabBar))
+			UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(self.actionEditButtonTabBar))
 		]
 	}
 	
-	@objc func actionRightButtonTabBar() {
+	@objc func actionCartButtonTabBar() {
 		self.presenter?.actionRightButtonTabBar()
 	}
 	
-	@objc func actionLeftButtonTabBar() {
+	@objc func actionEditButtonTabBar() {
 		self.presenter?.actionLeftButtonTabBar()
 	}
 }
@@ -105,6 +106,10 @@ extension CartViewController: UITableViewDataSource {
 // MARK: ICartViewController
 
 extension CartViewController: ICartViewController {
+	func leftSwipeRecognizer() {
+		self.presenter?.actionLeftSwipe()
+	}
+	
 	var selectedRow: Int? {
 		self.currentRow
 	}

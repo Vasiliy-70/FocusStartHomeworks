@@ -27,6 +27,7 @@ final class MainView: UIView {
 		self.backgroundColor = .white
 		self.configureTable()
 		self.setupTableAppearance()
+		self.configureSwipeRecognizer()
 	}
 	
 	required init?(coder: NSCoder) {
@@ -36,7 +37,7 @@ final class MainView: UIView {
 
 extension MainView {
 	func configureTable() {
-		self.recipesTable.register(UITableViewCell.self, forCellReuseIdentifier: self.tableController.cellId)
+		self.recipesTable.register(MainViewTableCell.self, forCellReuseIdentifier: self.tableController.cellId)
 		
 		self.recipesTable.delegate = self.tableController.delegate
 		self.recipesTable.dataSource = self.tableController.dataSource
@@ -64,6 +65,23 @@ extension MainView: IMainView {
 	}
 	
 	func textInCellForRow(at indexPath: IndexPath) -> String? {
-		self.recipesTable.cellForRow(at: indexPath)?.textLabel?.text
+		var cell = self.recipesTable.cellForRow(at: indexPath)
+		return (cell as? IMainViewTableCell)?.title
+	}
+}
+
+extension MainView {
+	func configureSwipeRecognizer() {
+		let swipeRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipe(_:)))
+		self.addGestureRecognizer(swipeRecognizer)
+	}
+	
+	@objc func handleSwipe(_ sender: UISwipeGestureRecognizer) {
+		switch sender.direction {
+		case .right:
+			print("right")
+		default:
+			break
+		}
 	}
 }

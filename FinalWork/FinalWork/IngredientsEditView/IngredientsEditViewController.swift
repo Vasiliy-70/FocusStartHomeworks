@@ -84,7 +84,6 @@ extension IngredientsEditViewController {
 }
 
 // MARK: UITableViewDelegate
-
 extension IngredientsEditViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 		return true
@@ -119,7 +118,6 @@ extension IngredientsEditViewController: UITableViewDelegate {
 }
 
 // MARK: UITableViewDataSource
-
 extension IngredientsEditViewController: UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return self.presenter?.ingredientList.count ?? 0
@@ -133,7 +131,6 @@ extension IngredientsEditViewController: UITableViewDataSource {
 }
 
 // MARK: IIngredientsEditViewController
-
 extension IngredientsEditViewController: IIngredientsEditViewController {
 	func updateData() {
 		self.ingredientList = self.presenter?.ingredientList
@@ -154,7 +151,6 @@ extension IngredientsEditViewController: IIngredientsEditViewController {
 }
 
 // MARK: IIngredientEditViewTableController
-
 extension IngredientsEditViewController: IIngredientEditViewTableController {
 	var cellId: String {
 		self.cellIdentifier
@@ -170,7 +166,6 @@ extension IngredientsEditViewController: IIngredientEditViewTableController {
 }
 
 // MARK: IIngredientEditViewActionHandler
-
 extension IngredientsEditViewController: IIngredientEditViewActionHandler {
 	func tapOnApplyButton() {
 		self.presenter?.actionApplyButton()
@@ -178,7 +173,6 @@ extension IngredientsEditViewController: IIngredientEditViewActionHandler {
 }
 
 // MARK: Action
-
 extension IngredientsEditViewController {
 	@objc func actionAddButton() {
 		self.presenter?.actionAddButton()

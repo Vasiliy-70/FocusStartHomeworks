@@ -23,9 +23,17 @@ final class MainViewController: UIViewController {
 	private var currentRow: Int?
 	private var cellIdentifier = "mainViewCell"
 	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		
+	}
 	override func viewWillAppear(_ animated: Bool) {
-		self.presenter?.viewWillAppear()
 		self.configureTabBarController()
+		/*self.view.alpha = 0
+		UIView.animate(withDuration: 1) {
+			self.view.alpha = 1
+		}*/
+		self.presenter?.viewDidLoad()
 	}
 	
 	override func loadView() {
@@ -37,7 +45,7 @@ extension MainViewController {
 	func configureTabBarController() {
 		self.tabBarController?.title = "Рецепты"
 		
-		self.tabBarItem = UITabBarItem(title: "Каталог", image: UIImage(named: "book-simple-7"), selectedImage: nil)
+		self.tabBarItem = UITabBarItem(title: "Каталог", image: ImagesStory.catalogIcon, selectedImage: nil)
 		
 		self.tabBarController?.navigationItem.rightBarButtonItems = [
 			UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.actionAddButton))
@@ -90,9 +98,16 @@ extension MainViewController: UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath)
+		/*let cell = tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath)
 		cell.textLabel?.text = self.presenter?.recipeList[indexPath.row]
-		return cell
+		return cell*/
+		guard var cell = tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath) as? IMainViewTableCell else { assertionFailure("No tableCellView"); return UITableViewCell() }
+		
+		cell.newImage = self.presenter?.recipeList[indexPath.row].image ?? (ImagesStory.empty ?? UIImage())
+		cell.title = self.presenter?.recipeList[indexPath.row].name
+		
+		cell.updateContent()
+		return cell as? UITableViewCell ?? UITableViewCell()
 	}
 }
 

@@ -5,12 +5,14 @@
 //  Created by Боровик Василий on 16.12.2020.
 //
 
+import Foundation
 import UIKit
 
 protocol IRecipeViewPresenter {
 	var recipe: RecipeContent { get }
 	func viewWillAppear()
-	func actionButtonTabBar()
+	func actionCartButtonTabBar()
+	func actionEditButtonTabBar()
 }
 
 final class RecipeViewPresenter {
@@ -41,6 +43,7 @@ final class RecipeViewPresenter {
 		self.coordinateController = coordinateController
 		self.queryModel = queryModel
 		self.recipeID = recipeID
+		self.configureNotifications()
 	}
 }
 
@@ -53,7 +56,11 @@ extension RecipeViewPresenter {
 // MARK: IRecipeViewPresenter
 
 extension RecipeViewPresenter: IRecipeViewPresenter {
-	func actionButtonTabBar() {
+	func actionEditButtonTabBar() {
+		self.coordinateController.showRecipeEditViewModalMode(recipeID: self.recipeID)
+	}
+	
+	func actionCartButtonTabBar() {
 		if let isSelected = self.recipeInfo.isSelected,
 		   isSelected {
 			self.recipeInfo.isSelected = false
@@ -69,6 +76,16 @@ extension RecipeViewPresenter: IRecipeViewPresenter {
 	}
 	
 	func viewWillAppear() {
+		self.requestData()
+	}
+}
+
+extension RecipeViewPresenter {
+	func configureNotifications() {
+		NotificationCenter.default.addObserver(self, selector: #selector(self.recipeEditViewFinished), name: NSNotification.Name(rawValue: "RecipeEditViewFinished"), object: nil)
+	}
+	
+	@objc func recipeEditViewFinished() {
 		self.requestData()
 	}
 }

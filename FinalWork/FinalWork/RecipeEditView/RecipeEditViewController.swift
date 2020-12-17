@@ -20,21 +20,31 @@ protocol IRecipeEditViewActionHandler: class {
 final class RecipeEditViewController: UIViewController {
 	var presenter: IRecipeEditViewPresenter?
 	var alertIngredients = UIAlertController()
+	private var modalMode = false
 	
 	private var recipeInfo = RecipeContent() {
 		willSet {
 			self.navigationItem.title = newValue.id != nil ?
-				"Редактирование рецепта" : "Создание рецепта"
+				"Редактор" : "Создание рецепта"
 		}
 	}
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+	public init(modalMode: Bool) {
+		self.modalMode = modalMode
+		super.init(nibName: nil, bundle: nil)
+	}
+	
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
 		
 		self.configureNavigationBar()
 		self.configureAlert()
 		self.presenter?.viewDidLoad()
-    }
+	}
 	
 	override func loadView() {
 		self.view = RecipeEditView(viewController: self)
@@ -43,6 +53,9 @@ final class RecipeEditViewController: UIViewController {
 
 extension RecipeEditViewController {
 	func configureNavigationBar() {
+		if modalMode {
+			self.navigationItem.leftBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.actionCancelButton))]
+		}
 		self.navigationItem.rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.actionSaveButton))]
 	}
 }
@@ -68,7 +81,6 @@ extension RecipeEditViewController {
 }
 
 // MARK: IRecipeEditViewController
-
 extension RecipeEditViewController: IRecipeEditViewController {
 	var recipe: RecipeContent {
 		self.recipeInfo
@@ -95,8 +107,12 @@ extension RecipeEditViewController {
 			self.recipeInfo.name = view.getRecipeInfo().name
 			self.recipeInfo.definition = view.getRecipeInfo().definition
 			self.recipeInfo.image = view.getRecipeInfo().image
-			self.presenter?.actionSaveButton()
+			self.presenter?.actionSaveButton(modalMode: self.modalMode)
 		}
+	}
+	
+	@objc func actionCancelButton() {
+		self.presenter?.actionCancelButton()
 	}
 	
 	func presentImageViewPicker(sender: AnyObject) {
@@ -131,4 +147,3 @@ extension RecipeEditViewController: IRecipeEditViewActionHandler {
 		self.presentImageViewPicker(sender: self)
 	}
 }
- 

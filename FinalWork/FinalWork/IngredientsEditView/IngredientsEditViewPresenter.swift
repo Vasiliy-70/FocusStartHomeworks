@@ -57,7 +57,6 @@ extension IngredientsEditViewPresenter {
 }
 
 // MARK: IMainViewController
-
 extension IngredientsEditViewPresenter: IIngredientsEditViewPresenter {
 	func actionEditCellAlert(newName: String) {
 		var ingredient = IngredientContent()
@@ -95,7 +94,7 @@ extension IngredientsEditViewPresenter: IIngredientsEditViewPresenter {
 			self.queryModel?.removeIngredientAt(id: id)
 			self.requestData()
 		}
-	} 
+	}
 	
 	func actionAddButton() {
 		self.isNewIngredientEdit = true
@@ -106,4 +105,3 @@ extension IngredientsEditViewPresenter: IIngredientsEditViewPresenter {
 		self.requestData()
 	}
 }
-

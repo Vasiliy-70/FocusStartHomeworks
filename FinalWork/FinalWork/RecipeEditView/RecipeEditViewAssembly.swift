@@ -8,11 +8,10 @@
 import UIKit
 
 enum RecipeEditViewAssembly{
-	static func createRecipeEditViewController(coordinateController: ICoordinateController, queryModel: IQueryService, recipeID: UUID?) -> UIViewController {
-		let view = RecipeEditViewController()
+	static func createRecipeEditViewController(coordinateController: ICoordinateController, queryModel: IQueryService, recipeID: UUID?, modalMode: Bool) -> UIViewController {
+		let view = RecipeEditViewController(modalMode: modalMode)
 		let presenter = RecipeEditViewPresenter(view: view, coordinateController: coordinateController ,queryModel: queryModel, recipeID: recipeID)
 		view.presenter = presenter
 		return view
 	}
 }
-

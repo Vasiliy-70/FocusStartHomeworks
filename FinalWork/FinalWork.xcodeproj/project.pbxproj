@@ -31,6 +31,8 @@
 		476EA7F9258A6FC200D3BA7A /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476EA7F8258A6FC200D3BA7A /* CartViewController.swift */; };
 		476EA7FE258A6FDA00D3BA7A /* CartViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476EA7FD258A6FDA00D3BA7A /* CartViewPresenter.swift */; };
 		476EA803258A6FE400D3BA7A /* CartViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476EA802258A6FE400D3BA7A /* CartViewAssembly.swift */; };
+		476EA81A258B33C300D3BA7A /* ImagesStory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476EA819258B33C300D3BA7A /* ImagesStory.swift */; };
+		476EA820258B485800D3BA7A /* MainViewTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 476EA81F258B485800D3BA7A /* MainViewTableCell.swift */; };
 		47AD927325861AAF0078F2FD /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AD927225861AAF0078F2FD /* MainView.swift */; };
 		47AD927C25863C8F0078F2FD /* RecipeEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AD927B25863C8F0078F2FD /* RecipeEditView.swift */; };
 		47AD9284258640E50078F2FD /* RecipeEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47AD9283258640E50078F2FD /* RecipeEditViewController.swift */; };
@@ -90,6 +92,8 @@
 		476EA7F8258A6FC200D3BA7A /* CartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
 		476EA7FD258A6FDA00D3BA7A /* CartViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewPresenter.swift; sourceTree = "<group>"; };
 		476EA802258A6FE400D3BA7A /* CartViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewAssembly.swift; sourceTree = "<group>"; };
+		476EA819258B33C300D3BA7A /* ImagesStory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesStory.swift; sourceTree = "<group>"; };
+		476EA81F258B485800D3BA7A /* MainViewTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewTableCell.swift; sourceTree = "<group>"; };
 		47AD927225861AAF0078F2FD /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		47AD927B25863C8F0078F2FD /* RecipeEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeEditView.swift; sourceTree = "<group>"; };
 		47AD9283258640E50078F2FD /* RecipeEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeEditViewController.swift; sourceTree = "<group>"; };
@@ -205,6 +209,7 @@
 			children = (
 				4700A79E2586064F00699D2F /* QueryService.swift */,
 				4700A7682586040500699D2F /* FinalWork.xcdatamodeld */,
+				476EA819258B33C300D3BA7A /* ImagesStory.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -216,6 +221,7 @@
 				4700A7AA25860EF500699D2F /* MainViewController.swift */,
 				4700A7B22586113900699D2F /* MainViewPresenter.swift */,
 				4700A7B7258615FB00699D2F /* MainViewAssembly.swift */,
+				476EA81F258B485800D3BA7A /* MainViewTableCell.swift */,
 			);
 			path = MainView;
 			sourceTree = "<group>";
@@ -429,10 +435,12 @@
 				4700A7B32586113900699D2F /* MainViewPresenter.swift in Sources */,
 				476EA7FE258A6FDA00D3BA7A /* CartViewPresenter.swift in Sources */,
 				47AD928F2586471E0078F2FD /* RecipeEditViewAssembly.swift in Sources */,
+				476EA81A258B33C300D3BA7A /* ImagesStory.swift in Sources */,
 				4700A7B8258615FB00699D2F /* MainViewAssembly.swift in Sources */,
 				47AD92892586412F0078F2FD /* RecipeEditViewPresenter.swift in Sources */,
 				4750A8C0258922D700B7A076 /* RecipeView.swift in Sources */,
 				47AD9284258640E50078F2FD /* RecipeEditViewController.swift in Sources */,
+				476EA820258B485800D3BA7A /* MainViewTableCell.swift in Sources */,
 				4700A7622586040500699D2F /* SceneDelegate.swift in Sources */,
 				47DAF4B62587D25700F5CF42 /* IngredientsEditViewPresenter.swift in Sources */,
 				4700A7BD2586164600699D2F /* CoordinateController.swift in Sources */,

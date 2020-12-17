@@ -13,7 +13,7 @@ protocol ICartView {
 }
 
 final class CartView: UIView {
-	private let ingredientsTable = UITableView()
+	private let ingredientsTable = UITableView(frame: .zero)
 	private let tableController: ICartViewTableController
 	
 	private enum Constraints {
@@ -27,6 +27,7 @@ final class CartView: UIView {
 		self.backgroundColor = .white
 		self.configureTable()
 		self.setupTableAppearance()
+		self.configureSwipeRecognizer()
 	}
 	
 	required init?(coder: NSCoder) {
@@ -68,4 +69,18 @@ extension CartView: ICartView {
 	}
 }
 
-
+extension CartView {
+	func configureSwipeRecognizer() {
+		let swipeRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipe(_:)))
+		self.addGestureRecognizer(swipeRecognizer)
+	}
+	
+	@objc func handleSwipe(_ sender: UISwipeGestureRecognizer) {
+		switch sender.direction {
+		case .right:
+			(self.tableController as? ICartViewController)?.leftSwipeRecognizer()
+		default:
+			break
+		}
+	}
+}
