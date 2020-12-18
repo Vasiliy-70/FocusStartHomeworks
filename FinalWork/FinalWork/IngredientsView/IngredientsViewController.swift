@@ -31,6 +31,10 @@ final class IngredientsViewController: UIViewController {
 		fatalError("init(coder:) has not been implemented")
 	}
 
+	override func viewDidLoad() {
+		self.configureSwipeRecognizer()
+	}
+	
 	override func viewWillAppear(_ animated: Bool) {
 		self.presenter?.viewWillAppear()
 		self.configureTabBarController()
@@ -46,7 +50,6 @@ extension IngredientsViewController {
 		self.tabBarController?.navigationItem.title = "Ингредиенты"
 		
 		self.tabBarController?.navigationItem.rightBarButtonItems = [
-		//	UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(self.tabBarCartButtonAction)),
 			UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(self.tabBarEditButtonAction))
 		]
 	}
@@ -106,3 +109,17 @@ extension IngredientsViewController: IIngredientsViewTableController {
 	}
 }
 
+
+// MARK: SwipeRecognizer
+
+extension IngredientsViewController {
+	func configureSwipeRecognizer() {
+		let swipeRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipe(_:)))
+		swipeRecognizer.direction = .right
+		self.view.addGestureRecognizer(swipeRecognizer)
+	}
+	
+	@objc func handleSwipe(_ sender: UISwipeGestureRecognizer) {
+		self.presenter?.actionRightSwipe()
+	}
+}

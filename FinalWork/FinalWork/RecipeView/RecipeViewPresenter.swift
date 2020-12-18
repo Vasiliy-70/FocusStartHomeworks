@@ -10,9 +10,10 @@ import UIKit
 
 protocol IRecipeViewPresenter {
 	var recipe: RecipeContent { get }
-	func viewWillAppear()
+	func viewWillDidLoad()
 	func actionCartButtonTabBar()
 	func actionEditButtonTabBar()
+	func actionLeftSwipe()
 }
 
 final class RecipeViewPresenter {
@@ -56,6 +57,10 @@ extension RecipeViewPresenter {
 // MARK: IRecipeViewPresenter
 
 extension RecipeViewPresenter: IRecipeViewPresenter {
+	func actionLeftSwipe() {
+		(self.view as? UIViewController)?.tabBarController?.selectedIndex = 1
+	}
+	
 	func actionEditButtonTabBar() {
 		self.coordinateController.showRecipeEditViewModalMode(recipeID: self.recipeID)
 	}
@@ -64,8 +69,10 @@ extension RecipeViewPresenter: IRecipeViewPresenter {
 		if let isSelected = self.recipeInfo.isSelected,
 		   isSelected {
 			self.recipeInfo.isSelected = false
+			self.view.showAlert(message: "Рецепт убран из корзины")
 		} else {
 			self.recipeInfo.isSelected = true
+			self.view.showAlert(message: "Рецепт добавлен в корзину")
 		}
 		
 		self.queryModel.changeRecipe(content: self.recipeInfo)
@@ -75,7 +82,7 @@ extension RecipeViewPresenter: IRecipeViewPresenter {
 		self.recipeInfo
 	}
 	
-	func viewWillAppear() {
+	func viewWillDidLoad() {
 		self.requestData()
 	}
 }

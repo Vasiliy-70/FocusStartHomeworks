@@ -7,16 +7,16 @@
 
 import UIKit
 
-protocol IMainPresenter: class {
+protocol IMainViewPresenter: class {
 	var recipeList: [RecipeContent] { get }
-	func actionEditRow()
 	func actionTapRow()
 	func actionDeleteRow()
 	func actionAddButton()
 	func viewDidLoad()
+	func actionLeftSwipe()
 }
 
-final class MainPresenter {
+final class MainViewPresenter {
 	private weak var view: IMainViewController?
 	private var coordinateController: ICoordinateController
 	private var queryModel: IQueryService?
@@ -46,10 +46,11 @@ final class MainPresenter {
 		self.view = view
 		self.coordinateController = coordinateController
 		self.queryModel = queryModel
+		self.configureNotifications()
 	}
 }
 
-extension MainPresenter {
+extension MainViewPresenter {
 	func requestData() {
 		self.recipesModel = self.queryModel?.fetchRequestRecipesAt(id: nil) ?? []
 	}
@@ -57,16 +58,13 @@ extension MainPresenter {
 
 // MARK: IMainPresenter
 
-extension MainPresenter: IMainPresenter {
-	var recipeList: [RecipeContent] {
-		self.recipesInfo
+extension MainViewPresenter: IMainViewPresenter {
+	func actionLeftSwipe() {
+		(self.view as? UIViewController)?.tabBarController?.selectedIndex = 1
 	}
 	
-	func actionEditRow() {
-		if let index = self.view?.selectedRow,
-		   let id = self.recipesModel[index].id {
-			//self.coordinateController.showRecipeEditView()
-		}
+	var recipeList: [RecipeContent] {
+		self.recipesInfo
 	}
 	
 	func actionTapRow() {
@@ -89,6 +87,20 @@ extension MainPresenter: IMainPresenter {
 	}
 	
 	func viewDidLoad() {
+		self.requestData()
+	}
+}
+
+
+// MARK: Notification
+
+extension MainViewPresenter {
+	func configureNotifications() {
+		NotificationCenter.default.addObserver(self, selector: #selector(self.recipeEditViewFinished), name: NSNotification.Name(rawValue: "RecipeEditViewFinished"), object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(self.recipeEditViewFinished), name: NSNotification.Name(rawValue: "RecipeEditViewFinishedNoModal"), object: nil)
+	}
+	
+	@objc func recipeEditViewFinished() {
 		self.requestData()
 	}
 }

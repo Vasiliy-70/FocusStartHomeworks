@@ -11,6 +11,7 @@ protocol IRecipeEditViewController: class {
 	var recipe: RecipeContent { get }
 	func updateData()
 	func showAlertIngredients()
+	func showAlertError(message: String)
 }
 
 protocol IRecipeEditViewActionHandler: class {
@@ -19,7 +20,8 @@ protocol IRecipeEditViewActionHandler: class {
 
 final class RecipeEditViewController: UIViewController {
 	var presenter: IRecipeEditViewPresenter?
-	var alertIngredients = UIAlertController()
+	private var alertIngredients = UIAlertController()
+	private var alertError = UIAlertController()
 	private var modalMode = false
 	
 	private var recipeInfo = RecipeContent() {
@@ -54,7 +56,7 @@ final class RecipeEditViewController: UIViewController {
 extension RecipeEditViewController {
 	func configureNavigationBar() {
 		if modalMode {
-			self.navigationItem.leftBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.actionCancelButton))]
+			self.navigationItem.leftBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(self.actionCancelButton))]
 		}
 		self.navigationItem.rightBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(self.actionSaveButton))]
 	}
@@ -62,7 +64,15 @@ extension RecipeEditViewController {
 
 extension RecipeEditViewController {
 	func configureAlert() {
+		let alertError = UIAlertController(title: "Ошибка", message: "Поле \"Название\" не может быть пустым", preferredStyle: .alert)
+		
+		let applyAction = UIAlertAction(title: "Ок", style: .default, handler: nil)
+		
+		alertError.addAction(applyAction)
+
 		let alertIngredients = UIAlertController(title: "Готово!", message: "Хотите ли вы добавить ингредиенты?", preferredStyle: .alert)
+		
+		self.alertError = alertError
 		
 		let addIngredients = UIAlertAction(title: "Да", style: .default, handler: {
 			[weak self] _ in
@@ -82,6 +92,11 @@ extension RecipeEditViewController {
 
 // MARK: IRecipeEditViewController
 extension RecipeEditViewController: IRecipeEditViewController {
+	func showAlertError(message: String) {
+		self.alertError.message = message
+		self.present(self.alertError, animated: true)
+	}
+	
 	var recipe: RecipeContent {
 		self.recipeInfo
 	}

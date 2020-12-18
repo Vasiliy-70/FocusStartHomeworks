@@ -5,13 +5,14 @@
 //  Created by Боровик Василий on 16.12.2020.
 //
 
-import Foundation
+import UIKit
 
 protocol IIngredientsViewPresenter: class {
 	var ingredientsList: [String] { get }
 	func viewWillAppear()
 	func actionCartButtonTabBar()
 	func actionEditButtonTabBar()
+	func actionRightSwipe()
 }
 
 final class IngredientsViewPresenter {
@@ -55,6 +56,10 @@ extension IngredientsViewPresenter {
 // MARK: IIngredientsViewPresenter
 
 extension IngredientsViewPresenter: IIngredientsViewPresenter {
+	func actionRightSwipe() {
+		(self.view as? UIViewController)?.tabBarController?.selectedIndex = 0
+	}
+	
 	func actionCartButtonTabBar() {
 		//self.coordinateController.showRecipeEditViewModalMode(recipeID: self.recipeID)
 	}

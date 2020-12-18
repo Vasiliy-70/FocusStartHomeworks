@@ -13,6 +13,7 @@ protocol IIngredientsEditViewPresenter: class {
 	func actionEditRow()
 	func actionDeleteRow()
 	func actionApplyButton(modalMode: Bool)
+	func actionCancelButton()
 	func actionAddButton()
 	func actionEditCellAlert(newName: String)
 	func viewWillAppear()
@@ -58,6 +59,10 @@ extension IngredientsEditViewPresenter {
 
 // MARK: IMainViewController
 extension IngredientsEditViewPresenter: IIngredientsEditViewPresenter {
+	func actionCancelButton() {
+		(self.view as? UIViewController)?.dismiss(animated: true, completion: nil)
+	}
+	
 	func actionEditCellAlert(newName: String) {
 		var ingredient = IngredientContent()
 		ingredient.name = newName

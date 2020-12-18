@@ -10,7 +10,7 @@ import UIKit
 enum MainViewAssembly {
 	static func createMainViewController(coordinateController: ICoordinateController, queryModel: IQueryService) -> UIViewController {
 		let view = MainViewController()
-		let presenter = MainPresenter(view: view, coordinateController: coordinateController, queryModel: queryModel)
+		let presenter = MainViewPresenter(view: view, coordinateController: coordinateController, queryModel: queryModel)
 		view.presenter = presenter
 		return view
 	}

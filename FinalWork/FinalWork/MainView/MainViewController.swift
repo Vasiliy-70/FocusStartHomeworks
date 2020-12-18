@@ -19,33 +19,39 @@ protocol IMainViewTableController: class {
 }
 
 final class MainViewController: UIViewController {
-	var presenter: IMainPresenter?
+	var presenter: IMainViewPresenter?
 	private var currentRow: Int?
 	private var cellIdentifier = "mainViewCell"
+
+	public init() {
+		super.init(nibName: nil, bundle: nil)
+		
+		self.tabBarItem = UITabBarItem(title: "Каталог", image: ImagesStore.catalogIcon, selectedImage: nil)
+	}
+	
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
+		self.configureSwipeRecognizer()
+		self.presenter?.viewDidLoad()
 	}
+	
 	override func viewWillAppear(_ animated: Bool) {
 		self.configureTabBarController()
-		/*self.view.alpha = 0
-		UIView.animate(withDuration: 1) {
-			self.view.alpha = 1
-		}*/
-		self.presenter?.viewDidLoad()
 	}
 	
 	override func loadView() {
 		self.view = MainView(tableController: self)
+		
 	}
 }
 
 extension MainViewController {
 	func configureTabBarController() {
 		self.tabBarController?.title = "Рецепты"
-		
-		self.tabBarItem = UITabBarItem(title: "Каталог", image: ImagesStore.catalogIcon, selectedImage: nil)
 		
 		self.tabBarController?.navigationItem.rightBarButtonItems = [
 			UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.actionAddButton))
@@ -76,18 +82,6 @@ extension MainViewController: UITableViewDelegate {
 		self.currentRow = indexPath.row
 		self.presenter?.actionTapRow()
 	}
-	
-	func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-		let editingAction = UIContextualAction(style: .normal, title: "Edit") {
-			(action, view, handler) in
-			self.currentRow = indexPath.row
-			self.presenter?.actionEditRow()
-		}
-		editingAction.backgroundColor = .systemBlue
-		let configuration = UISwipeActionsConfiguration(actions: [editingAction])
-		configuration.performsFirstActionWithFullSwipe = false
-		return configuration
-	}
 }
 
 // MARK: UITableViewDataSource
@@ -98,9 +92,6 @@ extension MainViewController: UITableViewDataSource {
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		/*let cell = tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath)
-		cell.textLabel?.text = self.presenter?.recipeList[indexPath.row]
-		return cell*/
 		guard var cell = tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath) as? IMainViewTableCell else { assertionFailure("No tableCellView"); return UITableViewCell() }
 		
 		cell.newImage = self.presenter?.recipeList[indexPath.row].image ?? (ImagesStore.empty ?? UIImage())
@@ -145,5 +136,19 @@ extension MainViewController: IMainViewTableController {
 extension MainViewController {
 	@objc func actionAddButton() {
 		self.presenter?.actionAddButton()
+	}
+}
+
+// MARK: SwipeRecognizer
+
+extension MainViewController {
+	func configureSwipeRecognizer() {
+		let swipeRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipe(_:)))
+		swipeRecognizer.direction = .left
+		self.view.addGestureRecognizer(swipeRecognizer)
+	}
+
+	@objc func handleSwipe(_ sender: UISwipeGestureRecognizer) {
+		self.presenter?.actionLeftSwipe()
 	}
 }

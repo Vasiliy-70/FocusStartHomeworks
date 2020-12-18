@@ -11,9 +11,9 @@ protocol ICartViewPresenter: class {
 	var ingredientsList: [IngredientContent] { get }
 	func viewWillAppear()
 	func actionTapRow()
-	func actionRightButtonTabBar()
-	func actionLeftButtonTabBar()
-	func actionLeftSwipe()
+	func actionRefreshButtonTabBar()
+	func actionTrashButtonTabBar()
+	func actionRightSwipe()
 }
 
 final class CartViewPresenter {
@@ -64,11 +64,11 @@ extension CartViewPresenter {
 // MARK: ICartViewPresenter
 
 extension CartViewPresenter: ICartViewPresenter {
-	func actionLeftSwipe() {
+	func actionRightSwipe() {
 		(self.view as? UIViewController)?.tabBarController?.selectedIndex = 0
 	}
 	
-	func actionLeftButtonTabBar() {
+	func actionTrashButtonTabBar() {
 		self.resetMarkIngredients()
 		let selectedRecipes = self.queryModel?.fetchRequestSelectedRecipes() ?? []
 		for recipe in selectedRecipes {
@@ -82,7 +82,7 @@ extension CartViewPresenter: ICartViewPresenter {
 		}
 		self.requestData()
 	}
-	func actionRightButtonTabBar() {
+	func actionRefreshButtonTabBar() {
 		self.resetMarkIngredients()
 		self.requestData()
 	}

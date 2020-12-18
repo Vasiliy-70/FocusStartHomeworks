@@ -10,7 +10,6 @@ import UIKit
 protocol ICartViewController: class {
 	func updateData()
 	var selectedRow: Int? { get }
-	func leftSwipeRecognizer()
 }
 
 protocol ICartViewTableController: class {
@@ -23,6 +22,7 @@ final class CartViewController: UIViewController {
 	var presenter: ICartViewPresenter?
 	private var cellIdentifier = "mainViewCell"
 	private var currentRow:  Int?
+	private var alertClearTable = UIAlertController()
 	
 	public init() {
 		super.init(nibName: nil, bundle: nil)
@@ -34,9 +34,15 @@ final class CartViewController: UIViewController {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		self.configureSwipeRecognizer()
+		self.configureAlert()
+	}
+	
 	override func viewWillAppear(_ animated: Bool) {
 		self.presenter?.viewWillAppear()
-		
 		self.configureTabBarController()
 	}
 	
@@ -46,27 +52,46 @@ final class CartViewController: UIViewController {
 }
 
 extension CartViewController {
+	func configureAlert() {
+		let alertClearTable = UIAlertController(title: "Внимание", message: "Очистить содержимое корзины?", preferredStyle: .alert)
+		
+		let applyAction = UIAlertAction(title: "Да", style: .default, handler: {
+			[weak self] _ in
+			self?.actionApplyAlertClearTable()
+		})
+		let cancelAction = UIAlertAction(title: "Нет", style: .cancel, handler: nil)
+		
+		alertClearTable.addAction(applyAction)
+		alertClearTable.addAction(cancelAction)
+		self.alertClearTable = alertClearTable
+	}
+	
 	func configureTabBarController() {
 		self.tabBarController?.title = "Корзина"
 		
 		self.tabBarController?.navigationItem.rightBarButtonItems = [
-			UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.actionCartButtonTabBar))
+			UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.actionRefreshBarButton))
 		]
 		
 		self.tabBarController?.navigationItem.leftBarButtonItems = [
-			UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(self.actionEditButtonTabBar))
+			UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(self.actionTrashButtonTabBar))
 		]
 	}
 	
-	@objc func actionCartButtonTabBar() {
-		self.presenter?.actionRightButtonTabBar()
+	func actionApplyAlertClearTable() {
+		self.presenter?.actionTrashButtonTabBar()
 	}
 	
-	@objc func actionEditButtonTabBar() {
-		self.presenter?.actionLeftButtonTabBar()
+	@objc func actionRefreshBarButton() {
+		self.presenter?.actionRefreshButtonTabBar()
+	}
+	
+	@objc func actionTrashButtonTabBar() {
+		if !(self.presenter?.ingredientsList.isEmpty ?? true) {
+			self.present(self.alertClearTable, animated: true, completion: nil)
+		}
 	}
 }
-
 
 // MARK: UITableViewDelegate
 
@@ -106,10 +131,6 @@ extension CartViewController: UITableViewDataSource {
 // MARK: ICartViewController
 
 extension CartViewController: ICartViewController {
-	func leftSwipeRecognizer() {
-		self.presenter?.actionLeftSwipe()
-	}
-	
 	var selectedRow: Int? {
 		self.currentRow
 	}
@@ -136,3 +157,16 @@ extension CartViewController: ICartViewTableController {
 	}
 }
 
+// MARK: SwipeRecognizer
+
+extension CartViewController {
+	func configureSwipeRecognizer() {
+		let swipeRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipe(_:)))
+		swipeRecognizer.direction = .right
+		self.view.addGestureRecognizer(swipeRecognizer)
+	}
+	
+	@objc func handleSwipe(_ sender: UISwipeGestureRecognizer) {
+		self.presenter?.actionRightSwipe()
+	}
+}

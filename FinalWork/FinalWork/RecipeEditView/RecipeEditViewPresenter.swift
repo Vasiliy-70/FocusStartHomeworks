@@ -67,6 +67,12 @@ extension RecipeEditViewPresenter: IRecipeEditViewPresenter {
 	
 	func actionSaveButton(modalMode: Bool) {
 		if var recipe = self.view?.recipe {
+			guard let name = self.view?.recipe.name,
+				  name != "" else {
+				self.view?.showAlertError(message: "Поле \"Название\" не может быть пустым")
+				return
+			}
+			
 			if self.view?.recipe.id != nil {
 				self.queryModel.changeRecipe(content: recipe)
 			} else {
@@ -78,6 +84,7 @@ extension RecipeEditViewPresenter: IRecipeEditViewPresenter {
 			if !modalMode {
 				self.requestData()
 				self.view?.showAlertIngredients()
+				NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RecipeEditViewFinishedNoModal"), object: AnyObject.self)
 			} else {
 				NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RecipeEditViewFinished"), object: AnyObject.self)
 				(self.view as? UIViewController)?.dismiss(animated: true, completion: nil)
@@ -92,7 +99,6 @@ extension RecipeEditViewPresenter: IRecipeEditViewPresenter {
 	}
 	
 	func cancelAlertIngredients() {
-		//self.coordinateController.showMainView()
 		if let view = self.view as? UIViewController {
 			view.navigationController?.popToRootViewController(animated: true)
 		}

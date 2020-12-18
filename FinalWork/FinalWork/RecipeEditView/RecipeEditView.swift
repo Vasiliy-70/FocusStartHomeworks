@@ -15,12 +15,16 @@ protocol IRecipeEditView: class {
 final class RecipeEditView: UIView {
 	private let viewController: IRecipeEditViewActionHandler
 	
+	private var scrollView = UIScrollView()
 	private var dishImage = UIImageView()
 	private var nameField = UITextField()
 	private var nameLabel = UILabel()
 	private var descriptionField = UITextView()
 	private var descriptionLabel = UILabel()
+	private var descriptionView = UIView()
 	
+	private var dynamicConstraints = [NSLayoutConstraint]()
+
 	private enum Constraints {
 		static let textFieldsOffset: CGFloat = 10
 		static let labelsOffset: CGFloat = 10
@@ -37,6 +41,7 @@ final class RecipeEditView: UIView {
 		self.backgroundColor = .red
 		self.setupViewAppearance()
 		self.setupViewConstraints()
+		self.hideKeyboardWhenTappedArround()
 	}
 	
 	required init?(coder: NSCoder) {
@@ -78,17 +83,37 @@ extension RecipeEditView {
 
 extension RecipeEditView {
 	func setupViewConstraints() {
+		self.setupScrollViewConstraints()
 		self.setupImagesAreaConstraints()
 		self.setupNamesAreaConstraints()
 		self.setupDescriptionAreaConstraints()
+		self.setupNotification()
 	}
-
+	
+	func setupScrollViewConstraints() {
+		self.addSubview(self.scrollView)
+		self.scrollView.translatesAutoresizingMaskIntoConstraints = false
+		
+		NSLayoutConstraint.activate([
+			self.scrollView.topAnchor.constraint(equalTo:
+													self.safeAreaLayoutGuide.topAnchor),
+			self.scrollView.leadingAnchor.constraint(equalTo:
+														self.safeAreaLayoutGuide.leadingAnchor),
+			self.scrollView.trailingAnchor.constraint(equalTo:
+														self.safeAreaLayoutGuide.trailingAnchor)
+		])
+		
+		self.dynamicConstraints.append(			self.scrollView.bottomAnchor.constraint(equalTo:
+																							self.safeAreaLayoutGuide.bottomAnchor))
+		NSLayoutConstraint.activate(self.dynamicConstraints)
+	}
+	
 	func setupImagesAreaConstraints() {
-		self.addSubview(self.dishImage)
+		self.scrollView.addSubview(self.dishImage)
 		self.dishImage.translatesAutoresizingMaskIntoConstraints = false
 		
 		NSLayoutConstraint.activate([
-			self.dishImage.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: Constraints.imageOffset),
+			self.dishImage.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: Constraints.imageOffset),
 			self.dishImage.heightAnchor.constraint(equalToConstant: Constraints.imageHeight),
 			self.dishImage.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: Constraints.imageOffset),
 			self.dishImage.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -Constraints.imageOffset)
@@ -97,8 +122,10 @@ extension RecipeEditView {
 	}
 	
 	func setupNamesAreaConstraints() {
-		self.addSubview(self.nameLabel)
-		self.addSubview(self.nameField)
+		self.nameField.delegate = self
+		
+		self.scrollView.addSubview(self.nameLabel)
+		self.scrollView.addSubview(self.nameField)
 	
 		self.nameLabel.translatesAutoresizingMaskIntoConstraints = false
 		self.nameField.translatesAutoresizingMaskIntoConstraints = false
@@ -117,23 +144,38 @@ extension RecipeEditView {
 	}
 	
 	func setupDescriptionAreaConstraints() {
-		self.addSubview(self.descriptionLabel)
-		self.addSubview(self.descriptionField)
+		self.descriptionField.delegate = self
 		
+		self.scrollView.addSubview(self.descriptionView)
+		self.descriptionView.addSubview(self.descriptionLabel)
+		self.descriptionView.addSubview(self.descriptionField)
+		
+		self.descriptionView.translatesAutoresizingMaskIntoConstraints = false
 		self.descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
 		self.descriptionField.translatesAutoresizingMaskIntoConstraints = false
 		
 		NSLayoutConstraint.activate([
-			self.descriptionLabel.topAnchor.constraint(equalTo: self.nameField.bottomAnchor, constant: Constraints.labelsOffset),
-			self.descriptionLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: Constraints.labelsOffset),
-			self.descriptionLabel.trailingAnchor.constraint(lessThanOrEqualTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -Constraints.labelsOffset)
+			self.descriptionView.topAnchor.constraint(equalTo: self.nameField.bottomAnchor, constant: Constraints.labelsOffset),
+			self.descriptionView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: Constraints.labelsOffset),
+			self.descriptionView.trailingAnchor.constraint(lessThanOrEqualTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -Constraints.labelsOffset),
+			self.descriptionView.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor)
+		])
+		
+		
+		NSLayoutConstraint.activate([
+			self.descriptionLabel.topAnchor.constraint(equalTo: self.descriptionView.topAnchor),
+			self.descriptionLabel.leadingAnchor.constraint(equalTo: self.descriptionView.leadingAnchor),
+			self.descriptionLabel.trailingAnchor.constraint(lessThanOrEqualTo: self.descriptionView.trailingAnchor, constant: -Constraints.labelsOffset)
 		])
 		
 		NSLayoutConstraint.activate([
 			self.descriptionField.topAnchor.constraint(equalTo: self.descriptionLabel.bottomAnchor),
 			self.descriptionField.leadingAnchor.constraint(equalTo: self.descriptionLabel.leadingAnchor),
-			self.descriptionField.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -Constraints.textFieldsOffset),
-			self.descriptionField.heightAnchor.constraint(equalToConstant: Constraints.descriptionFieldHeight)
+			self.descriptionField.trailingAnchor.constraint(equalTo:
+				self.descriptionView.trailingAnchor),
+			self.descriptionField.heightAnchor.constraint(equalToConstant: Constraints.descriptionFieldHeight),
+			self.descriptionField.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor)
+			
 		])
 	}
 }
@@ -160,7 +202,80 @@ extension RecipeEditView: IRecipeEditView {
 // MARK: Action
 
 extension RecipeEditView {
+	func hideKeyboardWhenTappedArround() {
+		let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.hideKeyboard))
+		tap.cancelsTouchesInView = false
+		self.addGestureRecognizer(tap)
+	}
+	
+	@objc func hideKeyboard() {
+		self.endEditing(true)
+	}
+	
 	@objc func tapOnImage() {
 		self.viewController.tapOnImage()
+	}
+	
+	@objc func keyboardWillShow(notification: NSNotification) {
+		guard let userInfo = notification.userInfo else { return }
+		guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+		
+		NSLayoutConstraint.deactivate(self.dynamicConstraints)
+		
+		UIView.animate(withDuration: 2) {
+			self.dynamicConstraints.removeAll()
+			self.dynamicConstraints.append(contentsOf: [
+				self.scrollView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -keyboardSize.height)
+			])
+			
+			NSLayoutConstraint.activate(self.dynamicConstraints)
+			self.layoutIfNeeded()
+		}
+		
+	}
+	
+	@objc func keyboardWillHide(notification: NSNotification) {
+		NSLayoutConstraint.deactivate(self.dynamicConstraints)
+		
+		UIView.animate(withDuration: 2) {
+			self.dynamicConstraints.removeAll()
+			self.dynamicConstraints.append(contentsOf: [
+				self.scrollView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
+			])
+			
+			NSLayoutConstraint.activate(self.dynamicConstraints)
+			self.layoutIfNeeded()
+		}
+	}
+}
+
+// MARK: Notification
+
+private extension RecipeEditView {
+	func setupNotification() {
+		NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+	}
+}
+
+// MARK: UITextFieldDelegate
+
+extension RecipeEditView: UITextFieldDelegate {
+	func textFieldDidBeginEditing(_ textField: UITextField) {
+		if self.traitCollection.verticalSizeClass == .compact {
+			let point = self.nameLabel.frame.origin
+			self.scrollView.setContentOffset(point, animated: true)
+		}
+	}
+}
+
+// MARK: UITextViewDelegate
+
+extension RecipeEditView: UITextViewDelegate {
+	func textViewDidBeginEditing(_ textView: UITextView) {
+		if self.traitCollection.verticalSizeClass == .compact {
+			let point = self.descriptionView.frame.origin
+			self.scrollView.setContentOffset(point, animated: true)
+		}
 	}
 }

@@ -62,6 +62,10 @@ extension IngredientsEditViewController {
 		self.navigationItem.rightBarButtonItems = [
 			UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.actionAddButton))
 		]
+		
+		if self.modalMode {
+			self.navigationItem.leftBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(self.actionCancelButton))]
+		}
 		self.navigationItem.title = "Ингредиенты"
 	}
 	
@@ -186,5 +190,9 @@ extension IngredientsEditViewController: IIngredientEditViewActionHandler {
 extension IngredientsEditViewController {
 	@objc func actionAddButton() {
 		self.presenter?.actionAddButton()
+	}
+	
+	@objc func actionCancelButton() {
+		self.presenter?.actionCancelButton()
 	}
 }

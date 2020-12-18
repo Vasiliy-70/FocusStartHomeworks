@@ -37,7 +37,7 @@ extension CoordinateController: ICoordinateController {
 		let mainViewController = MainViewAssembly.createMainViewController(coordinateController: self, queryModel: self.queryModel)
 		let cartViewController = CartViewAssembly.createCartView(coordinateController: self, queryModel: self.queryModel)
 		
-		let tabBar = UITabBarController()
+		let tabBar = TabBarControllerExtended()
 		tabBar.viewControllers = []
 		tabBar.setViewControllers([mainViewController, cartViewController], animated: true)
 		
@@ -91,7 +91,7 @@ extension CoordinateController: ICoordinateController {
 		let recipeView = RecipeViewAssembly.createRecipeView(coordinateController: self, queryModel: queryModel, recipeID: recipeID)
 		let ingredientsView = IngredientsViewAssembly.createIngredientsView(coordinateController: self, queryModel: queryModel, recipeID: recipeID)
 		
-		let tabBar = UITabBarController()
+		let tabBar = TabBarControllerExtended()
 		tabBar.setViewControllers([recipeView, ingredientsView], animated: true)
 		
 		navigationController.pushViewController(tabBar, animated: true)
