@@ -27,7 +27,7 @@ final class CartViewController: UIViewController {
 	public init() {
 		super.init(nibName: nil, bundle: nil)
 		
-		self.tabBarItem = UITabBarItem(title: "Корзина", image: ImagesStory.cartIcon, selectedImage: nil)
+		self.tabBarItem = UITabBarItem(title: "Корзина", image: ImagesStore.cartIcon, selectedImage: nil)
 	}
 	
 	required init?(coder: NSCoder) {

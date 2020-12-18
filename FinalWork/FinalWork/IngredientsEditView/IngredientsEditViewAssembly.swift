@@ -8,8 +8,8 @@
 import UIKit
 
 enum IngredientsEditViewAssembly {
-	static func createIngredientsEditView(coordinateController: ICoordinateController, queryModel: IQueryService, recipeID: UUID) -> UIViewController {
-		let view = IngredientsEditViewController()
+	static func createIngredientsEditView(coordinateController: ICoordinateController, queryModel: IQueryService, recipeID: UUID, modalMode: Bool) -> UIViewController {
+		let view = IngredientsEditViewController(modalMode: modalMode)
 		let presenter = IngredientsEditViewPresenter(view: view, coordinateController: coordinateController, queryModel: queryModel, recipeID: recipeID)
 		view.presenter = presenter
 		return view

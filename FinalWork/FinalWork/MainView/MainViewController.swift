@@ -45,7 +45,7 @@ extension MainViewController {
 	func configureTabBarController() {
 		self.tabBarController?.title = "Рецепты"
 		
-		self.tabBarItem = UITabBarItem(title: "Каталог", image: ImagesStory.catalogIcon, selectedImage: nil)
+		self.tabBarItem = UITabBarItem(title: "Каталог", image: ImagesStore.catalogIcon, selectedImage: nil)
 		
 		self.tabBarController?.navigationItem.rightBarButtonItems = [
 			UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.actionAddButton))
@@ -103,7 +103,7 @@ extension MainViewController: UITableViewDataSource {
 		return cell*/
 		guard var cell = tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath) as? IMainViewTableCell else { assertionFailure("No tableCellView"); return UITableViewCell() }
 		
-		cell.newImage = self.presenter?.recipeList[indexPath.row].image ?? (ImagesStory.empty ?? UIImage())
+		cell.newImage = self.presenter?.recipeList[indexPath.row].image ?? (ImagesStore.empty ?? UIImage())
 		cell.title = self.presenter?.recipeList[indexPath.row].name
 		
 		cell.updateContent()

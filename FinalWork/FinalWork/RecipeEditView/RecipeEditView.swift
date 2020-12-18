@@ -153,7 +153,7 @@ extension RecipeEditView: IRecipeEditView {
 	func showRecipe(info: RecipeContent) {
 		self.nameField.text = info.name ?? ""
 		self.descriptionField.text = info.definition ?? ""
-		self.dishImage.image = info.image ?? ImagesStory.empty
+		self.dishImage.image = info.image ?? ImagesStore.empty
 	}
 }
 

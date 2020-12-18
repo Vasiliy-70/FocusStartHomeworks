@@ -17,12 +17,11 @@ final class RecipeViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-		
-		self.configureTabBarController()
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
 		self.presenter?.viewWillAppear()
+		self.configureTabBarController()
 	}
 
 	override func loadView() {
@@ -33,8 +32,8 @@ final class RecipeViewController: UIViewController {
 extension RecipeViewController {
 	func configureTabBarController() {
 		self.tabBarController?.navigationItem.title = "Просмотр"
-		self.title = "Описание"
-		self.tabBarItem = UITabBarItem(title: "Описание", image: UIImage(named: "book-simple-7"), selectedImage: nil)
+
+		self.tabBarItem = UITabBarItem(title: "Описание", image: ImagesStore.listIcon, selectedImage: nil)
 		
 		self.tabBarController?.navigationItem.rightBarButtonItems = [
 			UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(self.tabBarCartButtonAction)),

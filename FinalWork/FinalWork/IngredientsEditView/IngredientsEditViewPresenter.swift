@@ -12,7 +12,7 @@ protocol IIngredientsEditViewPresenter: class {
 	var ingredientList: [String] { get }
 	func actionEditRow()
 	func actionDeleteRow()
-	func actionApplyButton()
+	func actionApplyButton(modalMode: Bool)
 	func actionAddButton()
 	func actionEditCellAlert(newName: String)
 	func viewWillAppear()
@@ -72,8 +72,13 @@ extension IngredientsEditViewPresenter: IIngredientsEditViewPresenter {
 		self.requestData()
 	}
 	
-	func actionApplyButton() {
-		(self.view as? UIViewController)?.navigationController?.popToRootViewController(animated: true)
+	func actionApplyButton(modalMode: Bool) {
+		if !modalMode {
+			(self.view as? UIViewController)?.navigationController?.popToRootViewController(animated: true)
+		} else {
+			NotificationCenter.default.post(name: NSNotification.Name(rawValue: "IngredientEditViewFinished"), object: AnyObject.self)
+			(self.view as? UIViewController)?.dismiss(animated: true, completion: nil)
+		}
 	}
 	
 	var ingredientList: [String] {

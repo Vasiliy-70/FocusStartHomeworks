@@ -24,9 +24,7 @@ final class IngredientsViewController: UIViewController {
 	
 	public init() {
 		super.init(nibName: nil, bundle: nil)
-		
-		self.tabBarItem = UITabBarItem(title: "Ингредиенты", image: UIImage(named: "file-document-7"), selectedImage: nil)
-		self.title = "Ингредиенты"
+		self.tabBarItem = UITabBarItem(title: "Ингредиенты", image: ImagesStore.ingredientsIcon, selectedImage: nil)
 	}
 	
 	required init?(coder: NSCoder) {
@@ -35,10 +33,30 @@ final class IngredientsViewController: UIViewController {
 
 	override func viewWillAppear(_ animated: Bool) {
 		self.presenter?.viewWillAppear()
+		self.configureTabBarController()
 	}
 	
 	override func loadView() {
 		self.view = IngredientsView(tableController: self)
+	}
+}
+
+extension IngredientsViewController {
+	func configureTabBarController() {
+		self.tabBarController?.navigationItem.title = "Ингредиенты"
+		
+		self.tabBarController?.navigationItem.rightBarButtonItems = [
+		//	UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(self.tabBarCartButtonAction)),
+			UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(self.tabBarEditButtonAction))
+		]
+	}
+	
+	@objc func tabBarCartButtonAction() {
+		self.presenter?.actionCartButtonTabBar()
+	}
+	
+	@objc func tabBarEditButtonAction() {
+		self.presenter?.actionEditButtonTabBar()
 	}
 }
 

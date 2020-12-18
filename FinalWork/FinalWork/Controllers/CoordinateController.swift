@@ -11,7 +11,7 @@ protocol ICoordinateController: class {
 	func showMainView()
 	func showRecipeEditView(recipeID: UUID?)
 	func showRecipeEditViewModalMode(recipeID: UUID?)
-	func showIngredientsEditView(recipeID: UUID)
+	func showIngredientsEditView(recipeID: UUID, modalMode: Bool)
 	func showRecipeView(recipeID: UUID)
 	func showIngredientView(recipeID: UUID)
 }
@@ -44,15 +44,20 @@ extension CoordinateController: ICoordinateController {
 		navigationController.pushViewController(tabBar, animated: true)
 	}
 	
-	func showIngredientsEditView(recipeID: UUID) {
+	func showIngredientsEditView(recipeID: UUID, modalMode: Bool) {
 		guard let navigationController = self.navigationController
 		else {
 			assertionFailure("Error show IngredientsEditView")
 			return
 		}
-		let ingredientsEditView = IngredientsEditViewAssembly.createIngredientsEditView(coordinateController: self, queryModel: self.queryModel, recipeID: recipeID)
+		let ingredientsEditView = IngredientsEditViewAssembly.createIngredientsEditView(coordinateController: self, queryModel: self.queryModel, recipeID: recipeID, modalMode: modalMode)
 		
-		navigationController.pushViewController(ingredientsEditView, animated: true)
+		if modalMode {
+			let modalNavigationController = UINavigationController(rootViewController: ingredientsEditView)
+			navigationController.present(modalNavigationController, animated: true, completion: nil)
+		} else {
+			navigationController.pushViewController(ingredientsEditView, animated: true)
+		}
 	}
 	
 	func showRecipeEditView(recipeID: UUID?) {
@@ -72,8 +77,8 @@ extension CoordinateController: ICoordinateController {
 			return
 		}
 		let recipeEditView = RecipeEditViewAssembly.createRecipeEditViewController(coordinateController: self,queryModel: self.queryModel, recipeID: recipeID, modalMode: true)
-		let modallyNavigationController = UINavigationController(rootViewController: recipeEditView)
-		navigationController.present(modallyNavigationController, animated: true, completion: nil)
+		let modalNavigationController = UINavigationController(rootViewController: recipeEditView)
+		navigationController.present(modalNavigationController, animated: true, completion: nil)
 	}
 	
 	func showRecipeView(recipeID: UUID) {

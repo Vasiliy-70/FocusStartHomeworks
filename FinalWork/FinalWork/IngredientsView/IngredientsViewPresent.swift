@@ -10,6 +10,8 @@ import Foundation
 protocol IIngredientsViewPresenter: class {
 	var ingredientsList: [String] { get }
 	func viewWillAppear()
+	func actionCartButtonTabBar()
+	func actionEditButtonTabBar()
 }
 
 final class IngredientsViewPresenter {
@@ -40,6 +42,7 @@ final class IngredientsViewPresenter {
 		self.coordinateController = coordinateController
 		self.queryModel = queryModel
 		self.recipeID = recipeID
+		self.configureNotifications()
 	}
 }
 
@@ -52,11 +55,31 @@ extension IngredientsViewPresenter {
 // MARK: IIngredientsViewPresenter
 
 extension IngredientsViewPresenter: IIngredientsViewPresenter {
+	func actionCartButtonTabBar() {
+		//self.coordinateController.showRecipeEditViewModalMode(recipeID: self.recipeID)
+	}
+	
+	func actionEditButtonTabBar() {
+		self.coordinateController.showIngredientsEditView(recipeID: self.recipeID, modalMode: true)
+	}
+	
 	var ingredientsList: [String] {
 		self.ingredientsName
 	}
 
 	func viewWillAppear() {
+		self.requestData()
+	}
+}
+
+// MARK: Notification
+
+extension IngredientsViewPresenter {
+	func configureNotifications() {
+		NotificationCenter.default.addObserver(self, selector: #selector(self.IngredientEditViewFinished), name: NSNotification.Name(rawValue: "IngredientEditViewFinished"), object: nil)
+	}
+	
+	@objc func IngredientEditViewFinished() {
 		self.requestData()
 	}
 }

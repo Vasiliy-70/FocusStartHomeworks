@@ -80,6 +80,8 @@ extension RecipeViewPresenter: IRecipeViewPresenter {
 	}
 }
 
+// MARK: Notification
+
 extension RecipeViewPresenter {
 	func configureNotifications() {
 		NotificationCenter.default.addObserver(self, selector: #selector(self.recipeEditViewFinished), name: NSNotification.Name(rawValue: "RecipeEditViewFinished"), object: nil)

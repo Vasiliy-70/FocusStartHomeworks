@@ -87,7 +87,7 @@ extension RecipeEditViewPresenter: IRecipeEditViewPresenter {
 	
 	func actionAlertIngredients() {
 		if let id = self.recipeInfo.id {
-			self.coordinateController.showIngredientsEditView(recipeID: id)
+			self.coordinateController.showIngredientsEditView(recipeID: id, modalMode: false)
 		}
 	}
 	

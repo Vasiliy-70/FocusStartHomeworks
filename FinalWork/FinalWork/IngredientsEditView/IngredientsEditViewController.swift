@@ -30,6 +30,16 @@ final class IngredientsEditViewController: UIViewController {
 	private var ingredientList: [String]?
 	private var currentRow: Int?
 	private var cellIdentifier = "ingredientViewCell"
+	private var modalMode = false
+	
+	public init(modalMode: Bool) {
+		self.modalMode = modalMode
+		super.init(nibName: nil, bundle: nil)
+	}
+	
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -168,7 +178,7 @@ extension IngredientsEditViewController: IIngredientEditViewTableController {
 // MARK: IIngredientEditViewActionHandler
 extension IngredientsEditViewController: IIngredientEditViewActionHandler {
 	func tapOnApplyButton() {
-		self.presenter?.actionApplyButton()
+		self.presenter?.actionApplyButton(modalMode: self.modalMode)
 	}
 }
 
