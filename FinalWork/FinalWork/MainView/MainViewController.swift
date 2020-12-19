@@ -50,7 +50,7 @@ final class MainViewController: UIViewController {
 	}
 }
 
-extension MainViewController {
+private extension MainViewController {
 	func configureTabBarController() {
 		self.tabBarController?.title = "Рецепты"
 		
@@ -135,7 +135,7 @@ extension MainViewController: IMainViewTableController {
 
 // MARK: Action
 
-extension MainViewController {
+private extension MainViewController {
 	@objc func actionAddButton() {
 		self.presenter?.actionAddButton()
 	}
@@ -147,7 +147,7 @@ extension MainViewController {
 
 // MARK: SwipeRecognizer
 
-extension MainViewController {
+private extension MainViewController {
 	func configureSwipeRecognizer() {
 		let swipeRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipe(_:)))
 		swipeRecognizer.direction = .left

@@ -12,13 +12,14 @@
 		4700A76A2586040500699D2F /* FinalWork.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4700A7682586040500699D2F /* FinalWork.xcdatamodeld */; };
 		4700A76C2586040600699D2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4700A76B2586040600699D2F /* Assets.xcassets */; };
 		4700A76F2586040600699D2F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4700A76D2586040600699D2F /* LaunchScreen.storyboard */; };
-		4700A77A2586040700699D2F /* FinalWorkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700A7792586040700699D2F /* FinalWorkTests.swift */; };
 		4700A7852586040700699D2F /* FinalWorkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700A7842586040700699D2F /* FinalWorkUITests.swift */; };
 		4700A79F2586064F00699D2F /* QueryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700A79E2586064F00699D2F /* QueryService.swift */; };
 		4700A7AB25860EF500699D2F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700A7AA25860EF500699D2F /* MainViewController.swift */; };
 		4700A7B32586113900699D2F /* MainViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700A7B22586113900699D2F /* MainViewPresenter.swift */; };
 		4700A7B8258615FB00699D2F /* MainViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700A7B7258615FB00699D2F /* MainViewAssembly.swift */; };
 		4700A7BD2586164600699D2F /* CoordinateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4700A7BC2586164600699D2F /* CoordinateController.swift */; };
+		4720EE3A258DE89600F0305C /* MainViewPresenterMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4720EE39258DE89600F0305C /* MainViewPresenterMock.swift */; };
+		4720EE46258DF74200F0305C /* MainViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4720EE45258DF74200F0305C /* MainViewTest.swift */; };
 		4750A8C0258922D700B7A076 /* RecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4750A8BF258922D700B7A076 /* RecipeView.swift */; };
 		4750A8C82589243E00B7A076 /* RecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4750A8C72589243E00B7A076 /* RecipeViewController.swift */; };
 		4750A8CD2589245600B7A076 /* RecipeViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4750A8CC2589245600B7A076 /* RecipeViewPresenter.swift */; };
@@ -73,7 +74,6 @@
 		4700A76E2586040600699D2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4700A7702586040600699D2F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4700A7752586040700699D2F /* FinalWorkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FinalWorkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4700A7792586040700699D2F /* FinalWorkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalWorkTests.swift; sourceTree = "<group>"; };
 		4700A77B2586040700699D2F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4700A7802586040700699D2F /* FinalWorkUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FinalWorkUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4700A7842586040700699D2F /* FinalWorkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalWorkUITests.swift; sourceTree = "<group>"; };
@@ -83,6 +83,8 @@
 		4700A7B22586113900699D2F /* MainViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewPresenter.swift; sourceTree = "<group>"; };
 		4700A7B7258615FB00699D2F /* MainViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewAssembly.swift; sourceTree = "<group>"; };
 		4700A7BC2586164600699D2F /* CoordinateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateController.swift; sourceTree = "<group>"; };
+		4720EE39258DE89600F0305C /* MainViewPresenterMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewPresenterMock.swift; sourceTree = "<group>"; };
+		4720EE45258DF74200F0305C /* MainViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewTest.swift; sourceTree = "<group>"; };
 		4750A8BF258922D700B7A076 /* RecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeView.swift; sourceTree = "<group>"; };
 		4750A8C72589243E00B7A076 /* RecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeViewController.swift; sourceTree = "<group>"; };
 		4750A8CC2589245600B7A076 /* RecipeViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeViewPresenter.swift; sourceTree = "<group>"; };
@@ -177,7 +179,7 @@
 		4700A7782586040700699D2F /* FinalWorkTests */ = {
 			isa = PBXGroup;
 			children = (
-				4700A7792586040700699D2F /* FinalWorkTests.swift */,
+				4720EE3E258DEEB900F0305C /* MainViewTests */,
 				4700A77B2586040700699D2F /* Info.plist */,
 			);
 			path = FinalWorkTests;
@@ -240,6 +242,15 @@
 				4700A7BC2586164600699D2F /* CoordinateController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		4720EE3E258DEEB900F0305C /* MainViewTests */ = {
+			isa = PBXGroup;
+			children = (
+				4720EE39258DE89600F0305C /* MainViewPresenterMock.swift */,
+				4720EE45258DF74200F0305C /* MainViewTest.swift */,
+			);
+			path = MainViewTests;
 			sourceTree = "<group>";
 		};
 		4750A8BE258922BD00B7A076 /* RecipeView */ = {
@@ -476,7 +487,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4700A77A2586040700699D2F /* FinalWorkTests.swift in Sources */,
+				4720EE46258DF74200F0305C /* MainViewTest.swift in Sources */,
+				4720EE3A258DE89600F0305C /* MainViewPresenterMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
