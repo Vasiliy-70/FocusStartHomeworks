@@ -34,6 +34,7 @@ final class RecipeEditViewPresenter {
 			self.recipeInfo.name = newValue.first?.name
 			self.recipeInfo.definition = newValue.first?.definition
 			self.recipeInfo.image = UIImage(data: newValue.first?.image ?? Data())
+			self.recipeInfo.isSelected = newValue.first?.isSelected
 		}
 	}
 	
@@ -84,11 +85,11 @@ extension RecipeEditViewPresenter: IRecipeEditViewPresenter {
 			if !modalMode {
 				self.requestData()
 				self.view?.showAlertIngredients()
-				NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RecipeEditViewFinishedNoModal"), object: AnyObject.self)
 			} else {
-				NotificationCenter.default.post(name: NSNotification.Name(rawValue: "RecipeEditViewFinished"), object: AnyObject.self)
 				(self.view as? UIViewController)?.dismiss(animated: true, completion: nil)
 			}
+			
+			NotificationCenter.default.post(name: NotificationModel.recipeUpdated, object: AnyObject.self)
 		}
 	}
 	

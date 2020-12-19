@@ -79,6 +79,8 @@ extension CartViewPresenter: ICartViewPresenter {
 			recipeContent.definition = recipe.definition
 			recipeContent.isSelected = false
 			self.queryModel?.changeRecipe(content: recipeContent)
+			
+			NotificationCenter.default.post(name: NotificationModel.recipeUpdated, object: AnyObject.self)
 		}
 		self.requestData()
 	}

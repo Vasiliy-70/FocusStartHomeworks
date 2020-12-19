@@ -44,6 +44,7 @@
 		47DAF4BB2587D27A00F5CF42 /* IngredientsEditViewAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47DAF4BA2587D27A00F5CF42 /* IngredientsEditViewAssembly.swift */; };
 		47FF7ECC258D173300FF9975 /* TabBarControllerExtended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FF7ECB258D173300FF9975 /* TabBarControllerExtended.swift */; };
 		47FF7ED7258D182700FF9975 /* TabBarControllerAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FF7ED6258D182700FF9975 /* TabBarControllerAnimation.swift */; };
+		47FF7EDF258DD23700FF9975 /* NotificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47FF7EDE258DD23700FF9975 /* NotificationModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +108,7 @@
 		47DAF4BA2587D27A00F5CF42 /* IngredientsEditViewAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsEditViewAssembly.swift; sourceTree = "<group>"; };
 		47FF7ECB258D173300FF9975 /* TabBarControllerExtended.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarControllerExtended.swift; sourceTree = "<group>"; };
 		47FF7ED6258D182700FF9975 /* TabBarControllerAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarControllerAnimation.swift; sourceTree = "<group>"; };
+		47FF7EDE258DD23700FF9975 /* NotificationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -215,6 +217,7 @@
 				4700A79E2586064F00699D2F /* QueryService.swift */,
 				4700A7682586040500699D2F /* FinalWork.xcdatamodeld */,
 				476EA819258B33C300D3BA7A /* ImagesStore.swift */,
+				47FF7EDE258DD23700FF9975 /* NotificationModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -452,6 +455,7 @@
 				476EA81A258B33C300D3BA7A /* ImagesStore.swift in Sources */,
 				4700A7B8258615FB00699D2F /* MainViewAssembly.swift in Sources */,
 				47AD92892586412F0078F2FD /* RecipeEditViewPresenter.swift in Sources */,
+				47FF7EDF258DD23700FF9975 /* NotificationModel.swift in Sources */,
 				4750A8C0258922D700B7A076 /* RecipeView.swift in Sources */,
 				47AD9284258640E50078F2FD /* RecipeEditViewController.swift in Sources */,
 				476EA820258B485800D3BA7A /* MainViewTableCell.swift in Sources */,

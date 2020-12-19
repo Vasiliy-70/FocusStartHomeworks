@@ -13,5 +13,6 @@ enum ImagesStore {
 	static let catalogIcon = UIImage(named: "IconCatalog")
 	static let ingredientsIcon = UIImage(named: "IconIngredients")
 	static let isSelectedIcon = UIImage(named: "IconIsSelected")
+	static let isSelectedWhiteIcon = UIImage(named: "IconIsSelectedWhite")
 	static let empty = UIImage(named: "empty")
 }

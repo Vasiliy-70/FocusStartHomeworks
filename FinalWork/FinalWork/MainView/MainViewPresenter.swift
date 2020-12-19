@@ -14,6 +14,7 @@ protocol IMainViewPresenter: class {
 	func actionAddButton()
 	func viewDidLoad()
 	func actionLeftSwipe()
+	func notificationCame()
 }
 
 final class MainViewPresenter {
@@ -46,7 +47,6 @@ final class MainViewPresenter {
 		self.view = view
 		self.coordinateController = coordinateController
 		self.queryModel = queryModel
-		self.configureNotifications()
 	}
 }
 
@@ -59,6 +59,10 @@ extension MainViewPresenter {
 // MARK: IMainPresenter
 
 extension MainViewPresenter: IMainViewPresenter {
+	func notificationCame() {
+		self.requestData()
+	}
+	
 	func actionLeftSwipe() {
 		(self.view as? UIViewController)?.tabBarController?.selectedIndex = 1
 	}
@@ -91,16 +95,3 @@ extension MainViewPresenter: IMainViewPresenter {
 	}
 }
 
-
-// MARK: Notification
-
-extension MainViewPresenter {
-	func configureNotifications() {
-		NotificationCenter.default.addObserver(self, selector: #selector(self.recipeEditViewFinished), name: NSNotification.Name(rawValue: "RecipeEditViewFinished"), object: nil)
-		NotificationCenter.default.addObserver(self, selector: #selector(self.recipeEditViewFinished), name: NSNotification.Name(rawValue: "RecipeEditViewFinishedNoModal"), object: nil)
-	}
-	
-	@objc func recipeEditViewFinished() {
-		self.requestData()
-	}
-}

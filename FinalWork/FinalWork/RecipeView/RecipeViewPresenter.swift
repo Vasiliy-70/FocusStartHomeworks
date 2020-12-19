@@ -14,6 +14,7 @@ protocol IRecipeViewPresenter {
 	func actionCartButtonTabBar()
 	func actionEditButtonTabBar()
 	func actionLeftSwipe()
+	func notificationCame()
 }
 
 final class RecipeViewPresenter {
@@ -44,7 +45,6 @@ final class RecipeViewPresenter {
 		self.coordinateController = coordinateController
 		self.queryModel = queryModel
 		self.recipeID = recipeID
-		self.configureNotifications()
 	}
 }
 
@@ -57,6 +57,10 @@ extension RecipeViewPresenter {
 // MARK: IRecipeViewPresenter
 
 extension RecipeViewPresenter: IRecipeViewPresenter {
+	func notificationCame() {
+		self.requestData()
+	}
+	
 	func actionLeftSwipe() {
 		(self.view as? UIViewController)?.tabBarController?.selectedIndex = 1
 	}
@@ -74,8 +78,10 @@ extension RecipeViewPresenter: IRecipeViewPresenter {
 			self.recipeInfo.isSelected = true
 			self.view.showAlert(message: "Рецепт добавлен в корзину")
 		}
-		
+	
 		self.queryModel.changeRecipe(content: self.recipeInfo)
+		
+		NotificationCenter.default.post(name: NotificationModel.recipeUpdated, object: AnyObject.self)
 	}
 	
 	var recipe: RecipeContent {
@@ -83,18 +89,6 @@ extension RecipeViewPresenter: IRecipeViewPresenter {
 	}
 	
 	func viewWillDidLoad() {
-		self.requestData()
-	}
-}
-
-// MARK: Notification
-
-extension RecipeViewPresenter {
-	func configureNotifications() {
-		NotificationCenter.default.addObserver(self, selector: #selector(self.recipeEditViewFinished), name: NSNotification.Name(rawValue: "RecipeEditViewFinished"), object: nil)
-	}
-	
-	@objc func recipeEditViewFinished() {
 		self.requestData()
 	}
 }

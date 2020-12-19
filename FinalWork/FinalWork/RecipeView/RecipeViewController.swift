@@ -39,8 +39,13 @@ final class RecipeViewController: UIViewController {
 	
 	override func viewWillAppear(_ animated: Bool) {
 		self.configureTabBarController()
+		NotificationCenter.default.addObserver(self, selector: #selector(self.notificationCame), name: NotificationModel.recipeUpdated, object: nil)
 	}
 
+	override func viewWillDisappear(_ animated: Bool) {
+		NotificationCenter.default.removeObserver(self, name: NotificationModel.recipeUpdated, object: nil)
+	}
+	
 	override func loadView() {
 		self.view = RecipeView()
 	}
@@ -65,15 +70,6 @@ extension RecipeViewController {
 		self.editButton = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(self.tabBarEditButtonAction))
 
 		self.tabBarController?.navigationItem.rightBarButtonItems = [self.editButton, self.cartButton]
-	}
-	
-	@objc func tabBarCartButtonAction() {
-		self.updateCarIcon()
-		self.presenter?.actionCartButtonTabBar()
-	}
-	
-	@objc func tabBarEditButtonAction() {
-		self.presenter?.actionEditButtonTabBar()
 	}
 	
 	func updateCarIcon() {
@@ -110,5 +106,22 @@ extension RecipeViewController {
 
 	@objc func handleSwipe(_ sender: UISwipeGestureRecognizer) {
 		self.presenter?.actionLeftSwipe()
+	}
+}
+
+// MARK: Action
+
+extension RecipeViewController {
+	@objc func tabBarCartButtonAction() {
+		self.updateCarIcon()
+		self.presenter?.actionCartButtonTabBar()
+	}
+	
+	@objc func tabBarEditButtonAction() {
+		self.presenter?.actionEditButtonTabBar()
+	}
+	
+	@objc func notificationCame() {
+		self.presenter?.notificationCame()
 	}
 }

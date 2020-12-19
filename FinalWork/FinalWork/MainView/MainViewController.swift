@@ -41,6 +41,7 @@ final class MainViewController: UIViewController {
 	
 	override func viewWillAppear(_ animated: Bool) {
 		self.configureTabBarController()
+		NotificationCenter.default.addObserver(self, selector: #selector(self.notificationCame), name: NotificationModel.recipeUpdated, object: nil)
 	}
 	
 	override func loadView() {
@@ -94,8 +95,9 @@ extension MainViewController: UITableViewDataSource {
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		guard var cell = tableView.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath) as? IMainViewTableCell else { assertionFailure("No tableCellView"); return UITableViewCell() }
 		
-		cell.newImage = self.presenter?.recipeList[indexPath.row].image ?? (ImagesStore.empty ?? UIImage())
+		cell.mainImage = self.presenter?.recipeList[indexPath.row].image ?? (ImagesStore.empty ?? UIImage())
 		cell.title = self.presenter?.recipeList[indexPath.row].name
+		cell.cartIcon = self.presenter?.recipeList[indexPath.row].isSelected ?? false ? ImagesStore.isSelectedWhiteIcon : nil
 		
 		cell.updateContent()
 		return cell as? UITableViewCell ?? UITableViewCell()
@@ -136,6 +138,10 @@ extension MainViewController: IMainViewTableController {
 extension MainViewController {
 	@objc func actionAddButton() {
 		self.presenter?.actionAddButton()
+	}
+	
+	@objc func notificationCame() {
+		self.presenter?.notificationCame()
 	}
 }
 

@@ -55,6 +55,10 @@ final class IngredientsEditViewController: UIViewController {
 	override func loadView() {
 		self.view = IngredientsEditView(tableController: self)
 	}
+	
+	override func viewWillDisappear(_ animated: Bool) {
+		NotificationCenter.default.post(name: NotificationModel.ingredientsUpdated, object: AnyObject.self)
+	}
 }
 
 extension IngredientsEditViewController {

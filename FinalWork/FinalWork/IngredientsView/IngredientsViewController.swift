@@ -38,6 +38,12 @@ final class IngredientsViewController: UIViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		self.presenter?.viewWillAppear()
 		self.configureTabBarController()
+		
+		NotificationCenter.default.addObserver(self, selector: #selector(self.notificationCame), name: NotificationModel.ingredientsUpdated, object: nil)
+	}
+	
+	override func viewWillDisappear(_ animated: Bool) {
+		NotificationCenter.default.removeObserver(self, name: NotificationModel.ingredientsUpdated, object: nil)
 	}
 	
 	override func loadView() {
@@ -53,13 +59,21 @@ extension IngredientsViewController {
 			UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(self.tabBarEditButtonAction))
 		]
 	}
-	
+}
+
+// MARK: Action
+
+extension IngredientsViewController {
 	@objc func tabBarCartButtonAction() {
 		self.presenter?.actionCartButtonTabBar()
 	}
 	
 	@objc func tabBarEditButtonAction() {
 		self.presenter?.actionEditButtonTabBar()
+	}
+	
+	@objc func notificationCame() {
+		self.presenter?.notificationCame()
 	}
 }
 

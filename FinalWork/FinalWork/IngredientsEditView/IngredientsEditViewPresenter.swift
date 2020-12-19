@@ -81,7 +81,6 @@ extension IngredientsEditViewPresenter: IIngredientsEditViewPresenter {
 		if !modalMode {
 			(self.view as? UIViewController)?.navigationController?.popToRootViewController(animated: true)
 		} else {
-			NotificationCenter.default.post(name: NSNotification.Name(rawValue: "IngredientEditViewFinished"), object: AnyObject.self)
 			(self.view as? UIViewController)?.dismiss(animated: true, completion: nil)
 		}
 	}

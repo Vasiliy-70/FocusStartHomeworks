@@ -8,14 +8,13 @@
 import UIKit
 
 protocol IMainViewTableCell {
-	var newImage: UIImage { get set }
+	var mainImage: UIImage? { get set }
 	var title: String? { get set }
+	var cartIcon: UIImage? { get set }
 	func updateContent()
 }
 
 final class MainViewTableCell: UITableViewCell {
-	private var mainImage = UIImage()
-	
 	private var nameLabel: UILabel = {
 		let nameLabel = UILabel()
 		nameLabel.backgroundColor = .black
@@ -31,16 +30,24 @@ final class MainViewTableCell: UITableViewCell {
 		return imageView
 	}()
 	
+	private var cartIconView: UIImageView = {
+		let imageView = UIImageView()
+		imageView.contentMode = .scaleToFill
+		imageView.tintColor = .red
+		return imageView
+	}()
+	
 	private enum Constraints {
 		static let imageViewOffset: CGFloat = 10
 		static let cellHeight: CGFloat = 200
-		static let nameLabelHeight: CGFloat = 40
+		
+		static let titleHeight: CGFloat = 40
+		static let cartIconWidth: CGFloat = 40
 	}
 	
 	override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		self.setupConstraints()
-		self.setupLabelsConstraint()
 	}
 	
 	required init?(coder: NSCoder) {
@@ -50,7 +57,7 @@ final class MainViewTableCell: UITableViewCell {
 	override func layoutSubviews() {
 		super.layoutSubviews()
 		
-		self.mainImageView.image = newImage
+		self.mainImageView.image = mainImage
 	}
 }
 
@@ -59,11 +66,15 @@ final class MainViewTableCell: UITableViewCell {
 extension MainViewTableCell {
 	func setupConstraints() {
 		self.setupImagesConstraints()
+		self.setupLabelsConstraint()
 	}
 	
 	func setupImagesConstraints() {
 		self.addSubview(self.mainImageView)
+		self.mainImageView.addSubview(self.cartIconView)
+		
 		self.mainImageView.translatesAutoresizingMaskIntoConstraints = false
+		self.cartIconView.translatesAutoresizingMaskIntoConstraints = false
 		
 		NSLayoutConstraint.activate([
 			self.mainImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: Constraints.imageViewOffset),
@@ -71,6 +82,13 @@ extension MainViewTableCell {
 			self.mainImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
 			self.mainImageView.heightAnchor.constraint(equalToConstant: Constraints.cellHeight - Constraints.imageViewOffset),
 			self.mainImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -Constraints.imageViewOffset)
+		])
+		
+		NSLayoutConstraint.activate([
+			self.cartIconView.heightAnchor.constraint(equalToConstant: Constraints.titleHeight),
+			self.cartIconView.bottomAnchor.constraint(equalTo: self.mainImageView.bottomAnchor),
+			self.cartIconView.trailingAnchor.constraint(equalTo: self.mainImageView.trailingAnchor),
+			self.cartIconView.widthAnchor.constraint(equalToConstant: Constraints.cartIconWidth)
 		])
 	}
 	
@@ -82,7 +100,7 @@ extension MainViewTableCell {
 			self.nameLabel.bottomAnchor.constraint(equalTo: self.mainImageView.bottomAnchor),
 			self.nameLabel.leadingAnchor.constraint(equalTo: self.mainImageView.leadingAnchor),
 			self.nameLabel.trailingAnchor.constraint(equalTo: self.mainImageView.trailingAnchor),
-			self.nameLabel.heightAnchor.constraint(equalToConstant: Constraints.nameLabelHeight)
+			self.nameLabel.heightAnchor.constraint(equalToConstant: Constraints.titleHeight)
 		])
 	}
 }
@@ -90,6 +108,15 @@ extension MainViewTableCell {
 // MARK: IMainViewTableCell
 
 extension MainViewTableCell: IMainViewTableCell {
+	var cartIcon: UIImage? {
+		get {
+			self.cartIconView.image
+		}
+		set {
+			self.cartIconView.image = newValue
+		}
+	}
+	
 	var title: String? {
 		get {
 			self.nameLabel.text
@@ -103,12 +130,12 @@ extension MainViewTableCell: IMainViewTableCell {
 		self.layoutSubviews()
 	}
 	
-	var newImage: UIImage {
+	var mainImage: UIImage? {
 		get {
-			self.mainImage
+			self.mainImageView.image
 		}
 		set {
-			self.mainImage = newValue
+			self.mainImageView.image = newValue
 		}
 	}
 }

@@ -13,6 +13,7 @@ protocol IIngredientsViewPresenter: class {
 	func actionCartButtonTabBar()
 	func actionEditButtonTabBar()
 	func actionRightSwipe()
+	func notificationCame()
 }
 
 final class IngredientsViewPresenter {
@@ -43,7 +44,6 @@ final class IngredientsViewPresenter {
 		self.coordinateController = coordinateController
 		self.queryModel = queryModel
 		self.recipeID = recipeID
-		self.configureNotifications()
 	}
 }
 
@@ -56,6 +56,10 @@ extension IngredientsViewPresenter {
 // MARK: IIngredientsViewPresenter
 
 extension IngredientsViewPresenter: IIngredientsViewPresenter {
+	func notificationCame() {
+		self.requestData()
+	}
+	
 	func actionRightSwipe() {
 		(self.view as? UIViewController)?.tabBarController?.selectedIndex = 0
 	}
@@ -73,18 +77,6 @@ extension IngredientsViewPresenter: IIngredientsViewPresenter {
 	}
 
 	func viewWillAppear() {
-		self.requestData()
-	}
-}
-
-// MARK: Notification
-
-extension IngredientsViewPresenter {
-	func configureNotifications() {
-		NotificationCenter.default.addObserver(self, selector: #selector(self.IngredientEditViewFinished), name: NSNotification.Name(rawValue: "IngredientEditViewFinished"), object: nil)
-	}
-	
-	@objc func IngredientEditViewFinished() {
 		self.requestData()
 	}
 }
