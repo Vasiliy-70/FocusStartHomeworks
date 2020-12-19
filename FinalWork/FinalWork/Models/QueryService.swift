@@ -34,11 +34,6 @@ struct IngredientContent {
 	var isMarked: Bool?
 }
 
-enum RecipeProperty {
-	case name
-	case image
-}
-
 final class QueryService {
 	lazy var persistContainer: NSPersistentContainer = {
 		let container = NSPersistentContainer(name: "FinalWork")
@@ -56,7 +51,7 @@ final class QueryService {
 	}()
 }
 
-extension QueryService {
+private extension QueryService {
 	func saveContext() {
 		if self.context.hasChanges {
 			do {
@@ -80,10 +75,11 @@ extension QueryService: IQueryService {
 		
 		do {
 			recipe = try self.context.fetch(fetchRequest)
-		} catch let error as NSError {
+		} catch {
 			assertionFailure(error.localizedDescription)
 			return nil
 		}
+		
 		return recipe
 	}
 	
@@ -180,6 +176,7 @@ extension QueryService: IQueryService {
 			assertionFailure(error.localizedDescription)
 			return nil
 		}
+		
 		return recipe
 	}
 	
@@ -204,7 +201,7 @@ extension QueryService: IQueryService {
 		guard info.name != "",
 			  let entity = NSEntityDescription.entity(forEntityName: "Recipe", in: self.context)
 		else {
-			assertionFailure("Save error")
+			assertionFailure("Entity without name")
 			return
 		}
 		
@@ -221,7 +218,7 @@ extension QueryService: IQueryService {
 		guard info.name != "",
 			  let entity = NSEntityDescription.entity(forEntityName: "Ingredient", in: self.context)
 		else {
-			assertionFailure("Save error")
+			assertionFailure("Entity without name")
 			return
 		}
 		

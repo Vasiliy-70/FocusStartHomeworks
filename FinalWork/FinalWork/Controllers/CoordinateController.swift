@@ -9,8 +9,7 @@ import UIKit
 
 protocol ICoordinateController: class {
 	func showMainView()
-	func showRecipeEditView(recipeID: UUID?)
-	func showRecipeEditViewModalMode(recipeID: UUID?)
+	func showRecipeEditView(recipeID: UUID?, modalMode: Bool)
 	func showIngredientsEditView(recipeID: UUID, modalMode: Bool)
 	func showRecipeView(recipeID: UUID)
 	func showIngredientView(recipeID: UUID)
@@ -31,14 +30,14 @@ extension CoordinateController: ICoordinateController {
 	func showMainView() {
 		guard let navigationController = self.navigationController
 		else {
-			assertionFailure("Error init start VC")
+			assertionFailure("Error show MainView")
 			return
 		}
+		
 		let mainViewController = MainViewAssembly.createMainViewController(coordinateController: self, queryModel: self.queryModel)
 		let cartViewController = CartViewAssembly.createCartView(coordinateController: self, queryModel: self.queryModel)
 		
 		let tabBar = TabBarControllerExtended()
-		tabBar.viewControllers = []
 		tabBar.setViewControllers([mainViewController, cartViewController], animated: true)
 		
 		navigationController.pushViewController(tabBar, animated: true)
@@ -50,6 +49,7 @@ extension CoordinateController: ICoordinateController {
 			assertionFailure("Error show IngredientsEditView")
 			return
 		}
+		
 		let ingredientsEditView = IngredientsEditViewAssembly.createIngredientsEditView(coordinateController: self, queryModel: self.queryModel, recipeID: recipeID, modalMode: modalMode)
 		
 		if modalMode {
@@ -60,25 +60,21 @@ extension CoordinateController: ICoordinateController {
 		}
 	}
 	
-	func showRecipeEditView(recipeID: UUID?) {
+	func showRecipeEditView(recipeID: UUID?, modalMode: Bool) {
 		guard let navigationController = self.navigationController
 		else {
 			assertionFailure("Error show RecipeEditView")
 			return
 		}
-		let recipeEditView = RecipeEditViewAssembly.createRecipeEditViewController(coordinateController: self,queryModel: self.queryModel, recipeID: recipeID, modalMode: false)
-		navigationController.pushViewController(recipeEditView, animated: true)
-	}
-	
-	func showRecipeEditViewModalMode(recipeID: UUID?) {
-		guard let navigationController = self.navigationController
-		else {
-			assertionFailure("Error show RecipeEditView")
-			return
+		
+		let recipeEditView = RecipeEditViewAssembly.createRecipeEditViewController(coordinateController: self,queryModel: self.queryModel, recipeID: recipeID, modalMode: modalMode)
+		
+		if modalMode {
+			let modalNavigationController = UINavigationController(rootViewController: recipeEditView)
+			navigationController.present(modalNavigationController, animated: true, completion: nil)
+		} else {
+			navigationController.pushViewController(recipeEditView, animated: true)
 		}
-		let recipeEditView = RecipeEditViewAssembly.createRecipeEditViewController(coordinateController: self,queryModel: self.queryModel, recipeID: recipeID, modalMode: true)
-		let modalNavigationController = UINavigationController(rootViewController: recipeEditView)
-		navigationController.present(modalNavigationController, animated: true, completion: nil)
 	}
 	
 	func showRecipeView(recipeID: UUID) {

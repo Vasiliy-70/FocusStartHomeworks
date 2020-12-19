@@ -6,23 +6,21 @@
 //
 import UIKit
 
-class AnimatedTransition: NSObject, UIViewControllerAnimatedTransitioning {
-
-	let viewControllers: [UIViewController]?
-	let transitionDuration: Double = 0.2
+final class AnimatedTransition: NSObject, UIViewControllerAnimatedTransitioning {
+	private let viewControllers: [UIViewController]?
+	private let transitionDuration: Double = 0.2
 
 	init(viewControllers: [UIViewController]?) {
 		self.viewControllers = viewControllers
 	}
 
-	func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-		return TimeInterval(transitionDuration)
+	func transitionDuration(using transitionContext:
+								UIViewControllerContextTransitioning?) -> TimeInterval {
+		return TimeInterval(self.transitionDuration)
 	}
 
 	func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-
-		guard
-			let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from),
+		guard let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from),
 			let fromView = fromVC.view,
 			let fromIndex = getIndex(forViewController: fromVC),
 			let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to),
@@ -42,6 +40,7 @@ class AnimatedTransition: NSObject, UIViewControllerAnimatedTransitioning {
 
 		DispatchQueue.main.async {
 			transitionContext.containerView.addSubview(toView)
+			
 			UIView.animate(withDuration: self.transitionDuration, animations: {
 				fromView.frame = fromFrameEnd
 				toView.frame = frame
@@ -53,8 +52,8 @@ class AnimatedTransition: NSObject, UIViewControllerAnimatedTransitioning {
 	}
 
 	func getIndex(forViewController vc: UIViewController) -> Int? {
-		guard let vcs = self.viewControllers else { return nil }
-		for (index, thisVC) in vcs.enumerated() {
+		guard let viewControllers = self.viewControllers else { return nil }
+		for (index, thisVC) in viewControllers.enumerated() {
 			if thisVC == vc { return index }
 		}
 		return nil

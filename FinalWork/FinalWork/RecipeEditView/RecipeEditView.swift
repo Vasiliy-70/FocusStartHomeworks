@@ -31,17 +31,24 @@ final class RecipeEditView: UIView {
 		static let imageOffset: CGFloat = 10
 		
 		static let descriptionFieldHeight: CGFloat = 150
-		static let imageHeight: CGFloat = 100
+		static let imageHeight: CGFloat = 200
+		static let imageWidth: CGFloat = 200
+	}
+	
+	private enum Constants {
+		static let dishImageBorderWidth: CGFloat = 1
+		static let dishImageCornerRadius = Constraints.imageWidth / 2
+		static let descriptionFieldCornerRadius: CGFloat = 4
 	}
 	
 	init(viewController: IRecipeEditViewActionHandler) {
 		self.viewController = viewController
 		super.init(frame: .zero)
 		
-		self.backgroundColor = .red
+		self.backgroundColor = #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1)
 		self.setupViewAppearance()
 		self.setupViewConstraints()
-		self.hideKeyboardWhenTappedArround()
+		self.hideKeyboardWhenTappedAround()
 	}
 	
 	required init?(coder: NSCoder) {
@@ -51,7 +58,7 @@ final class RecipeEditView: UIView {
 
 // MARK: setupViewAppearance
 
-extension RecipeEditView {
+private extension RecipeEditView {
 	func setupViewAppearance() {
 		self.setupImagesView()
 		self.setupLabelsView()
@@ -61,7 +68,10 @@ extension RecipeEditView {
 	func setupImagesView() {
 		let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.tapOnImage))
 		self.dishImage.isUserInteractionEnabled = true
-		self.dishImage.contentMode = .scaleAspectFit
+		self.dishImage.contentMode = .scaleToFill
+		self.dishImage.layer.cornerRadius = Constants.dishImageCornerRadius
+		self.dishImage.layer.borderWidth = Constants.dishImageBorderWidth
+		self.dishImage.clipsToBounds = true
 		self.dishImage.addGestureRecognizer(tapGestureRecognizer)
 	}
 	
@@ -76,12 +86,13 @@ extension RecipeEditView {
 		self.descriptionField.automaticallyAdjustsScrollIndicatorInsets = false
 		self.descriptionField.isSelectable = true
 		self.descriptionField.isEditable = true
+		self.descriptionField.layer.cornerRadius = Constants.descriptionFieldCornerRadius
 	}
 }
 
 // MARK: setupViewConstraints
 
-extension RecipeEditView {
+private extension RecipeEditView {
 	func setupViewConstraints() {
 		self.setupScrollViewConstraints()
 		self.setupImagesAreaConstraints()
@@ -115,10 +126,9 @@ extension RecipeEditView {
 		NSLayoutConstraint.activate([
 			self.dishImage.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: Constraints.imageOffset),
 			self.dishImage.heightAnchor.constraint(equalToConstant: Constraints.imageHeight),
-			self.dishImage.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: Constraints.imageOffset),
-			self.dishImage.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -Constraints.imageOffset)
+			self.dishImage.widthAnchor.constraint(equalToConstant: Constraints.imageWidth),
+			self.dishImage.centerXAnchor.constraint(equalTo: self.centerXAnchor)
 		])
-		
 	}
 	
 	func setupNamesAreaConstraints() {
@@ -201,8 +211,8 @@ extension RecipeEditView: IRecipeEditView {
 
 // MARK: Action
 
-extension RecipeEditView {
-	func hideKeyboardWhenTappedArround() {
+private extension RecipeEditView {
+	func hideKeyboardWhenTappedAround() {
 		let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.hideKeyboard))
 		tap.cancelsTouchesInView = false
 		self.addGestureRecognizer(tap)
@@ -221,31 +231,24 @@ extension RecipeEditView {
 		guard let keyboardSize = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
 		
 		NSLayoutConstraint.deactivate(self.dynamicConstraints)
+		self.dynamicConstraints.removeAll()
+		self.dynamicConstraints.append(contentsOf: [
+			self.scrollView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -keyboardSize.height)
+		])
 		
-		UIView.animate(withDuration: 2) {
-			self.dynamicConstraints.removeAll()
-			self.dynamicConstraints.append(contentsOf: [
-				self.scrollView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -keyboardSize.height)
-			])
-			
-			NSLayoutConstraint.activate(self.dynamicConstraints)
-			self.layoutIfNeeded()
-		}
-		
+		NSLayoutConstraint.activate(self.dynamicConstraints)
+		self.layoutIfNeeded()
 	}
 	
 	@objc func keyboardWillHide(notification: NSNotification) {
 		NSLayoutConstraint.deactivate(self.dynamicConstraints)
+		self.dynamicConstraints.removeAll()
+		self.dynamicConstraints.append(contentsOf: [
+			self.scrollView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
+		])
 		
-		UIView.animate(withDuration: 2) {
-			self.dynamicConstraints.removeAll()
-			self.dynamicConstraints.append(contentsOf: [
-				self.scrollView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
-			])
-			
-			NSLayoutConstraint.activate(self.dynamicConstraints)
-			self.layoutIfNeeded()
-		}
+		NSLayoutConstraint.activate(self.dynamicConstraints)
+		self.layoutIfNeeded()
 	}
 }
 

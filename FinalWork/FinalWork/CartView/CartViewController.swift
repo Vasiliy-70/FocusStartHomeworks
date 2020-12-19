@@ -27,13 +27,13 @@ final class CartViewController: UIViewController {
 	public init() {
 		super.init(nibName: nil, bundle: nil)
 		
-		self.tabBarItem = UITabBarItem(title: "Корзина", image: ImagesStore.cartIcon, selectedImage: nil)
+		self.tabBarItem = UITabBarItem(title: "Список покупок",
+									   image: ImagesStore.cartIcon, selectedImage: nil)
 	}
 	
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -51,7 +51,7 @@ final class CartViewController: UIViewController {
 	}
 }
 
-extension CartViewController {
+private extension CartViewController {
 	func configureAlert() {
 		let alertClearTable = UIAlertController(title: "Внимание", message: "Очистить содержимое корзины?", preferredStyle: .alert)
 		
@@ -67,7 +67,7 @@ extension CartViewController {
 	}
 	
 	func configureTabBarController() {
-		self.tabBarController?.title = "Корзина"
+		self.tabBarController?.title = "Список покупок"
 		
 		self.tabBarController?.navigationItem.rightBarButtonItems = [
 			UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.actionRefreshBarButton))
@@ -159,7 +159,7 @@ extension CartViewController: ICartViewTableController {
 
 // MARK: SwipeRecognizer
 
-extension CartViewController {
+private extension CartViewController {
 	func configureSwipeRecognizer() {
 		let swipeRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipe(_:)))
 		swipeRecognizer.direction = .right

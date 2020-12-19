@@ -26,7 +26,7 @@ final class MainViewController: UIViewController {
 	public init() {
 		super.init(nibName: nil, bundle: nil)
 		
-		self.tabBarItem = UITabBarItem(title: "Каталог", image: ImagesStore.catalogIcon, selectedImage: nil)
+		self.tabBarItem = UITabBarItem(title: "Каталог рецептов", image: ImagesStore.catalogIcon, selectedImage: nil)
 	}
 	
 	required init?(coder: NSCoder) {
@@ -52,7 +52,7 @@ final class MainViewController: UIViewController {
 
 private extension MainViewController {
 	func configureTabBarController() {
-		self.tabBarController?.title = "Рецепты"
+		self.tabBarController?.title = "Мои рецепты"
 		
 		self.tabBarController?.navigationItem.rightBarButtonItems = [
 			UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.actionAddButton))

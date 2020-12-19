@@ -50,7 +50,7 @@ final class MainViewPresenter {
 	}
 }
 
-extension MainViewPresenter {
+private extension MainViewPresenter {
 	func requestData() {
 		self.recipesModel = self.queryModel?.fetchRequestRecipesAt(id: nil) ?? []
 	}
@@ -87,7 +87,7 @@ extension MainViewPresenter: IMainViewPresenter {
 	}
 	
 	func actionAddButton() {
-		self.coordinateController.showRecipeEditView(recipeID: nil)
+		self.coordinateController.showRecipeEditView(recipeID: nil, modalMode: false)
 	}
 	
 	func viewDidLoad() {

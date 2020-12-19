@@ -51,7 +51,7 @@ final class IngredientsViewController: UIViewController {
 	}
 }
 
-extension IngredientsViewController {
+private extension IngredientsViewController {
 	func configureTabBarController() {
 		self.tabBarController?.navigationItem.title = "Ингредиенты"
 		
@@ -63,11 +63,7 @@ extension IngredientsViewController {
 
 // MARK: Action
 
-extension IngredientsViewController {
-	@objc func tabBarCartButtonAction() {
-		self.presenter?.actionCartButtonTabBar()
-	}
-	
+private extension IngredientsViewController {
 	@objc func tabBarEditButtonAction() {
 		self.presenter?.actionEditButtonTabBar()
 	}
@@ -126,7 +122,7 @@ extension IngredientsViewController: IIngredientsViewTableController {
 
 // MARK: SwipeRecognizer
 
-extension IngredientsViewController {
+private extension IngredientsViewController {
 	func configureSwipeRecognizer() {
 		let swipeRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipe(_:)))
 		swipeRecognizer.direction = .right

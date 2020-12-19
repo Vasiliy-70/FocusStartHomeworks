@@ -51,7 +51,7 @@ final class RecipeViewController: UIViewController {
 	}
 }
 
-extension RecipeViewController {
+private extension RecipeViewController {
 	func configureAlert() {
 		let alertAddedToCard = UIAlertController(title: "", message: "", preferredStyle: .alert)
 		
@@ -97,7 +97,7 @@ extension RecipeViewController: IRecipeViewController {
 
 // MARK: SwipeRecognizer
 
-extension RecipeViewController {
+private extension RecipeViewController {
 	func configureSwipeRecognizer() {
 		let swipeRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipe(_:)))
 		swipeRecognizer.direction = .left
@@ -111,7 +111,7 @@ extension RecipeViewController {
 
 // MARK: Action
 
-extension RecipeViewController {
+private extension RecipeViewController {
 	@objc func tabBarCartButtonAction() {
 		self.updateCarIcon()
 		self.presenter?.actionCartButtonTabBar()

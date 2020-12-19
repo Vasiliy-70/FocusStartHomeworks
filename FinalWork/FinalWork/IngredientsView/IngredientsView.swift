@@ -34,7 +34,7 @@ final class IngredientsView: UIView {
 	}
 }
 
-extension IngredientsView {
+private extension IngredientsView {
 	func configureTable() {
 		self.ingredientsTable.register(UITableViewCell.self, forCellReuseIdentifier: self.tableController.cellId)
 		

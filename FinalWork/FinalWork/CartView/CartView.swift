@@ -34,7 +34,7 @@ final class CartView: UIView {
 	}
 }
 
-extension CartView {
+private extension CartView {
 	func configureTable() {
 		self.ingredientsTable.register(UITableViewCell.self, forCellReuseIdentifier: self.tableController.cellId)
 		

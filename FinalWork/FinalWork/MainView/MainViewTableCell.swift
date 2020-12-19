@@ -63,7 +63,7 @@ final class MainViewTableCell: UITableViewCell {
 
 // MARK: SetupConstraints
 
-extension MainViewTableCell {
+private extension MainViewTableCell {
 	func setupConstraints() {
 		self.setupImagesConstraints()
 		self.setupLabelsConstraint()

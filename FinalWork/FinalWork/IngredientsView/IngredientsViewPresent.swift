@@ -10,7 +10,6 @@ import UIKit
 protocol IIngredientsViewPresenter: class {
 	var ingredientsList: [String] { get }
 	func viewWillAppear()
-	func actionCartButtonTabBar()
 	func actionEditButtonTabBar()
 	func actionRightSwipe()
 	func notificationCame()
@@ -47,7 +46,7 @@ final class IngredientsViewPresenter {
 	}
 }
 
-extension IngredientsViewPresenter {
+private extension IngredientsViewPresenter {
 	func requestData() {
 		self.ingredientsModel = self.queryModel?.fetchRequestIngredientsAt(recipeID: self.recipeID) ?? []
 	}
@@ -62,10 +61,6 @@ extension IngredientsViewPresenter: IIngredientsViewPresenter {
 	
 	func actionRightSwipe() {
 		(self.view as? UIViewController)?.tabBarController?.selectedIndex = 0
-	}
-	
-	func actionCartButtonTabBar() {
-		//self.coordinateController.showRecipeEditViewModalMode(recipeID: self.recipeID)
 	}
 	
 	func actionEditButtonTabBar() {

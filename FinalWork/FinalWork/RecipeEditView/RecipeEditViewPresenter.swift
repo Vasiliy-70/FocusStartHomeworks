@@ -46,7 +46,7 @@ final class RecipeEditViewPresenter {
 	}
 }
 
-extension RecipeEditViewPresenter {
+private extension RecipeEditViewPresenter {
 	func requestData() {
 		if self.recipeID != nil {
 			self.recipeModel = self.queryModel.fetchRequestRecipesAt(id: self.recipeID) ?? []
@@ -57,6 +57,7 @@ extension RecipeEditViewPresenter {
 }
 
 // MARK: IRecipeEditPresenter
+
 extension RecipeEditViewPresenter: IRecipeEditViewPresenter {
 	func actionCancelButton() {
 		(self.view as? UIViewController)?.dismiss(animated: true, completion: nil)

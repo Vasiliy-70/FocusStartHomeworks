@@ -15,7 +15,6 @@ protocol IIngredientsEditView {
 final class IngredientsEditView: UIView {
 	private let ingredientsTable = UITableView()
 	private let tableController: IIngredientEditViewTableController
-	
 	private var applyButton = UIButton()
 	
 	private enum Constraints {
@@ -38,9 +37,9 @@ final class IngredientsEditView: UIView {
 	}
 }
 
-extension IngredientsEditView {
+private extension IngredientsEditView {
 	func setupViewSettings() {
-		self.backgroundColor = .white
+		self.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
 		
 		self.configureTable()
 		self.configureButton()
@@ -50,7 +49,6 @@ extension IngredientsEditView {
 	
 	func configureTable() {
 		self.ingredientsTable.register(UITableViewCell.self, forCellReuseIdentifier: self.tableController.cellId)
-		
 		self.ingredientsTable.delegate = self.tableController.delegate
 		self.ingredientsTable.dataSource = self.tableController.dataSource
 	}
@@ -103,7 +101,7 @@ extension IngredientsEditView: IIngredientsEditView {
 
 // MARK: Action
 
-extension IngredientsEditView {
+private extension IngredientsEditView {
 	@objc func applyButtonAction() {
 		(self.tableController as? IIngredientEditViewActionHandler )?.tapOnApplyButton()
 	}

@@ -1,5 +1,5 @@
 //
-//  MainViewTest.swift
+//  MainViewUnitTest.swift
 //  FinalWorkTests
 //
 //  Created by Боровик Василий on 19.12.2020.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import FinalWork
 
-class MainViewTest: XCTestCase {
+class MainViewUnitTest: XCTestCase {
 
 	private var mainViewPresenter: MainViewPresenterMock!
 	private var mainView: MainView!

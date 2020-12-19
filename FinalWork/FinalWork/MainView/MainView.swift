@@ -18,6 +18,7 @@ class MainView: UIView {
 	
 	private enum Constraints {
 		static let recipesTableOffset: CGFloat = 10
+		static let recipesTableMaxWidth: CGFloat = 550
 	}
 	
 	init(tableController: IMainViewTableController) {
@@ -34,7 +35,7 @@ class MainView: UIView {
 	}
 }
 
-extension MainView {
+private extension MainView {
 	func configureTable() {
 		self.recipesTable.register(MainViewTableCell.self, forCellReuseIdentifier: self.tableController.cellId)
 		
@@ -47,11 +48,24 @@ extension MainView {
 		self.addSubview(self.recipesTable)
 		self.recipesTable.translatesAutoresizingMaskIntoConstraints = false
 		
+		let widthConstraint = self.recipesTable.widthAnchor.constraint(lessThanOrEqualToConstant: Constraints.recipesTableMaxWidth)
+		widthConstraint.priority = UILayoutPriority(rawValue: 1000)
+		
+		let leadingConstraint = self.recipesTable.leadingAnchor.constraint(greaterThanOrEqualTo: self.safeAreaLayoutGuide.leadingAnchor, constant: Constraints.recipesTableOffset)
+		leadingConstraint.priority = UILayoutPriority(rawValue: 750)
+		
+		let trailingConstraint = self.recipesTable.trailingAnchor.constraint(greaterThanOrEqualTo:  self.safeAreaLayoutGuide.trailingAnchor, constant: -Constraints.recipesTableOffset)
+		trailingConstraint.priority = UILayoutPriority(rawValue: 750)
+		
+		
 		NSLayoutConstraint.activate([
+			self.recipesTable.centerXAnchor.constraint(equalTo: self.centerXAnchor),
 			self.recipesTable.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: Constraints.recipesTableOffset),
-			self.recipesTable.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: Constraints.recipesTableOffset),
-			self.recipesTable.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -Constraints.recipesTableOffset),
-			self.recipesTable.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -Constraints.recipesTableOffset)
+			leadingConstraint,
+			widthConstraint,
+			trailingConstraint,
+			self.recipesTable.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -Constraints.recipesTableOffset),
+
 		])
 	}
 }

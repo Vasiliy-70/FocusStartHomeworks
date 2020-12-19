@@ -53,7 +53,7 @@ final class RecipeEditViewController: UIViewController {
 	}
 }
 
-extension RecipeEditViewController {
+private extension RecipeEditViewController {
 	func configureNavigationBar() {
 		if modalMode {
 			self.navigationItem.leftBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(self.actionCancelButton))]
@@ -62,7 +62,7 @@ extension RecipeEditViewController {
 	}
 }
 
-extension RecipeEditViewController {
+private extension RecipeEditViewController {
 	func configureAlert() {
 		let alertError = UIAlertController(title: "Ошибка", message: "Поле \"Название\" не может быть пустым", preferredStyle: .alert)
 		
@@ -91,6 +91,7 @@ extension RecipeEditViewController {
 }
 
 // MARK: IRecipeEditViewController
+
 extension RecipeEditViewController: IRecipeEditViewController {
 	func showAlertError(message: String) {
 		self.alertError.message = message
@@ -116,7 +117,7 @@ extension RecipeEditViewController: IRecipeEditViewController {
 
 // MARK: Action
 
-extension RecipeEditViewController {
+private extension RecipeEditViewController {
 	@objc func actionSaveButton() {
 		if let view = self.view as? IRecipeEditView {
 			self.recipeInfo.name = view.getRecipeInfo().name

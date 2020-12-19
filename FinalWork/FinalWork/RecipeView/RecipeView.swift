@@ -37,9 +37,9 @@ final class RecipeView: UIView {
 	}
 }
 
-extension RecipeView {
+private extension RecipeView {
 	func setupViewAppearance() {
-		self.backgroundColor = .blue
+		self.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
 		self.setupScrollView()
 		self.setupImageView()
 		self.setupLabelView()
@@ -92,7 +92,7 @@ extension RecipeView {
 	
 	func setupDescriptionLabel() {
 		self.descriptionLabel.numberOfLines = 0
-		self.descriptionLabel.backgroundColor = .yellow
+		self.descriptionLabel.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
 		self.descriptionLabel.textAlignment = .left
 		
 		self.scrollView.addSubview(self.descriptionLabel)

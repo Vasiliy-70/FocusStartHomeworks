@@ -5,7 +5,6 @@
 //  Created by Боровик Василий on 16.12.2020.
 //
 
-import Foundation
 import UIKit
 
 protocol IRecipeViewPresenter {
@@ -48,7 +47,7 @@ final class RecipeViewPresenter {
 	}
 }
 
-extension RecipeViewPresenter {
+private extension RecipeViewPresenter {
 	func requestData() {
 		self.recipeModel = self.queryModel.fetchRequestRecipesAt(id: self.recipeID) ?? []
 	}
@@ -66,7 +65,8 @@ extension RecipeViewPresenter: IRecipeViewPresenter {
 	}
 	
 	func actionEditButtonTabBar() {
-		self.coordinateController.showRecipeEditViewModalMode(recipeID: self.recipeID)
+		self.coordinateController.showRecipeEditView(recipeID: self.recipeID,
+															  modalMode: true)
 	}
 	
 	func actionCartButtonTabBar() {

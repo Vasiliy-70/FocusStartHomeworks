@@ -10,7 +10,7 @@ import UIKit
 
 protocol IIngredientsEditViewPresenter: class {
 	var ingredientList: [String] { get }
-	func actionEditRow()
+	func actionTapRow()
 	func actionDeleteRow()
 	func actionApplyButton(modalMode: Bool)
 	func actionCancelButton()
@@ -51,13 +51,14 @@ final class IngredientsEditViewPresenter {
 	}
 }
 
-extension IngredientsEditViewPresenter {
+private extension IngredientsEditViewPresenter {
 	func requestData() {
 		self.ingredientModel = self.queryModel?.fetchRequestIngredientsAt(recipeID: self.recipeID) ?? []
 	}
 }
 
 // MARK: IMainViewController
+
 extension IngredientsEditViewPresenter: IIngredientsEditViewPresenter {
 	func actionCancelButton() {
 		(self.view as? UIViewController)?.dismiss(animated: true, completion: nil)
@@ -89,7 +90,7 @@ extension IngredientsEditViewPresenter: IIngredientsEditViewPresenter {
 		self.ingredientName
 	}
 	
-	func actionEditRow() {
+	func actionTapRow() {
 		self.isNewIngredientEdit = false
 		if let index = self.view?.selectedRow {
 			let ingredientName = self.ingredientName[index]

@@ -49,7 +49,7 @@ final class CartViewPresenter {
 	}
 }
 
-extension CartViewPresenter {
+private extension CartViewPresenter {
 	func requestData() {
 		self.ingredientsModel = []
 		let selectedRecipes = self.queryModel?.fetchRequestSelectedRecipes() ?? []
@@ -57,6 +57,16 @@ extension CartViewPresenter {
 			if let recipeID = recipe.id {
 				self.ingredientsModel += self.queryModel?.fetchRequestIngredientsAt(recipeID: recipeID) ?? []
 			}
+		}
+	}
+	
+	func resetMarkIngredients() {
+		var ingredientContent = IngredientContent()
+		for ingredient in self.ingredientsInfo {
+			ingredientContent.id = ingredient.id
+			ingredientContent.name = ingredient.name
+			ingredientContent.isMarked = false
+			self.queryModel?.changeIngredient(content: ingredientContent)
 		}
 	}
 }
@@ -84,6 +94,7 @@ extension CartViewPresenter: ICartViewPresenter {
 		}
 		self.requestData()
 	}
+	
 	func actionRefreshButtonTabBar() {
 		self.resetMarkIngredients()
 		self.requestData()
@@ -106,17 +117,5 @@ extension CartViewPresenter: ICartViewPresenter {
 
 	func viewWillAppear() {
 		self.requestData()
-	}
-}
-
-extension CartViewPresenter {
-	func resetMarkIngredients() {
-		var ingredientContent = IngredientContent()
-		for ingredient in self.ingredientsInfo {
-			ingredientContent.id = ingredient.id
-			ingredientContent.name = ingredient.name
-			ingredientContent.isMarked = false
-			self.queryModel?.changeIngredient(content: ingredientContent)
-		}
 	}
 }

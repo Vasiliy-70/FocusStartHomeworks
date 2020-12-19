@@ -61,7 +61,7 @@ final class IngredientsEditViewController: UIViewController {
 	}
 }
 
-extension IngredientsEditViewController {
+private extension IngredientsEditViewController {
 	func configureNavigationBar() {
 		self.navigationItem.rightBarButtonItems = [
 			UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(self.actionAddButton))
@@ -70,7 +70,7 @@ extension IngredientsEditViewController {
 		if self.modalMode {
 			self.navigationItem.leftBarButtonItems = [UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(self.actionCancelButton))]
 		}
-		self.navigationItem.title = "Ингредиенты"
+		self.navigationItem.title = "Редактор"
 	}
 	
 	func configureAlert() {
@@ -102,6 +102,7 @@ extension IngredientsEditViewController {
 }
 
 // MARK: UITableViewDelegate
+
 extension IngredientsEditViewController: UITableViewDelegate {
 	func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 		return true
@@ -119,23 +120,12 @@ extension IngredientsEditViewController: UITableViewDelegate {
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		self.currentRow = indexPath.row
-		//self.presenter?.actionTapRow()
-	}
-	
-	func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-		let editingAction = UIContextualAction(style: .normal, title: "Edit") {
-			(action, view, handler) in
-			self.currentRow = indexPath.row
-			self.presenter?.actionEditRow()
-		}
-		editingAction.backgroundColor = .systemBlue
-		let configuration = UISwipeActionsConfiguration(actions: [editingAction])
-		configuration.performsFirstActionWithFullSwipe = false
-		return configuration
+		self.presenter?.actionTapRow()
 	}
 }
 
 // MARK: UITableViewDataSource
+
 extension IngredientsEditViewController: UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return self.presenter?.ingredientList.count ?? 0
@@ -149,6 +139,7 @@ extension IngredientsEditViewController: UITableViewDataSource {
 }
 
 // MARK: IIngredientsEditViewController
+
 extension IngredientsEditViewController: IIngredientsEditViewController {
 	func updateData() {
 		self.ingredientList = self.presenter?.ingredientList
@@ -169,6 +160,7 @@ extension IngredientsEditViewController: IIngredientsEditViewController {
 }
 
 // MARK: IIngredientEditViewTableController
+
 extension IngredientsEditViewController: IIngredientEditViewTableController {
 	var cellId: String {
 		self.cellIdentifier
@@ -184,6 +176,7 @@ extension IngredientsEditViewController: IIngredientEditViewTableController {
 }
 
 // MARK: IIngredientEditViewActionHandler
+
 extension IngredientsEditViewController: IIngredientEditViewActionHandler {
 	func tapOnApplyButton() {
 		self.presenter?.actionApplyButton(modalMode: self.modalMode)
@@ -191,7 +184,8 @@ extension IngredientsEditViewController: IIngredientEditViewActionHandler {
 }
 
 // MARK: Action
-extension IngredientsEditViewController {
+
+private extension IngredientsEditViewController {
 	@objc func actionAddButton() {
 		self.presenter?.actionAddButton()
 	}
