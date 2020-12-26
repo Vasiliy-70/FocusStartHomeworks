@@ -7,16 +7,10 @@
 
 import UIKit
 
-protocol IStatsView: class {
-	func show(data: String)
-}
-
-class StatsView: UIView {
-	
-	// MARK: Settings
+final class StatsView: UIView {
 	weak var delegate: IMainViewUserAction?
 	
-	enum Constraints {
+	private enum Constraints {
 		static let descriptionLabelTopOffset: CGFloat = 10
 		static let descriptionLabelHeight: CGFloat = 30
 		static let descriptionLabelWidth: CGFloat = 200
@@ -37,28 +31,22 @@ class StatsView: UIView {
 
 // MARK: Appearance
 
-extension StatsView {
+private extension StatsView {
 	func setupAppearance() {
 		self.backgroundColor = .green
 		self.setupLabelAppearance()
 	}
 	
 	func setupLabelAppearance() {
-		self.descriptionLabel.text = "Поздравляю! Ты выиграл!"
 		self.descriptionLabel.textAlignment = .center
 		self.descriptionLabel.numberOfLines = 0
 	}
-	
 }
 
 // MARK: Constraints
 
-extension StatsView {
+private extension StatsView {
 	func setupConstraints() {
-		self.setupLabelConstraints()
-	}
-	
-	func setupLabelConstraints() {
 		self.addSubview(self.descriptionLabel)
 		self.descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
 		
@@ -70,13 +58,11 @@ extension StatsView {
 	}
 }
 
-
-// MARK: IMainView
+// MARK: IStatsView
 
 extension StatsView: IStatsView {
-
-	func show(data: String) {
-		self.descriptionLabel.text = data
+	func show(string: String) {
+		self.descriptionLabel.text = string
 	}
 }
 

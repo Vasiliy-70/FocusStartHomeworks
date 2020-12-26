@@ -47,6 +47,53 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		47A5DFA225628FBF0012C352 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				B3E9458B254D73B600D714D0 /* FirstViewController.swift */,
+				B3221556254F0B9100F0B91F /* SecondViewController.swift */,
+				B3FFAD22254FDD940087CC4A /* ThirdViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		47A5DFA325628FDB0012C352 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B3E945A1254D769100D714D0 /* FirstView.swift */,
+				B3221553254F0B8200F0B91F /* SecondView.swift */,
+				B3FFAD1E254FDD700087CC4A /* ThirdView.swift */,
+				B3E94592254D73B700D714D0 /* LaunchScreen.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		47A5DFA425628FE90012C352 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				B3E94587254D73B600D714D0 /* AppDelegate.swift */,
+				B3E94589254D73B600D714D0 /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		47A5DFA525628FF50012C352 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B3F35E5825519424007BF888 /* Images.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		47A5DFA6256290000012C352 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B3E94595254D73B700D714D0 /* Info.plist */,
+				B3E94590254D73B700D714D0 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		B3E9457B254D73B600D714D0 = {
 			isa = PBXGroup;
 			children = (
@@ -66,18 +113,11 @@
 		B3E94586254D73B600D714D0 /* Lessons3_UITabBar */ = {
 			isa = PBXGroup;
 			children = (
-				B3E94587254D73B600D714D0 /* AppDelegate.swift */,
-				B3F35E5825519424007BF888 /* Images.swift */,
-				B3E94589254D73B600D714D0 /* SceneDelegate.swift */,
-				B3E945A1254D769100D714D0 /* FirstView.swift */,
-				B3E9458B254D73B600D714D0 /* FirstViewController.swift */,
-				B3221553254F0B8200F0B91F /* SecondView.swift */,
-				B3221556254F0B9100F0B91F /* SecondViewController.swift */,
-				B3FFAD1E254FDD700087CC4A /* ThirdView.swift */,
-				B3FFAD22254FDD940087CC4A /* ThirdViewController.swift */,
-				B3E94590254D73B700D714D0 /* Assets.xcassets */,
-				B3E94592254D73B700D714D0 /* LaunchScreen.storyboard */,
-				B3E94595254D73B700D714D0 /* Info.plist */,
+				47A5DFA6256290000012C352 /* Resources */,
+				47A5DFA425628FE90012C352 /* Application */,
+				47A5DFA525628FF50012C352 /* Models */,
+				47A5DFA225628FBF0012C352 /* Controllers */,
+				47A5DFA325628FDB0012C352 /* Views */,
 			);
 			path = Lessons3_UITabBar;
 			sourceTree = "<group>";
@@ -299,7 +339,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = Lessons3_UITabBar/Info.plist;
+				INFOPLIST_FILE = Lessons3_UITabBar/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -317,7 +357,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = Lessons3_UITabBar/Info.plist;
+				INFOPLIST_FILE = Lessons3_UITabBar/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

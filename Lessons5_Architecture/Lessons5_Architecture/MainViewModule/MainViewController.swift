@@ -8,11 +8,12 @@
 import UIKit
 
 protocol IMainViewUserAction: class {
-	func receiveUser(value: String)
+	func check(value: String)
 }
 
-protocol IMainViewController: class {
-	func set(minValue: Int, maxValue: Int)
+protocol IMainView: class {
+	func show(tutorial: String)
+	func show(value: String)
 }
 
 final class MainViewController: UIViewController {
@@ -31,15 +32,18 @@ final class MainViewController: UIViewController {
 	}
 }
 
-extension MainViewController: IMainViewController {
-	func set(minValue: Int, maxValue: Int) {
-		let description = "Угадай число, которое я загадал😛\n (подсказка: диапазон от \(minValue) до \(maxValue))"
-		self.customView.show(data: description)
+extension MainViewController: IMainView {
+	func show(tutorial: String) {
+		self.customView.show(tutorial: tutorial)
+	}
+	
+	func show(value: String) {
+		self.customView.show(value: value)
 	}
 }
 
 extension MainViewController: IMainViewUserAction {
-	func receiveUser(value: String) {
+	func check(value: String) {
 		guard let intValue = Int(value) else { return }
 		self.presenter?.userValue = intValue
 	}
